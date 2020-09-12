@@ -24,11 +24,11 @@
 
 #### Power Up Ideas
 
- * Power Up 1
+ * Extra life power up
 
- * Power Up 2
+ * Ball speed reduction power up
 
- * Power Up 3
+ * Max size power-up (the paddle grows to the size of the bottom of the screen, so there is no way the ball can hit the bottom and the game essentially autoplays for a period of time)
 
 
 #### Cheat Key Ideas
