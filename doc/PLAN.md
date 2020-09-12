@@ -15,11 +15,11 @@
 
 #### Block Ideas
 
- * 
+ * Crumbly block - when the ball hits this block the block is removed but the ball maintains the same direction.
 
- * Block 2
+ * Strong block - this block has multiple lives and thus must be hit by the ball multiple times before it is removed. 
 
- * Block 3
+ * Power up block - when this block is hit by the ball, the block is removed and a power-up is rewarded. 
 
 
 #### Power Up Ideas
