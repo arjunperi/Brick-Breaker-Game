@@ -45,7 +45,7 @@
 #### Level Descriptions
 
  * Level 1
-   * Rows of blocks arranged in 
+   * Rows of blocks arranged in the standard breakout layout.
 
    * Variation features
 
@@ -83,6 +83,6 @@
    * void start (Stage stage) - sets the stage for the screen. 
 
  * Class 5
-   * Breakout class - runs the game and holds the main method
+   * Game class - runs the game and holds the main method
 
    * void main (String[] args)
