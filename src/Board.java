@@ -19,14 +19,20 @@ public class Board extends Application {
     public static final int FRAMES_PER_SECOND = 60;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.AZURE;
+
     public static final int BRICK_SIZE = 50;
     public static final Paint BRICK_COLOR = Color.HOTPINK;
-    public static final int PADDLE_SIZE = 50;
+
+    public static final int PADDLE_HEIGHT = 10;
+    public static final int PADDLE_WIDTH = 50;
     public static final Paint PADDLE_COLOR = Color.PLUM;
+    public static final int PADDLE_SPEED= 5;
+
     public static final int BALL_SIZE = 30;
     public static final Paint BALL_COLOR = Color.BISQUE;
     public static final int BALL_ROUNDING = 15;
     public static final int BALL_SPEED = 40;
+
     public static final int VERTICAL_OFFSET = 80;
 
 
@@ -34,6 +40,7 @@ public class Board extends Application {
     private Rectangle brick;
     private Rectangle paddle;
     private Circle ball;
+    private int ballDirection;
 
     public void start(Stage stage){
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -56,16 +63,15 @@ public class Board extends Application {
         brick.setFill(BRICK_COLOR);
         brick.setId("brick");
 
-        paddle = new Rectangle(width/2 - PADDLE_SIZE, height/2 + VERTICAL_OFFSET, PADDLE_SIZE, PADDLE_SIZE);
+        paddle = new Rectangle(width/2 - PADDLE_WIDTH, height/2 + VERTICAL_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFill(PADDLE_COLOR);
-        paddle.setId("grower");
+        paddle.setId("paddle");
 
 
         ball = new Circle(width/2, height/2, BALL_SIZE/2);
-//        ball.setArcWidth(BALL_ROUNDING);
-//        ball.setArcHeight(BALL_ROUNDING);
         ball.setFill(BALL_COLOR);
-        ball.setId("mover");
+        ball.setId("ball");
+        ballDirection = 1;
 
         root.getChildren().add(brick);
         root.getChildren().add(paddle);
@@ -73,9 +79,7 @@ public class Board extends Application {
 
         Scene scene = new Scene(root, width, height, background);
 
-
-//        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-//        scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
+        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
     }
 
@@ -83,20 +87,50 @@ public class Board extends Application {
     void step (double elapsedTime) {
         // update "actors" attributes
         updateShapes(elapsedTime);
+        checkBallPaddleCollision();
     }
 
     private void updateShapes (double elapsedTime) {
         // there are more sophisticated ways to animate shapes, but these simple ways work fine to start
-//        ball.setCenterX(ball.getCenterX() + BALL_SPEED * elapsedTime);
-        ball.setRotate(ball.getRotate()-1);
-        brick.setRotate(brick.getRotate() - 1);
-        paddle.setRotate(paddle.getRotate() + 1);
+        ball.setCenterY(ball.getCenterY() + ballDirection * BALL_SPEED * elapsedTime);
+//        ball.setRotate(ball.getRotate()-1);
+//        brick.setRotate(brick.getRotate() - 1);
+//        paddle.setRotate(paddle.getRotate() + 1);
     }
+
+    // What to do each time a key is pressed
+    private void handleKeyInput (KeyCode code) {
+      if (code == KeyCode.LEFT) {
+          paddle.setX(paddle.getX() - PADDLE_SPEED);
+      }
+      else if (code == KeyCode.RIGHT) {
+          paddle.setX(paddle.getX() + PADDLE_SPEED);
+      }
+    }
+
+    //Determine if specific things collided and respond appropriately
+    private void checkBallPaddleCollision() {
+        // can check bounding box (for some kinds of shapes, like images, that is the only option)
+        if (paddle.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+            ballDirection *=  -1;
+        }
+        else{
+            ballDirection *=  1;
+        }
+    }
+
+//    private void check
+
+
+
 
     public static void main (String[] args) {
         launch(args);
     }
 
+    //next step - ball bouncing off paddle
+    //ball bouncing off walls
+    //ball bouncing off brick
 
 }
 
