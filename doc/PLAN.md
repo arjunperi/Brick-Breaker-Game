@@ -45,12 +45,12 @@
 #### Level Descriptions
 
  * Level 1
-   * Block Configuration
+   * Rows of blocks arranged in 
 
    * Variation features
 
  * Level 2
-   * Block Configuration
+   * There is a layer of outer blocks that all have multiple lives that enclose the inner blocks.
 
    * Variation features
 
@@ -63,26 +63,26 @@
 ### Possible Classes
 
  * Class 1
-   * Purpose
+   * Brick class - holds information about bricks in the game
 
-   * Method
+   * boolean isDestroyed() - returns if a brick is destroyed or not. 
 
  * Class 2
-   * Purpose
+   * Ball class - holds information about balls in the game
 
-   * Method
+   * void resetBall()  - resets the ball to the starting position on the paddle. 
 
  * Class 3
-   * Purpose
+   * Paddle class - holds information about the paddles in the game
 
-   * Method
+   * void movePaddle() - moves the paddle around the screen. 
 
  * Class 4
-   * Purpose
+   * Board class - sets the board that the game will be played on 
 
-   * Method
+   * void start (Stage stage) - sets the stage for the screen. 
 
  * Class 5
-   * Purpose
+   * Breakout class - runs the game and holds the main method
 
-   * Method
+   * void main (String[] args)
