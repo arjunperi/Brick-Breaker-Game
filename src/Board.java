@@ -88,6 +88,7 @@ public class Board extends Application {
         // update "actors" attributes
         updateShapes(elapsedTime);
         checkBallPaddleCollision();
+        checkBallBrickCollision();
     }
 
     private void updateShapes (double elapsedTime) {
@@ -119,7 +120,16 @@ public class Board extends Application {
         }
     }
 
-//    private void check
+    //duplicated code - should we combine this method with the above method?
+    private void checkBallBrickCollision(){
+        // can check bounding box (for some kinds of shapes, like images, that is the only option)
+        if (brick.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+            ballDirection *=  -1;
+        }
+        else{
+            ballDirection *=  1;
+        }
+    }
 
 
 
@@ -127,11 +137,7 @@ public class Board extends Application {
     public static void main (String[] args) {
         launch(args);
     }
-
-    //next step - ball bouncing off paddle
-    //ball bouncing off walls
-    //ball bouncing off brick
-
+    
 }
 
 
