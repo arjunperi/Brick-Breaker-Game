@@ -24,22 +24,22 @@
 
 #### Power Up Ideas
 
- * Extra life power up
+ * Extra life power-up
 
- * Ball speed reduction power up
+ * Ball speed reduction power-up
 
- * Max size power-up (the paddle grows to the size of the bottom of the screen, so there is no way the ball can hit the bottom and the game essentially autoplays for a period of time)
+ * Paddle growth power-up
 
 
 #### Cheat Key Ideas
 
- * Cheat Key 1
+ * Press a button on your keyboard and a level is skipped. 
 
- * Cheat Key 2
+ * Press a button on your keyboard and the paddle grows to the size of the bottom of the screen, so there is no way the ball can hit the bottom and the game essentially autoplays for a period of time. 
 
- * Cheat Key 3
+ * Press a button on your keyboard and all blocks are set to have only one life. 
 
- * Cheat Key 4
+ * Press a button on your keyboard and you get infite lives. 
 
 
 #### Level Descriptions
