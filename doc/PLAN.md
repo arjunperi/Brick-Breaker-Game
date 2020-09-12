@@ -6,9 +6,11 @@
 
 ### Interesting Existing Game Variations
 
- * Game 1
+ * Devilish is definitely an interesting variation because rather than clearing the screen after a level and then resetting it for the next level,
+ the game flows smoothly into the next level with a passage. This continuity seems like it requires a different type of code structure but it adds
+ to the gameplay. 
 
- * Game 2
+ * Super breakout is another variant we think is interesting becasue of the different types of power-ups that can be implemented. By adding power-ups, the game becomes a lot more fun and adds another level of depth. 
 
 
 #### Block Ideas
