@@ -10,7 +10,7 @@
  the game flows smoothly into the next level with a passage. This continuity seems like it requires a different type of code structure, but it adds
  to the gameplay. 
 
- * Super breakout is another variant we think is interesting becasue of the different types of power-ups that can be implemented. By adding power-ups, the game becomes a lot more fun and adds another level of depth. 
+ * Super breakout is another variant we think is interesting becasue of the different types of power-ups that can be implemented. By adding power-ups, the game becomes a lot more fun and adds another level of depth. We think that this variant allows for a lot of creativity in the power-ups we might want to implement. 
 
 
 #### Block Ideas
