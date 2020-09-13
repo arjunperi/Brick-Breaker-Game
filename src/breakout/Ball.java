@@ -8,19 +8,27 @@ import javafx.scene.shape.Rectangle;
 
 public class Ball extends Board {
 
-  private Circle ball = new Circle(SIZE / 2, SIZE - 15, 2);
+  private Circle ball = new Circle(SIZE / 2, SIZE - 60, 7);
   private static final Paint BALL_COLOR = Color.BISQUE;
 
   private int BALL_SPEED;
   private double X_DIRECTION;
   private double Y_DIRECTION;
+  private Board myBoard = new Board();
 
-  public Ball(int speed) {
+  public Ball() {
     ball.setFill(BALL_COLOR);
     ball.setId("ball");
-    Y_DIRECTION = -1;
+    Y_DIRECTION = 1;
     X_DIRECTION = 0;
+  }
+
+  public void startBall(int speed){
     BALL_SPEED = speed;
+  }
+
+  public void endBall(){
+    BALL_SPEED = 0;
   }
 
   public Circle getBall() {
@@ -46,23 +54,67 @@ public class Ball extends Board {
     }
   }
 
+
   private void checkYPosition(Rectangle paddle, Rectangle brick) {
 
-    //changed direction if it hits top of screen
-    if (ball.getCenterY() <= 0) {
-      Y_DIRECTION = Y_DIRECTION * -1;
+    //Reset ball to starting position if it hits the bottom of the screen
+    if (ball.getCenterY() + ball.getRadius()/2 >= SIZE){
+      resetBall();
+    }
 
-      //change direction if it hits the paddle
-    } else if (paddle.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+    double ballX = ball.getCenterX() + ball.getRadius() / 2;
+    double paddleX = paddle.getBoundsInLocal().getWidth() / 6;
+
+    //Switch Y direction if it hits the top of the screen
+    if (ball.getCenterY() <= 0) {
       Y_DIRECTION *= -1;
+    }
+
+
+    //Ball changing directions if it hits the paddle - basically, the paddle is split up into 6 equal lengths. If the ball hits length 1 (first if statement), its X direction
+    //changes to -1 (so if it hits the very left edge, it shoots out to the left), or if it hits length 6 (second if statement), then it changes to 1 (right edge, shoot out to the right),
+    // and so on. As you get closer to the middle (lengths 3 & 4), the X direction change is less drastic, and in the middle there is no X direction.
+    else if (paddle.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+      if (ballX <= paddle.getX() + paddleX) {
+        X_DIRECTION = -1;
+        Y_DIRECTION *= -1;
+      }
+      else if (ballX >= paddle.getX() + 5 * paddleX){
+        X_DIRECTION = 1;
+        Y_DIRECTION *= -1;
+      }
+      else if (ballX <= paddle.getX() + 2 * paddleX) {
+        X_DIRECTION = -0.5;
+        Y_DIRECTION *= -1;
+      }
+      else if (ballX >= paddle.getX() + 4 * paddleX) {
+        X_DIRECTION = 0.5;
+        Y_DIRECTION *= -1;
+      }
+      else if (ballX >= paddle.getX() + 2 *  paddleX) {
+        X_DIRECTION = 0;
+        Y_DIRECTION *= -1;
+      }
+
     }
 
     //change direction if it hits the brick -- (Probably need to change this once we figure out making brinks from the file.
     //Might be a better idea to change the direction of the ball in the brick class instead, so that we can check which side of the brick it hits
     //Right now, if it hits anywhere on the brick it'll only change Y direction-- need to figure that out.
     //I'm thinking that for the bricks we do it using like an array list, and we iterate through each one to check for if the ball hits.
-    else if (brick.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+    else if (brick.getBoundsInLocal().intersects(ball.getBoundsInLocal())) {
       Y_DIRECTION *=  -1;
     }
+
   }
+
+  public void resetBall(){
+    ball.setCenterX(SIZE/2);
+    ball.setCenterY(SIZE-60);
+    X_DIRECTION = 0;
+    Y_DIRECTION = 1;
+    endBall();
+
+  }
+
 }
