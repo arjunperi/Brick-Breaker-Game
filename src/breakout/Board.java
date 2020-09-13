@@ -1,3 +1,5 @@
+package breakout;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -14,6 +16,7 @@ import javafx.util.Duration;
 
 
 public class Board extends Application {
+
     public static final String TITLE = "Breakout JavaFX";
     public static final int SIZE = 400;
     public static final int FRAMES_PER_SECOND = 60;
@@ -28,10 +31,6 @@ public class Board extends Application {
     public static final Paint PADDLE_COLOR = Color.PLUM;
     public static final int PADDLE_SPEED= 5;
 
-    public static final int BALL_SIZE = 30;
-    public static final Paint BALL_COLOR = Color.BISQUE;
-    public static final int BALL_ROUNDING = 15;
-    public static final int BALL_SPEED = 40;
 
     public static final int VERTICAL_OFFSET = 80;
 
@@ -39,8 +38,7 @@ public class Board extends Application {
     private Scene myScene;
     private Rectangle brick;
     private Rectangle paddle;
-    private Circle ball;
-    private int ballDirection;
+    private Ball myBall;
 
     public void start(Stage stage){
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -63,19 +61,22 @@ public class Board extends Application {
         brick.setFill(BRICK_COLOR);
         brick.setId("brick");
 
-        paddle = new Rectangle(width/2 - PADDLE_WIDTH, height/2 + VERTICAL_OFFSET, PADDLE_WIDTH, PADDLE_HEIGHT);
+        paddle = new Rectangle(width/2 - PADDLE_WIDTH, SIZE - 10, PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFill(PADDLE_COLOR);
         paddle.setId("paddle");
 
+        myBall = new Ball(60);
 
+/*
         ball = new Circle(width/2, height/2, BALL_SIZE/2);
         ball.setFill(BALL_COLOR);
         ball.setId("ball");
         ballDirection = 1;
 
+ */
         root.getChildren().add(brick);
         root.getChildren().add(paddle);
-        root.getChildren().add(ball);
+        root.getChildren().add(myBall.getBall());
 
         Scene scene = new Scene(root, width, height, background);
 
@@ -87,16 +88,14 @@ public class Board extends Application {
     void step (double elapsedTime) {
         // update "actors" attributes
         updateShapes(elapsedTime);
-        checkBallPaddleCollision();
-        checkBallBrickCollision();
+   //     checkBallPaddleCollision();
+   //     checkBallBrickCollision();
     }
 
     private void updateShapes (double elapsedTime) {
         // there are more sophisticated ways to animate shapes, but these simple ways work fine to start
-        ball.setCenterY(ball.getCenterY() + ballDirection * BALL_SPEED * elapsedTime);
-//        ball.setRotate(ball.getRotate()-1);
-//        brick.setRotate(brick.getRotate() - 1);
-//        paddle.setRotate(paddle.getRotate() + 1);
+       // ball.setCenterY(ball.getCenterY() + ballDirection * BALL_SPEED * elapsedTime);
+        myBall = myBall.getBallPosition(elapsedTime, paddle, brick);
     }
 
     // What to do each time a key is pressed
@@ -108,12 +107,12 @@ public class Board extends Application {
           paddle.setX(paddle.getX() + PADDLE_SPEED);
       }
     }
-
+/*
     //Determine if specific things collided and respond appropriately
     private void checkBallPaddleCollision() {
         // can check bounding box (for some kinds of shapes, like images, that is the only option)
-        if (paddle.getBoundsInParent().intersects(ball.getBoundsInParent())) {
-            ballDirection *=  -1;
+        if (paddle.getBoundsInParent().intersects(myBall.getBall().getBoundsInParent())) {
+            myBall.ballDirection *=  -1;
         }
         else{
             ballDirection *=  1;
@@ -134,6 +133,8 @@ public class Board extends Application {
 
 
 
+
+ */
     public static void main (String[] args) {
         launch(args);
     }
