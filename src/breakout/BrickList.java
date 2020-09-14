@@ -1,33 +1,37 @@
 package breakout;
 
 
+import javafx.scene.paint.Color;
+
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-//Right now it is using the list tempLevel that I fill with numbers. Later, implement the ability
-//to populate that list from a file.
-//Also, need to add the ability to bounce off of these bricks.
-public class BrickList {
-  private List<Brick> myBricks;
-  private ArrayList<List<Integer>> tempLevel = new ArrayList<>();
-  public List<Brick> setUpLevel(){
-    tempLevel.add(Arrays.asList(1,1,1,1));
-    myBricks = new ArrayList<>();
-    getBricksFromFile(tempLevel);
-    return myBricks;
-  }
+import java.util.Scanner;
 
-  private void getBricksFromFile(ArrayList<List<Integer>> levelDesign){
+public class BrickList{
+
+  public List<Brick> setUpLevel(String levelName) throws FileNotFoundException {
+    File myFile  = new File("data/" + levelName + ".txt");
+    List<Brick> myBricks = new ArrayList<>();
+    Scanner myReader = new Scanner(myFile);
     int yOffset = 0;
-    for(List<Integer> myRow : levelDesign){
-      for(int i = 0; i<myRow.size(); i++){
-        Brick currentBrick = new Brick(myRow.get(i));
-        currentBrick.setPosition(i*100,yOffset);
-        myBricks.add(currentBrick);
+
+    while (myReader.hasNextLine()){
+      String[] myRow = myReader.nextLine().split(" ");
+      for (int col = 0; col < myRow.length; col++) {
+        int currentBrickLives = Integer.parseInt(myRow[col]);
+        if (currentBrickLives != 0){
+          Brick currentBrick = new Brick(currentBrickLives);
+          currentBrick.setPosition(col*100,yOffset);
+          myBricks.add(currentBrick);
+        }
       }
       yOffset += 40;
     }
-
+    return myBricks;
   }
-
 }
