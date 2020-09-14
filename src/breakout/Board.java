@@ -1,5 +1,6 @@
 package breakout;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.animation.KeyFrame;
@@ -36,19 +37,19 @@ public class Board extends Application {
 
 
     private Scene myScene;
-    private Rectangle paddle;
+    private Paddle myPaddle;
     private Ball myBall;
     private Timeline animation;
     private boolean paused;
     private BrickList brickList;
     private List<Brick> myLevelsBricks;
 
-    public void start(Stage stage){
+    public void start(Stage stage) throws FileNotFoundException {
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
         stage.setScene(myScene);
         stage.setTitle(TITLE);
         stage.show();
-        // attach "game loop" to timeline to play it (basically just calling step() method repeatedly forever)
+
         KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -58,31 +59,21 @@ public class Board extends Application {
         paused = false;
     }
 
-    Scene setupScene (int width, int height, Paint background) {
+    Scene setupScene (int width, int height, Paint background) throws FileNotFoundException {
         Group root = new Group();
-        // make some shapes and set their properties
-        /*
-        brick = new Rectangle(width/2 - BRICK_SIZE/2, height/2 - VERTICAL_OFFSET, BRICK_SIZE+50, BRICK_SIZE);
-        brick.setFill(BRICK_COLOR);
-        brick.setId("brick");
-
-         */
 
         brickList = new BrickList();
-        myLevelsBricks = brickList.setUpLevel();
+        myLevelsBricks = brickList.setUpLevel("level0");
 
         for(Brick currentBrick: myLevelsBricks){
             root.getChildren().add(currentBrick.getBrick());
         }
 
-        paddle = new Rectangle(width/2 - PADDLE_WIDTH/2, SIZE - 10, PADDLE_WIDTH, PADDLE_HEIGHT);
-        paddle.setFill(PADDLE_COLOR);
-        paddle.setId("paddle");
+        myPaddle = new Paddle();
 
         myBall = new Ball();
 
-       // root.getChildren().add(brick);
-        root.getChildren().add(paddle);
+        root.getChildren().add(myPaddle.getPaddle());
         root.getChildren().add(myBall.getBall());
 
         Scene scene = new Scene(root, width, height, background);
@@ -98,42 +89,38 @@ public class Board extends Application {
     }
 
     private void updateShapes (double elapsedTime) {
-        myBall = myBall.getBallPosition(elapsedTime, paddle);
+        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
     }
 
 
     private void handleKeyInput (KeyCode code) {
-      if (code == KeyCode.LEFT) {
-          paddle.setX(paddle.getX() - PADDLE_SPEED);
-      }
-      else if (code == KeyCode.RIGHT) {
-          paddle.setX(paddle.getX() + PADDLE_SPEED);
-      }
-      else if (code == KeyCode.R){
-          resetPaddle();
+        Rectangle paddleRect = myPaddle.getPaddle();
+        if (code == KeyCode.LEFT) {
+          paddleRect.setX(paddleRect.getX() - PADDLE_SPEED);
+        }
+        else if (code == KeyCode.RIGHT) {
+          paddleRect.setX(paddleRect.getX() + PADDLE_SPEED);
+        }
+        else if (code == KeyCode.R){
+          myPaddle.resetPaddle();
           myBall.resetBall();
         }
-      else if (code == KeyCode.SPACE){
-          if(paused) {
+        else if (code == KeyCode.SPACE){
+            if(paused) {
               animation.play();
               paused = false;
           }
-          else{
+            else{
               animation.pause();
               paused = true;
-          }
-      }
-
+            }
+        }
     }
 
     private void handleMouseInput () {
        myBall.startBall(150);
     }
 
-    public void resetPaddle(){
-        paddle.setX(SIZE/2- PADDLE_WIDTH/2);
-        paddle.setY(SIZE-10);
-    }
 
     public static void main (String[] args) {
         launch(args);

@@ -4,10 +4,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
-public class Ball extends Board {
+import java.util.List;
 
-  private Circle ball = new Circle(SIZE / 2, SIZE - 60, 7);
+public class Ball extends Circle{
+
+  private Circle ball;
   private static final Paint BALL_COLOR = Color.BISQUE;
 
   private int BALL_SPEED;
@@ -15,6 +18,7 @@ public class Ball extends Board {
   private double Y_DIRECTION;
 
   public Ball() {
+    ball = new Circle(Board.SIZE / 2, Board.SIZE - 60, 7);
     ball.setFill(BALL_COLOR);
     ball.setId("ball");
     Y_DIRECTION = 1;
@@ -29,16 +33,18 @@ public class Ball extends Board {
     BALL_SPEED = 0;
   }
 
+
   public Circle getBall() {
     return ball;
   }
 
-  public Ball getBallPosition(double elapsedTime, Rectangle myPaddle) {
+  public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks) {
     checkXPosition();
-    checkYPosition(myPaddle);
+    checkYPosition(myPaddle,myLevelsBricks);
     setPosition(elapsedTime);
     return this;
   }
+
 
   public void setPosition(double elapsedTime) {
     ball.setCenterY(ball.getCenterY() + Y_DIRECTION * BALL_SPEED * elapsedTime);
@@ -47,85 +53,80 @@ public class Ball extends Board {
 
   private void checkXPosition() {
     //change direction if it hits side of screen
-    if (ball.getBoundsInParent().getMaxX() >= SIZE || ball.getCenterX() <= 0) {
+    if (ball.getBoundsInParent().getMaxX() >= Board.SIZE || ball.getCenterX() <= 0) {
       X_DIRECTION = X_DIRECTION * -1;
     }
   }
 
 
-  private void checkYPosition(Rectangle paddle) {
+  private void checkYPosition(Paddle paddle, List<Brick> myLevelsBricks) {
 
-    //Reset ball to starting position if it hits the bottom of the screen
-    if (ball.getCenterY() + ball.getRadius() / 2 >= SIZE) {
+
+    if (ball.getCenterY() + ball.getRadius() / 2 >= Board.SIZE) {
       resetBall();
     }
 
-    //Switch Y direction if it hits the top of the screen
     if (ball.getCenterY() <= 0) {
       Y_DIRECTION *= -1;
     }
 
-    //Ball changing directions if it hits the paddle - basically, the paddle is split up into 6 equal lengths. If the ball hits length 1 (first if statement), its X direction
-    //changes to -1 (so if it hits the very left edge, it shoots out to the left), or if it hits length 6 (second if statement), then it changes to 1 (right edge, shoot out to the right),
-    // and so on. As you get closer to the middle (lengths 3 & 4), the X direction change is less drastic, and in the middle there is no X direction.
+    Rectangle paddleRect = paddle.getPaddle();
     double rightEdgeBall = ball.getCenterX() + ball.getRadius() / 2;
-    double paddleSection = paddle.getBoundsInLocal().getWidth() / 6;
+    double paddleSection = paddleRect.getBoundsInLocal().getWidth() / 6;
 
-    if (paddle.getBoundsInParent().intersects(ball.getBoundsInParent())) {
-      if (rightEdgeBall <= paddle.getX() + paddleSection) {
+    if (paddleRect.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+      if (rightEdgeBall <= paddleRect.getX() + paddleSection) {
         X_DIRECTION = -1;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall >= paddle.getX() + 5 * paddleSection) {
+      } else if (rightEdgeBall >= paddleRect.getX() + 5 * paddleSection) {
         X_DIRECTION = 1;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall <= paddle.getX() + 2 * paddleSection) {
+      } else if (rightEdgeBall <= paddleRect.getX() + 2 * paddleSection) {
         X_DIRECTION = -0.5;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall >= paddle.getX() + 4 * paddleSection) {
+      } else if (rightEdgeBall >= paddleRect.getX() + 4 * paddleSection) {
         X_DIRECTION = 0.5;
         Y_DIRECTION *= -1;
         //If it hits hear the center, we don't change the angle of X for continous momentum
-      } else if (rightEdgeBall >= paddle.getX() + 2 * paddleSection) {
+      } else if (rightEdgeBall >= paddleRect.getX() + 2 * paddleSection) {
         Y_DIRECTION *= -1;
       }
-
     }
 
     //change direction if it hits the brick -- (Probably need to change this once we figure out making brinks from the file.
     //Might be a better idea to change the direction of the ball in the brick class instead, so that we can check which side of the brick it hits
     //Right now, if it hits anywhere on the brick it'll only change Y direction-- need to figure that out.
     //I'm thinking that for the bricks we do it using like an array list, and we iterate through each one to check for if the ball hits.
-/*
-    if (brick.getBoundsInParent().intersects(ball.getBoundsInParent())) {
-      double brickEndX = brick.getX() + brick.getWidth();
-      double leftEdgeBall  = ball.getCenterX() - ball.getRadius()/2;
 
-      //current brick direction logic - if the ball hits the sides, change X direction and keep Y direction
-      //if ball hits the top or bottom - change Y direction and keep X direction
-      //corners?
+    for (Brick myBrick : myLevelsBricks) {
+      Rectangle brickRect  = myBrick.getBrick();
+      if (brickRect.getBoundsInParent().intersects(ball.getBoundsInParent())) {
+        double brickEndX = brickRect.getX() + myBrick.getWidth();
+        double leftEdgeBall = ball.getCenterX() - ball.getRadius() / 2;
 
-      //bug - when you start the ball on the right edge of the paddle, it catches the brick and gets stuck in a loop - has something to do with corner cases?
+        //current brick direction logic - if the ball hits the sides, change X direction and keep Y direction
+        //if ball hits the top or bottom - change Y direction and keep X direction
+        //corners?
 
-      //case 1 - the ball hits either the top or the bottom of the brick
-      // i.e the ball is between brick.getX() (X coordinate of left edge) and brickEndX (X coordinate of right edge)
-      if (rightEdgeBall >= brick.getX() && leftEdgeBall <= brickEndX) {
-        Y_DIRECTION *= -1;
-      }
+        //bug - when you start the ball on the right edge of the paddle, it catches the brick and gets stuck in a loop - has something to do with corner cases?
 
-      //case 2 -  top or bottom
-      else{
-        X_DIRECTION *=-1;
+        //case 1 - the ball hits either the top or the bottom of the brick
+        // i.e the ball is between brick.getX() (X coordinate of left edge) and brickEndX (X coordinate of right edge)
+        if (rightEdgeBall >= brickRect.getX() && leftEdgeBall <= brickEndX) {
+          Y_DIRECTION *= -1;
+        }
+        //case 2 -  top or bottom
+        else {
+          X_DIRECTION *= -1;
+        }
+        Y_DIRECTION*=-1;
       }
     }
-
- */
   }
 
-
-
     public void resetBall () {
-      ball.setCenterX(SIZE / 2);
-      ball.setCenterY(SIZE - 60);
+      ball.setCenterX(Board.SIZE / 2);
+      ball.setCenterY(Board.SIZE - 60);
       X_DIRECTION = 0;
       Y_DIRECTION = 1;
       endBall();

@@ -6,7 +6,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.util.concurrent.TimeUnit;
+
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -20,47 +25,63 @@ class BoardTest extends DukeApplicationTest {
     private final Board myBoard = new Board();
     private Scene myScene;
 
-    private Rectangle brick;
-    private Rectangle paddle;
-    private Ball myBall;
+    private Rectangle myBrick;
+    private Rectangle myPaddle;
+    private Circle myBall;
 
 
     @Override
-    public void start(Stage stage) {
+    public void start(Stage stage) throws FileNotFoundException {
         myScene = myBoard.setupScene(Board.SIZE, Board.SIZE, Board.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
 
 
-        brick = lookup("#brick").query();
-        paddle = lookup("#paddle").query();
-
-        //this is giving an error for some reason?
-        //myBall = lookup("#ball").query();
+        myBrick = lookup("#brick").query();
+        myPaddle = lookup("#paddle").query();
+        myBall = lookup("#ball").query();
 
     }
 
     @Test
     public void testPaddleInitSize() {
-        assertEquals(75, paddle.getWidth());
-        assertEquals(10, paddle.getHeight());
+        assertEquals(75, myPaddle.getWidth());
+        assertEquals(10, myPaddle.getHeight());
     }
 
     @Test
     public void testPaddleInitPosition() {
-        assertEquals(400 / 2 - 75 / 2, paddle.getX());
-        assertEquals(400 - 10, paddle.getY());
+        assertEquals(400 / 2 - 75 / 2, myPaddle.getX());
+        assertEquals(400 - 10, myPaddle.getY());
     }
 
     @Test
     public void testPaddleMovement() {
-        paddle.setX(150);
-        paddle.setY(390);
+        myPaddle.setX(150);
+        myPaddle.setY(390);
         press(myScene, KeyCode.RIGHT);
-        assertEquals(160, paddle.getX());
-        assertEquals(390, paddle.getY());
+        assertEquals(160, myPaddle.getX());
+        assertEquals(390, myPaddle.getY());
         press(myScene, KeyCode.LEFT);
-        assertEquals(150, paddle.getX());
-        assertEquals(390, paddle.getY());
+        assertEquals(150, myPaddle.getX());
+        assertEquals(390, myPaddle.getY());
     }
+
+    @Test
+    public void testBallInitPosition(){
+        assertEquals(400/2,myBall.getCenterX());
+        assertEquals(400 -60, myBall.getCenterY());
+    }
+
+    @Test
+    public void testBallInitSize(){
+        assertEquals(7,myBall.getRadius());
+    }
+
+//    @Test
+//    public void testBallInitVelocity(){
+//        assertEquals(150,);
+//    }
+
+
 }
