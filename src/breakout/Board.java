@@ -39,6 +39,8 @@ public class Board extends Application {
     private Rectangle brick;
     private Rectangle paddle;
     private Ball myBall;
+    private Timeline animation;
+    private boolean paused;
 
     public void start(Stage stage){
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -47,11 +49,12 @@ public class Board extends Application {
         stage.show();
         // attach "game loop" to timeline to play it (basically just calling step() method repeatedly forever)
         KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY));
-        Timeline animation = new Timeline();
+        animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
 
         animation.play();
+        paused = false;
     }
 
     Scene setupScene (int width, int height, Paint background) {
@@ -99,6 +102,17 @@ public class Board extends Application {
           resetPaddle();
           myBall.resetBall();
         }
+      else if (code == KeyCode.SPACE){
+          if(paused) {
+              animation.play();
+              paused = false;
+          }
+          else{
+              animation.pause();
+              paused = true;
+          }
+      }
+
     }
 
     private void handleMouseInput () {

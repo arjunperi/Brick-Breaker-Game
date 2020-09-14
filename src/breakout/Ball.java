@@ -69,23 +69,23 @@ public class Ball extends Board {
     //changes to -1 (so if it hits the very left edge, it shoots out to the left), or if it hits length 6 (second if statement), then it changes to 1 (right edge, shoot out to the right),
     // and so on. As you get closer to the middle (lengths 3 & 4), the X direction change is less drastic, and in the middle there is no X direction.
     double rightEdgeBall = ball.getCenterX() + ball.getRadius() / 2;
-    double paddleX = paddle.getBoundsInLocal().getWidth() / 6;
+    double paddleSection = paddle.getBoundsInLocal().getWidth() / 6;
 
     if (paddle.getBoundsInParent().intersects(ball.getBoundsInParent())) {
-      if (rightEdgeBall <= paddle.getX() + paddleX) {
+      if (rightEdgeBall <= paddle.getX() + paddleSection) {
         X_DIRECTION = -1;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall >= paddle.getX() + 5 * paddleX) {
+      } else if (rightEdgeBall >= paddle.getX() + 5 * paddleSection) {
         X_DIRECTION = 1;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall <= paddle.getX() + 2 * paddleX) {
+      } else if (rightEdgeBall <= paddle.getX() + 2 * paddleSection) {
         X_DIRECTION = -0.5;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall >= paddle.getX() + 4 * paddleX) {
+      } else if (rightEdgeBall >= paddle.getX() + 4 * paddleSection) {
         X_DIRECTION = 0.5;
         Y_DIRECTION *= -1;
-      } else if (rightEdgeBall >= paddle.getX() + 2 * paddleX) {
-        X_DIRECTION = 0;
+        //If it hits hear the center, we don't change the angle of X for continous momentum
+      } else if (rightEdgeBall >= paddle.getX() + 2 * paddleSection) {
         Y_DIRECTION *= -1;
       }
 
