@@ -4,7 +4,9 @@ package breakout;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//Right now it is using the list tempLevel that I fill with numbers. Later, implement the ability
+//to populate that list from a file.
+//Also, need to add the ability to bounce off of these bricks.
 public class BrickList {
   private List<Brick> myBricks;
   private ArrayList<List<Integer>> tempLevel = new ArrayList<>();
