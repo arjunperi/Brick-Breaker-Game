@@ -23,13 +23,13 @@ public class Board extends Application {
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.AZURE;
 
-    public static final int BRICK_SIZE = 50;
+    public static final int BRICK_SIZE = 135;
     public static final Paint BRICK_COLOR = Color.HOTPINK;
 
     public static final int PADDLE_HEIGHT = 10;
-    public static final int PADDLE_WIDTH = 50;
+    public static final int PADDLE_WIDTH = 75;
     public static final Paint PADDLE_COLOR = Color.PLUM;
-    public static final int PADDLE_SPEED= 5;
+    public static final int PADDLE_SPEED= 10;
 
 
     public static final int VERTICAL_OFFSET = 80;
@@ -50,30 +50,23 @@ public class Board extends Application {
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
+
         animation.play();
     }
 
     Scene setupScene (int width, int height, Paint background) {
-        // create one top level collection to organize the things in the scene
         Group root = new Group();
         // make some shapes and set their properties
-        brick = new Rectangle(width/2 - BRICK_SIZE, height/2 - VERTICAL_OFFSET, BRICK_SIZE, BRICK_SIZE);
+        brick = new Rectangle(width/2 - BRICK_SIZE/2, height/2 - VERTICAL_OFFSET, BRICK_SIZE+50, BRICK_SIZE);
         brick.setFill(BRICK_COLOR);
         brick.setId("brick");
 
-        paddle = new Rectangle(width/2 - PADDLE_WIDTH, SIZE - 10, PADDLE_WIDTH, PADDLE_HEIGHT);
+        paddle = new Rectangle(width/2 - PADDLE_WIDTH/2, SIZE - 10, PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFill(PADDLE_COLOR);
         paddle.setId("paddle");
 
-        myBall = new Ball(60);
+        myBall = new Ball();
 
-/*
-        ball = new Circle(width/2, height/2, BALL_SIZE/2);
-        ball.setFill(BALL_COLOR);
-        ball.setId("ball");
-        ballDirection = 1;
-
- */
         root.getChildren().add(brick);
         root.getChildren().add(paddle);
         root.getChildren().add(myBall.getBall());
@@ -81,24 +74,20 @@ public class Board extends Application {
         Scene scene = new Scene(root, width, height, background);
 
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        scene.setOnMouseClicked(e -> handleMouseInput());
         return scene;
     }
 
 
     void step (double elapsedTime) {
-        // update "actors" attributes
         updateShapes(elapsedTime);
-   //     checkBallPaddleCollision();
-   //     checkBallBrickCollision();
     }
 
     private void updateShapes (double elapsedTime) {
-        // there are more sophisticated ways to animate shapes, but these simple ways work fine to start
-       // ball.setCenterY(ball.getCenterY() + ballDirection * BALL_SPEED * elapsedTime);
         myBall = myBall.getBallPosition(elapsedTime, paddle, brick);
     }
 
-    // What to do each time a key is pressed
+
     private void handleKeyInput (KeyCode code) {
       if (code == KeyCode.LEFT) {
           paddle.setX(paddle.getX() - PADDLE_SPEED);
@@ -106,35 +95,21 @@ public class Board extends Application {
       else if (code == KeyCode.RIGHT) {
           paddle.setX(paddle.getX() + PADDLE_SPEED);
       }
-    }
-/*
-    //Determine if specific things collided and respond appropriately
-    private void checkBallPaddleCollision() {
-        // can check bounding box (for some kinds of shapes, like images, that is the only option)
-        if (paddle.getBoundsInParent().intersects(myBall.getBall().getBoundsInParent())) {
-            myBall.ballDirection *=  -1;
-        }
-        else{
-            ballDirection *=  1;
+      else if (code == KeyCode.R){
+          resetPaddle();
+          myBall.resetBall();
         }
     }
 
-    //duplicated code - should we combine this method with the above method?
-    private void checkBallBrickCollision(){
-        // can check bounding box (for some kinds of shapes, like images, that is the only option)
-        if (brick.getBoundsInParent().intersects(ball.getBoundsInParent())) {
-            ballDirection *=  -1;
-        }
-        else{
-            ballDirection *=  1;
-        }
+    private void handleMouseInput () {
+       myBall.startBall(150);
     }
 
+    public void resetPaddle(){
+        paddle.setX(SIZE/2- PADDLE_WIDTH/2);
+        paddle.setY(SIZE-10);
+    }
 
-
-
-
- */
     public static void main (String[] args) {
         launch(args);
     }
