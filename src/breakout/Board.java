@@ -1,5 +1,7 @@
 package breakout;
 
+import java.util.ArrayList;
+import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -23,8 +25,6 @@ public class Board extends Application {
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.AZURE;
 
-    public static final int BRICK_SIZE = 135;
-    public static final Paint BRICK_COLOR = Color.HOTPINK;
 
     public static final int PADDLE_HEIGHT = 10;
     public static final int PADDLE_WIDTH = 75;
@@ -36,11 +36,12 @@ public class Board extends Application {
 
 
     private Scene myScene;
-    private Rectangle brick;
     private Rectangle paddle;
     private Ball myBall;
     private Timeline animation;
     private boolean paused;
+    private BrickList brickList;
+    private List<Brick> myLevelsBricks;
 
     public void start(Stage stage){
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -60,9 +61,19 @@ public class Board extends Application {
     Scene setupScene (int width, int height, Paint background) {
         Group root = new Group();
         // make some shapes and set their properties
+        /*
         brick = new Rectangle(width/2 - BRICK_SIZE/2, height/2 - VERTICAL_OFFSET, BRICK_SIZE+50, BRICK_SIZE);
         brick.setFill(BRICK_COLOR);
         brick.setId("brick");
+
+         */
+
+        brickList = new BrickList();
+        myLevelsBricks = brickList.setUpLevel();
+
+        for(Brick currentBrick: myLevelsBricks){
+            root.getChildren().add(currentBrick.getBrick());
+        }
 
         paddle = new Rectangle(width/2 - PADDLE_WIDTH/2, SIZE - 10, PADDLE_WIDTH, PADDLE_HEIGHT);
         paddle.setFill(PADDLE_COLOR);
@@ -70,7 +81,7 @@ public class Board extends Application {
 
         myBall = new Ball();
 
-        root.getChildren().add(brick);
+       // root.getChildren().add(brick);
         root.getChildren().add(paddle);
         root.getChildren().add(myBall.getBall());
 
@@ -87,7 +98,7 @@ public class Board extends Application {
     }
 
     private void updateShapes (double elapsedTime) {
-        myBall = myBall.getBallPosition(elapsedTime, paddle, brick);
+        myBall = myBall.getBallPosition(elapsedTime, paddle);
     }
 
 

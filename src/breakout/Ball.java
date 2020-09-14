@@ -21,11 +21,11 @@ public class Ball extends Board {
     X_DIRECTION = 0;
   }
 
-  public void startBall(int speed){
+  public void startBall(int speed) {
     BALL_SPEED = speed;
   }
 
-  public void endBall(){
+  public void endBall() {
     BALL_SPEED = 0;
   }
 
@@ -33,9 +33,9 @@ public class Ball extends Board {
     return ball;
   }
 
-  public Ball getBallPosition(double elapsedTime, Rectangle myPaddle, Rectangle myBrick) {
+  public Ball getBallPosition(double elapsedTime, Rectangle myPaddle) {
     checkXPosition();
-    checkYPosition(myPaddle, myBrick);
+    checkYPosition(myPaddle);
     setPosition(elapsedTime);
     return this;
   }
@@ -53,7 +53,7 @@ public class Ball extends Board {
   }
 
 
-  private void checkYPosition(Rectangle paddle, Rectangle brick) {
+  private void checkYPosition(Rectangle paddle) {
 
     //Reset ball to starting position if it hits the bottom of the screen
     if (ball.getCenterY() + ball.getRadius() / 2 >= SIZE) {
@@ -95,7 +95,7 @@ public class Ball extends Board {
     //Might be a better idea to change the direction of the ball in the brick class instead, so that we can check which side of the brick it hits
     //Right now, if it hits anywhere on the brick it'll only change Y direction-- need to figure that out.
     //I'm thinking that for the bricks we do it using like an array list, and we iterate through each one to check for if the ball hits.
-
+/*
     if (brick.getBoundsInParent().intersects(ball.getBoundsInParent())) {
       double brickEndX = brick.getX() + brick.getWidth();
       double leftEdgeBall  = ball.getCenterX() - ball.getRadius()/2;
@@ -117,16 +117,20 @@ public class Ball extends Board {
         X_DIRECTION *=-1;
       }
     }
+
+ */
   }
 
-  public void resetBall(){
-    ball.setCenterX(SIZE/2);
-    ball.setCenterY(SIZE-60);
-    X_DIRECTION = 0;
-    Y_DIRECTION = 1;
-    endBall();
+
+
+    public void resetBall () {
+      ball.setCenterX(SIZE / 2);
+      ball.setCenterY(SIZE - 60);
+      X_DIRECTION = 0;
+      Y_DIRECTION = 1;
+      endBall();
+
+    }
 
   }
-
-}
 
