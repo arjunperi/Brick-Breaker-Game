@@ -26,7 +26,8 @@ class BoardTest extends DukeApplicationTest {
     private final Board myBoard = new Board();
     private Scene myScene;
 
-    private BrickList myBrick;
+    private Brick myBrick0;
+    private Brick myBrick1;
     private Paddle myPaddle;
     private Ball myBall;
 
@@ -38,7 +39,8 @@ class BoardTest extends DukeApplicationTest {
         stage.show();
 
 
-     //   myBrick = lookup("#brick").query();
+        myBrick0 = lookup("#brick0").query();
+        myBrick1 = lookup("#brick1").query();
         myPaddle = lookup("#paddle").query();
         myBall = lookup("#ball").query();
 
@@ -89,6 +91,14 @@ class BoardTest extends DukeApplicationTest {
         press(myScene, KeyCode.S);
 
         assertEquals(150, myBall.getBALL_SPEED());
+    }
+
+    @Test
+    public void testFirstBrickInFirstAndSecondRow(){
+        assertEquals(100,myBrick0.getX());
+        assertEquals(0, myBrick0.getY());
+        assertEquals(0,myBrick1.getX());
+        assertEquals(40, myBrick1.getY());
     }
 
     @Test

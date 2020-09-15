@@ -91,7 +91,7 @@ public class Ball extends Circle{
       Y_DIRECTION *= -1;
     }
 
-    Rectangle paddleRect = paddle.getPaddle();
+    Rectangle paddleRect = paddle;
     double rightEdgeBall = this.getCenterX() + this.getRadius() / 2;
     double paddleSection = paddleRect.getBoundsInLocal().getWidth() / 6;
 
@@ -120,7 +120,7 @@ public class Ball extends Circle{
     //I'm thinking that for the bricks we do it using like an array list, and we iterate through each one to check for if the ball hits.
 
     for (Brick myBrick : myLevelsBricks) {
-      Rectangle brickRect  = myBrick.getBrick();
+      Rectangle brickRect  = myBrick;
       if (brickRect.getBoundsInParent().intersects(this.getBoundsInParent())) {
         double brickEndX = brickRect.getX() + myBrick.getWidth();
         double leftEdgeBall = this.getCenterX() - this.getRadius() / 2;

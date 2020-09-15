@@ -64,9 +64,12 @@ public class Board extends Application {
 
         brickList = new BrickList();
         myLevelsBricks = brickList.setUpLevel("level0");
+        int brickIndex = 0;
 
         for(Brick currentBrick: myLevelsBricks){
-            root.getChildren().add(currentBrick.getBrick());
+            currentBrick.setId("brick" + brickIndex);
+            root.getChildren().add(currentBrick);
+            brickIndex++;
         }
 
         myPaddle = new Paddle();
@@ -94,12 +97,11 @@ public class Board extends Application {
 
 
     private void handleKeyInput (KeyCode code) {
-        Rectangle paddleRect = myPaddle.getPaddle();
         if (code == KeyCode.LEFT) {
-          paddleRect.setX(paddleRect.getX() - PADDLE_SPEED);
+          myPaddle.setX(myPaddle.getX() - PADDLE_SPEED);
         }
         else if (code == KeyCode.RIGHT) {
-          paddleRect.setX(paddleRect.getX() + PADDLE_SPEED);
+          myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
         }
         else if (code == KeyCode.R){
           myPaddle.resetPaddle();
