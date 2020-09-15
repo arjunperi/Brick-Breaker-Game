@@ -1,6 +1,7 @@
 package breakout;
 
 
+import java.util.concurrent.TimeUnit;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Circle;
@@ -25,9 +26,9 @@ class BoardTest extends DukeApplicationTest {
     private final Board myBoard = new Board();
     private Scene myScene;
 
-    private Rectangle myBrick;
-    private Rectangle myPaddle;
-    private Circle myBall;
+    private BrickList myBrick;
+    private Paddle myPaddle;
+    private Ball myBall;
 
 
     @Override
@@ -37,7 +38,7 @@ class BoardTest extends DukeApplicationTest {
         stage.show();
 
 
-        myBrick = lookup("#brick").query();
+     //   myBrick = lookup("#brick").query();
         myPaddle = lookup("#paddle").query();
         myBall = lookup("#ball").query();
 
@@ -78,10 +79,56 @@ class BoardTest extends DukeApplicationTest {
         assertEquals(7,myBall.getRadius());
     }
 
-//    @Test
-//    public void testBallInitVelocity(){
-//        assertEquals(150,);
-//    }
+    @Test
+    public void testBallInitVelocity(){
+        assertEquals(0, myBall.getBALL_SPEED());
+    }
+
+    @Test
+    public void testBallVelocityAfterStart(){
+        press(myScene, KeyCode.S);
+
+        assertEquals(150, myBall.getBALL_SPEED());
+    }
+
+    @Test
+    public void testBallBounceOffCorner(){
+        myBall.setCenterX(0);
+        myBall.setCenterY(0);
+        myBall.setX_DIRECTION(-1);
+        myBall.setY_DIRECTION(-1);
+        myBall.startBall(150);
+        myBoard.step(Board.SECOND_DELAY);
+        assertEquals(1, myBall.getX_DIRECTION());
+        assertEquals(1, myBall.getY_DIRECTION());
+
+    }
+
+    @Test
+    public void testBallBounceOffPaddle(){
+        myBall.setCenterX(Board.SIZE/2);
+        myBall.setCenterY(Board.SIZE-Board.PADDLE_HEIGHT - myBall.getRadius());
+        myBall.setX_DIRECTION(0);
+        myBall.setY_DIRECTION(-1);
+        myBall.startBall(150);
+        myBoard.step(Board.SECOND_DELAY);
+        assertEquals(0, myBall.getX_DIRECTION());
+        assertEquals(1, myBall.getY_DIRECTION());
+
+    }
+
+    @Test
+    public void testBallReset(){
+        myBall.setCenterX(0);
+        myBall.setCenterY(Board.SIZE);
+        myBall.setX_DIRECTION(0);
+        myBall.setY_DIRECTION(-1);
+        myBall.startBall(150);
+        myBoard.step(Board.SECOND_DELAY);
+        assertEquals(400/2,myBall.getCenterX());
+        assertEquals(400 -60, myBall.getCenterY());
+
+    }
 
 
 }

@@ -73,13 +73,13 @@ public class Board extends Application {
 
         myBall = new Ball();
 
-        root.getChildren().add(myPaddle.getPaddle());
-        root.getChildren().add(myBall.getBall());
+        root.getChildren().add(myPaddle);
+        root.getChildren().add(myBall);
 
         Scene scene = new Scene(root, width, height, background);
 
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-        scene.setOnMouseClicked(e -> handleMouseInput());
+//        scene.setOnMouseClicked(e -> handleMouseInput());
         return scene;
     }
 
@@ -115,11 +115,14 @@ public class Board extends Application {
               paused = true;
             }
         }
+        else if (code == KeyCode.S){
+            myBall.startBall(150);
+        }
     }
 
-    private void handleMouseInput () {
-       myBall.startBall(150);
-    }
+  //  private void handleMouseInput () {
+  //     myBall.startBall(150);
+  //  }
 
 
     public static void main (String[] args) {
