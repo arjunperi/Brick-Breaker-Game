@@ -110,6 +110,7 @@ public class Ball extends Circle{
     //bugs - when it hits an intersection?
 
     for (Brick myBrick : myLevelsBricks) {
+
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
         Y_DIRECTION*=-1;
         myBrick.subtractLives();
@@ -123,7 +124,6 @@ public class Ball extends Circle{
 //        if (rightEdgeBall >= myBrick.getX()) {
 //          Y_DIRECTION *= -1;
 //        }
-
       }
     }
   }
