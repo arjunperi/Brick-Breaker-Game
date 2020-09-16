@@ -45,19 +45,20 @@
 #### Level Descriptions
 
  * Level 1
-   * Rows of blocks arranged in the standard breakout layout.
+   * Rows of blocks arranged in the standard breakout layout (rectangle).
 
-   * Variation features
+   * Multiple life blocks exist 
 
  * Level 2
-   * There is a layer of outer blocks that all have multiple lives that enclose the inner blocks.
+   * There is a layer of outer blocks that all have multiple lives that enclose the inner blocks. Scattered on the inside are crumbly blocks.
 
-   * Variation features
+   * Crumbly blocks and multiple life blocks exist. 
 
  * Level 3
-   * Block Configuration
+   * Two layers of outer blocks with mutiple lives, but scatter among these layers are various power up blocks and a few crumbly blocks. These blocks 
+   also exist on the inner layer as well. 
 
-   * Variation features
+   * Crumbly blocks, multiple life blocks, and power up blocks (thus power ups exist as well) exist. 
 
 
 ### Possible Classes
