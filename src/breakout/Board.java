@@ -39,10 +39,11 @@ public class Board extends Application {
     private Scene myScene;
     private Paddle myPaddle;
     private Ball myBall;
-    private Timeline animation;
-    private boolean paused;
     private BrickList brickList;
     private List<Brick> myLevelsBricks;
+    private Timeline animation;
+    private boolean paused;
+
 
     public void start(Stage stage) throws FileNotFoundException {
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -82,7 +83,6 @@ public class Board extends Application {
         Scene scene = new Scene(root, width, height, background);
 
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-//        scene.setOnMouseClicked(e -> handleMouseInput());
         return scene;
     }
 
@@ -122,9 +122,6 @@ public class Board extends Application {
         }
     }
 
-  //  private void handleMouseInput () {
-  //     myBall.startBall(150);
-  //  }
 
 
     public static void main (String[] args) {

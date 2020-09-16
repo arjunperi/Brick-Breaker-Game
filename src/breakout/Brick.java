@@ -11,38 +11,38 @@ public class Brick extends Rectangle {
 
 
   public Brick(int lives) {
-    super();
-    this.setWidth(WIDTH);
-    this.setHeight(HEIGHT);
+    super(WIDTH,HEIGHT);
     myLives = lives;
-    this.setColor();
+    setColor();
   }
 
   public int getBrickLives() {
+    System.out.println(" " + myLives);
     return myLives;
   }
 
   public void subtractLives() {
     myLives--;
+    setColor();
   }
 
   public void setPosition(double x, double y) {
-    this.setX(x);
-    this.setY(y);
+    setX(x);
+    setY(y);
   }
 
   public void setColor() {
     if (myLives == 1) {
-      this.setFill(Color.HOTPINK);
-      this.setStroke(Color.BLACK);
+      setFill(Color.HOTPINK);
+      setStroke(Color.BLACK);
     }
     if (myLives == 2) {
-      this.setFill(Color.GREEN);
-      this.setStroke(Color.BLACK);
+      setFill(Color.GREEN);
+      setStroke(Color.BLACK);
     }
     if (myLives == 3) {
-      this.setFill(Color.BLUE);
-      this.setStroke(Color.BLACK);
+      setFill(Color.BLUE);
+      setStroke(Color.BLACK);
     }
 
   }
