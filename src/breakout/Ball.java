@@ -116,10 +116,9 @@ public class Ball extends Circle{
           Y_DIRECTION *= -1;
         }
         //case 2 -  top or bottom
-        else {
-          X_DIRECTION *= -1;
-        }
-        Y_DIRECTION*=-1;
+//        else {
+//          X_DIRECTION *= 1;
+//        }
       }
     }
   }
