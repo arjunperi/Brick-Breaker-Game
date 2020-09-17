@@ -2,6 +2,8 @@ package breakout;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -111,11 +113,14 @@ public class Board extends Application {
     }
 
 
-    private void deleteBrickIfDestroyed(){
-        for (Brick currentBrick: myLevelsBricks){
-            if (currentBrick.isDestroyed()){
+    private void deleteBrickIfDestroyed() {
+        //used an iterator here so that I don't get a concurrent modification exception
+        Iterator<Brick> bricks = myLevelsBricks.iterator();
+        while (bricks.hasNext()) {
+            Brick currentBrick = bricks.next();
+            if (currentBrick.isDestroyed()) {
                 root.getChildren().remove(currentBrick);
-                myLevelsBricks.remove(currentBrick);
+                bricks.remove();
                 score++;
             }
         }
