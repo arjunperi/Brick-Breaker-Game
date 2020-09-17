@@ -138,6 +138,10 @@ public class Ball extends Circle{
       endBall();
     }
 
+    public void addGameLives(){
+      gameLives++;
+    }
+
     public int getGameLives(){
       return gameLives;
     }

@@ -52,8 +52,7 @@ public class Board extends Application {
     private Group root;
 
     private int score;
-
-
+    
     public void start(Stage stage) throws FileNotFoundException {
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
         stage.setScene(myScene);
@@ -108,8 +107,9 @@ public class Board extends Application {
     private void updateShapes (double elapsedTime) {
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBrickIfDestroyed();
-        myDisplay.setStats(myBall.getGameLives(),score);
+        myDisplay.setStats(myBall.getGameLives(), score);
     }
+
 
     private void deleteBrickIfDestroyed(){
         for (Brick currentBrick: myLevelsBricks){
@@ -146,6 +146,9 @@ public class Board extends Application {
         }
         else if (code == KeyCode.S){
             myBall.startBall(150);
+        }
+        else if (code == KeyCode.L){
+            myBall.addGameLives();
         }
     }
 
