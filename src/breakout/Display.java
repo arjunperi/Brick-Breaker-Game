@@ -10,9 +10,12 @@ public class Display extends Text {
     }
 
     public void setStats(int lives, int score){
-        setText("Lives: " + lives  + " Score: " + score);
-
-
+        if (lives != 0) {
+            setText("Lives: " + lives + " Score: " + score);
+        }
+        else {
+            setText("GAME OVER");
+        }
     }
 
 }

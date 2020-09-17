@@ -52,7 +52,7 @@ public class Board extends Application {
     private Group root;
 
     private int score;
-    
+
     public void start(Stage stage) throws FileNotFoundException {
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
         stage.setScene(myScene);
