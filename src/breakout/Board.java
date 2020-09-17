@@ -2,18 +2,25 @@ package breakout;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -39,10 +46,14 @@ public class Board extends Application {
     private Scene myScene;
     private Paddle myPaddle;
     private Ball myBall;
-    private Timeline animation;
-    private boolean paused;
     private BrickList brickList;
     private List<Brick> myLevelsBricks;
+    private Display myDisplay;
+    private Timeline animation;
+    private boolean paused;
+    private Group root;
+
+    private int score;
 
     public void start(Stage stage) throws FileNotFoundException {
         myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -60,7 +71,7 @@ public class Board extends Application {
     }
 
     Scene setupScene (int width, int height, Paint background) throws FileNotFoundException {
-        Group root = new Group();
+        root = new Group();
 
         brickList = new BrickList();
         myLevelsBricks = brickList.setUpLevel("level0");
@@ -72,6 +83,7 @@ public class Board extends Application {
             brickIndex++;
         }
 
+
         myPaddle = new Paddle();
 
         myBall = new Ball();
@@ -79,10 +91,13 @@ public class Board extends Application {
         root.getChildren().add(myPaddle);
         root.getChildren().add(myBall);
 
+        myDisplay = new Display();
+        root.getChildren().add(myDisplay);
+
+
         Scene scene = new Scene(root, width, height, background);
 
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-//        scene.setOnMouseClicked(e -> handleMouseInput());
         return scene;
     }
 
@@ -93,7 +108,24 @@ public class Board extends Application {
 
     private void updateShapes (double elapsedTime) {
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
+        deleteBrickIfDestroyed();
+        myDisplay.setStats(myBall.getGameLives(), score);
     }
+
+
+    private void deleteBrickIfDestroyed() {
+        //used an iterator here so that I don't get a concurrent modification exception
+        Iterator<Brick> bricks = myLevelsBricks.iterator();
+        while (bricks.hasNext()) {
+            Brick currentBrick = bricks.next();
+            if (currentBrick.isDestroyed()) {
+                root.getChildren().remove(currentBrick);
+                bricks.remove();
+                score++;
+            }
+        }
+    }
+
 
 
     private void handleKeyInput (KeyCode code) {
@@ -120,11 +152,10 @@ public class Board extends Application {
         else if (code == KeyCode.S){
             myBall.startBall(150);
         }
+        else if (code == KeyCode.L){
+            myBall.addGameLives();
+        }
     }
-
-  //  private void handleMouseInput () {
-  //     myBall.startBall(150);
-  //  }
 
 
     public static void main (String[] args) {
