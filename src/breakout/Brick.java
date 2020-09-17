@@ -11,7 +11,7 @@ public class Brick extends Rectangle {
   private int myBricksDestroyed;
 
   public Brick(int lives) {
-    super(WIDTH,HEIGHT);
+    super(WIDTH, HEIGHT);
     myLives = lives;
     setColor();
   }
@@ -46,16 +46,16 @@ public class Brick extends Rectangle {
   }
 
 
-  public boolean isDestroyed(){
+  public boolean isDestroyed() {
     boolean isDestroyed = false;
-    if (getBrickLives() <= 0){
+    if (getBrickLives() <= 0) {
       isDestroyed = true;
-      myBricksDestroyed ++;
+      myBricksDestroyed++;
     }
     return isDestroyed;
   }
 
-  public int getBricksDestroyed(){
+  public int getBricksDestroyed() {
     return myBricksDestroyed;
   }
 

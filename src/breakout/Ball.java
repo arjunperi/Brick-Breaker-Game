@@ -7,7 +7,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.List;
 
-public class Ball extends Circle{
+public class Ball extends Circle {
 
   private static final Paint BALL_COLOR = Color.BISQUE;
 
@@ -17,29 +17,29 @@ public class Ball extends Circle{
   private int gameLives = 3;
 
   public Ball() {
-    super(Board.SIZE/2,Board.SIZE-60,7,BALL_COLOR );
+    super(Board.SIZE / 2, Board.SIZE - 60, 7, BALL_COLOR);
     this.setId("ball");
     Y_DIRECTION = 1;
     X_DIRECTION = 0;
   }
 
-  public int getBALL_SPEED(){
+  public int getBALL_SPEED() {
     return BALL_SPEED;
   }
 
-  public double getX_DIRECTION(){
+  public double getX_DIRECTION() {
     return X_DIRECTION;
   }
 
-  public double getY_DIRECTION(){
+  public double getY_DIRECTION() {
     return Y_DIRECTION;
   }
 
-  public void setX_DIRECTION(double x_direction){
+  public void setX_DIRECTION(double x_direction) {
     X_DIRECTION = x_direction;
   }
 
-  public void setY_DIRECTION(double y_direction){
+  public void setY_DIRECTION(double y_direction) {
     Y_DIRECTION = y_direction;
   }
 
@@ -53,7 +53,7 @@ public class Ball extends Circle{
 
   public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks) {
     checkXPosition();
-    checkYPosition(myPaddle,myLevelsBricks);
+    checkYPosition(myPaddle, myLevelsBricks);
     setPosition(elapsedTime);
     return this;
   }
@@ -75,16 +75,15 @@ public class Ball extends Circle{
   private void checkYPosition(Paddle paddle, List<Brick> myLevelsBricks) {
     if (getCenterY() + getRadius() / 2 >= Board.SIZE) {
       resetBall();
-      gameLives --;
+      gameLives--;
     }
 
     if (this.getCenterY() <= 0) {
       Y_DIRECTION *= -1;
     }
 
-
     double ballCenter = getCenterX();
-    double paddleSection = paddle.getBoundsInLocal().getWidth()/6;
+    double paddleSection = paddle.getBoundsInLocal().getWidth() / 6;
 
     if (paddle.getBoundsInParent().intersects(getBoundsInParent())) {
       if (ballCenter <= paddle.getX() + paddleSection) {
@@ -99,7 +98,7 @@ public class Ball extends Circle{
       } else if (ballCenter >= paddle.getX() + 4 * paddleSection) {
         X_DIRECTION = 0.5;
         Y_DIRECTION *= -1;
-        //If it hits hear the center, we don't change the angle of X for continous momentum
+        //If it hits hear the center, we don't change the angle of X for continuous momentum
       } else if (ballCenter >= paddle.getX() + 2 * paddleSection) {
         Y_DIRECTION *= -1;
       }
@@ -113,13 +112,13 @@ public class Ball extends Circle{
     for (Brick myBrick : myLevelsBricks) {
 
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
-        Y_DIRECTION*=-1;
+        Y_DIRECTION *= -1;
         myBrick.subtractLives();
         myBrick.getBrickLives();
 
         double brickEndX = myBrick.getX() + myBrick.getWidth();
-        double leftEdgeBall = getCenterX() - getRadius()/2;
-        double rightEdgeBall = getCenterX() + getRadius()/2;
+        double leftEdgeBall = getCenterX() - getRadius() / 2;
+        double rightEdgeBall = getCenterX() + getRadius() / 2;
 
 //        //case 1 - the ball hits either the top or the bottom of the brick
 //        if (rightEdgeBall >= myBrick.getX()) {
@@ -130,21 +129,21 @@ public class Ball extends Circle{
   }
 
 
-    public void resetBall () {
-      setCenterX(Board.SIZE / 2);
-      setCenterY(Board.SIZE - 60);
-      X_DIRECTION = 0;
-      Y_DIRECTION = 1;
-      endBall();
-    }
-
-    public void addGameLives(){
-      gameLives++;
-    }
-
-    public int getGameLives(){
-      return gameLives;
-    }
-
+  public void resetBall() {
+    setCenterX(Board.SIZE / 2);
+    setCenterY(Board.SIZE - 60);
+    X_DIRECTION = 0;
+    Y_DIRECTION = 1;
+    endBall();
   }
+
+  public void addGameLives() {
+    gameLives++;
+  }
+
+  public int getGameLives() {
+    return gameLives;
+  }
+
+}
 
