@@ -7,13 +7,18 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -41,8 +46,12 @@ public class Board extends Application {
     private Ball myBall;
     private BrickList brickList;
     private List<Brick> myLevelsBricks;
+    private Display myDisplay;
     private Timeline animation;
     private boolean paused;
+    private Group root;
+
+    private int score;
 
 
     public void start(Stage stage) throws FileNotFoundException {
@@ -61,7 +70,7 @@ public class Board extends Application {
     }
 
     Scene setupScene (int width, int height, Paint background) throws FileNotFoundException {
-        Group root = new Group();
+        root = new Group();
 
         brickList = new BrickList();
         myLevelsBricks = brickList.setUpLevel("level0");
@@ -73,12 +82,17 @@ public class Board extends Application {
             brickIndex++;
         }
 
+
         myPaddle = new Paddle();
 
         myBall = new Ball();
 
         root.getChildren().add(myPaddle);
         root.getChildren().add(myBall);
+
+        myDisplay = new Display();
+        root.getChildren().add(myDisplay);
+
 
         Scene scene = new Scene(root, width, height, background);
 
@@ -93,7 +107,20 @@ public class Board extends Application {
 
     private void updateShapes (double elapsedTime) {
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
+        deleteBrickIfDestroyed();
+        myDisplay.setStats(myBall.getGameLives(),score);
     }
+
+    private void deleteBrickIfDestroyed(){
+        for (Brick currentBrick: myLevelsBricks){
+            if (currentBrick.isDestroyed()){
+                root.getChildren().remove(currentBrick);
+                myLevelsBricks.remove(currentBrick);
+                score++;
+            }
+        }
+    }
+
 
 
     private void handleKeyInput (KeyCode code) {
@@ -121,7 +148,6 @@ public class Board extends Application {
             myBall.startBall(150);
         }
     }
-
 
 
     public static void main (String[] args) {

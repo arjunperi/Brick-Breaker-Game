@@ -8,7 +8,7 @@ public class Brick extends Rectangle {
   private static final int WIDTH = 400 / 4;
   private static final int HEIGHT = 400 / 10;
   private int myLives;
-
+  private int myBricksDestroyed;
 
   public Brick(int lives) {
     super(WIDTH,HEIGHT);
@@ -17,7 +17,6 @@ public class Brick extends Rectangle {
   }
 
   public int getBrickLives() {
-    System.out.println(" " + myLives);
     return myLives;
   }
 
@@ -44,6 +43,21 @@ public class Brick extends Rectangle {
       setFill(Color.BLUE);
       setStroke(Color.BLACK);
     }
-
   }
+
+
+  public boolean isDestroyed(){
+    boolean isDestroyed = false;
+    if (getBrickLives() <= 0){
+      isDestroyed = true;
+      myBricksDestroyed ++;
+    }
+    return isDestroyed;
+  }
+
+  public int getBricksDestroyed(){
+    return myBricksDestroyed;
+  }
+
+
 }
