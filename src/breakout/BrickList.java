@@ -12,21 +12,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-public class BrickList{
+public class BrickList {
 
-  public List<Brick> setUpLevel(String levelName) throws FileNotFoundException {
-    File myFile  = new File("data/" + levelName + ".txt");
+  public static List<Brick> setUpLevel(String levelName) throws FileNotFoundException {
+    File myFile = new File("data/" + levelName + ".txt");
     List<Brick> myBricks = new ArrayList<>();
     Scanner myReader = new Scanner(myFile);
     int yOffset = 0;
 
-    while (myReader.hasNextLine()){
+    while (myReader.hasNextLine()) {
       String[] myRow = myReader.nextLine().split(" ");
       for (int col = 0; col < myRow.length; col++) {
         int currentBrickLives = Integer.parseInt(myRow[col]);
-        if (currentBrickLives != 0){
+        if (currentBrickLives != 0) {
           Brick currentBrick = new Brick(currentBrickLives);
-          currentBrick.setPosition(col*100,yOffset);
+          currentBrick.setPosition(col * 100, yOffset);
           myBricks.add(currentBrick);
         }
       }
