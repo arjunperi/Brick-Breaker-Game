@@ -42,8 +42,8 @@ public class Board extends Application {
   private Timeline animation;
   private boolean paused;
   private Group root;
-
   private int score;
+  private int scoreMax;
 
   public void start(Stage stage) throws FileNotFoundException {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -65,6 +65,7 @@ public class Board extends Application {
 
     myLevelsBricks = BrickList.setUpLevel("level0");
     int brickIndex = 0;
+    scoreMax = myLevelsBricks.size();
 
     for (Brick currentBrick : myLevelsBricks) {
       currentBrick.setId("brick" + brickIndex);
@@ -96,7 +97,8 @@ public class Board extends Application {
   private void updateShapes(double elapsedTime) {
     myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
     deleteBrickIfDestroyed();
-    myDisplay.setStats(myBall.getGameLives(), score);
+    myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
+    clearLevelIfOver();
   }
 
 
@@ -110,6 +112,19 @@ public class Board extends Application {
         bricks.remove();
         score++;
       }
+    }
+  }
+
+  private void clearLevelIfOver(){
+    if (myBall.getGameLives() == 0){
+      root.getChildren().clear();
+      root.getChildren().add(myDisplay);
+      myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
+    }
+    if (score == scoreMax){
+      root.getChildren().clear();
+      root.getChildren().add(myDisplay);
+      myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
     }
   }
 
