@@ -52,7 +52,6 @@ public class Board extends Application {
     private Timeline animation;
     private boolean paused;
     private Group root;
-
     private int score;
 
     public void start(Stage stage) throws FileNotFoundException {
