@@ -116,11 +116,11 @@ public class Board extends Application {
 
   private void handleKeyInput(KeyCode code) {
     if (code == KeyCode.LEFT) {
-      if(paused == false) {
+      if(paused == false && myPaddle.getX() > 0) {
         myPaddle.setX(myPaddle.getX() - Paddle.PADDLE_SPEED);
       }
     } else if (code == KeyCode.RIGHT) {
-      if(paused == false) {
+      if(paused == false && myPaddle.getX() + myPaddle.PADDLE_WIDTH <SIZE) {
         myPaddle.setX(myPaddle.getX() + Paddle.PADDLE_SPEED);
       }
     } else if (code == KeyCode.R) {

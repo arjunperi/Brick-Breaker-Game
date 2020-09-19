@@ -112,18 +112,26 @@ public class Ball extends Circle {
     for (Brick myBrick : myLevelsBricks) {
 
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
-        Y_DIRECTION *= -1;
-        myBrick.subtractLives();
-        myBrick.getBrickLives();
+        //Y_DIRECTION *= -1;
+//        myBrick.subtractLives();
+//        myBrick.getBrickLives();
 
         double brickEndX = myBrick.getX() + myBrick.getWidth();
         double leftEdgeBall = getCenterX() - getRadius() / 2;
         double rightEdgeBall = getCenterX() + getRadius() / 2;
+        double bottomEdgeBall  = getCenterY() + getRadius() / 2;
 
-//        //case 1 - the ball hits either the top or the bottom of the brick
-//        if (rightEdgeBall >= myBrick.getX()) {
-//          Y_DIRECTION *= -1;
-//        }
+        //case 1 - the ball hits either the top or the bottom of the brick
+        if (rightEdgeBall > myBrick.getX()) {
+          myBrick.subtractLives();
+          myBrick.getBrickLives();
+          Y_DIRECTION *= -1;
+        }
+        else if (bottomEdgeBall > myBrick.getY()){
+          myBrick.subtractLives();
+          myBrick.getBrickLives();
+          X_DIRECTION *=-1;
+        }
       }
     }
   }
