@@ -14,13 +14,13 @@ public class Paddle extends Rectangle {
   public Paddle() {
     super(Board.SIZE / 2 - PADDLE_WIDTH / 2, Board.SIZE - PADDLE_HEIGHT, PADDLE_WIDTH,
         PADDLE_HEIGHT);
-    this.setFill(PADDLE_COLOR);
-    this.setId("paddle");
+    setFill(PADDLE_COLOR);
+    setId("paddle");
   }
 
   public void resetPaddle() {
-    this.setX(Board.SIZE / 2 - PADDLE_WIDTH / 2);
-    this.setY(Board.SIZE - PADDLE_HEIGHT);
+    setX(Board.SIZE / 2 - PADDLE_WIDTH / 2);
+    setY(Board.SIZE - PADDLE_HEIGHT);
   }
 }
 
