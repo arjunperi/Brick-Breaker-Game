@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.assertj.core.internal.bytebuddy.implementation.bytecode.assign.primitive.PrimitiveTypeAwareAssigner;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -32,6 +33,7 @@ class BoardTest extends DukeApplicationTest {
   private Paddle myPaddle;
   private Ball myBall;
   private Display myDisplay;
+  private PowerUp myPowerUp0;
 
 
   @Override
@@ -150,7 +152,7 @@ class BoardTest extends DukeApplicationTest {
     myBall.setX_DIRECTION(0);
     myBall.setY_DIRECTION(-1);
     myBall.startBall(150);
-    myBoard.step(Board.SECOND_DELAY);
+    javafxRun(() -> myBoard.step(Board.SECOND_DELAY));
     assertEquals(1, myBall.getY_DIRECTION());
   }
 
@@ -165,16 +167,16 @@ class BoardTest extends DukeApplicationTest {
     assertEquals(1, myBall.getX_DIRECTION());
   }
 
-//  @Test
-//  public void testBrickDestruction(){
-//    myBall.setCenterX(0);
-//    myBall.setCenterY(160 + myBall.getRadius() / 2);
-//    myBall.setX_DIRECTION(0);
-//    myBall.setY_DIRECTION(-1);
-//    myBall.startBall(150);
-//    myBoard.step(Board.SECOND_DELAY);
-//    assertEquals("Lives: 3 Score: 1", myDisplay.getText());
-//  }
+  @Test
+  public void testBrickDestruction(){
+    myBall.setCenterX(0);
+    myBall.setCenterY(160 + myBall.getRadius() / 2);
+    myBall.setX_DIRECTION(0);
+    myBall.setY_DIRECTION(-1);
+    myBall.startBall(150);
+    javafxRun(() -> myBoard.step(Board.SECOND_DELAY));
+    assertEquals("Lives: 3 Score: 1", myDisplay.getText());
+  }
 
   @Test
   public void testLoseLife(){
@@ -186,5 +188,41 @@ class BoardTest extends DukeApplicationTest {
     myBoard.step(Board.SECOND_DELAY);
     assertEquals("Lives: 2 Score: 0" , myDisplay.getText());
   }
+
+  @Test
+  public void testPowerUpCreation(){
+    myBall.setCenterX(0);
+    myBall.setCenterY(160 + myBall.getRadius() / 2);
+    myBall.setX_DIRECTION(0);
+    myBall.setY_DIRECTION(-1);
+    myBall.startBall(150);
+    javafxRun(() -> myBoard.step(Board.SECOND_DELAY));
+    myPowerUp0 = lookup("#PowerUp0").query();
+    assertEquals( Brick.BRICK_WIDTH/4, myPowerUp0.getX());
+    //adjusted y for one "step" movement downwards
+    assertEquals(120 +  Brick.BRICK_HEIGHT/4 + 80 * Board.SECOND_DELAY, myPowerUp0.getY());
+  }
+
+  @Test
+  public void testPowerUpActivation(){
+    myBall.setCenterX(0);
+    myBall.setCenterY(160 + myBall.getRadius() / 2);
+    myBall.setX_DIRECTION(0);
+    myBall.setY_DIRECTION(-1);
+    myBall.startBall(150);
+    //Ball starts on the block, step destroys and releases power up
+    javafxRun(() -> myBoard.step(Board.SECOND_DELAY));
+
+    myPowerUp0 = lookup("#PowerUp0").query();
+    myBall.resetBall();
+    myPaddle.setX(0);
+    myPowerUp0.setY(Board.SIZE - PowerUp.POWERUP_HEIGHT - Paddle.PADDLE_HEIGHT);
+    //Power up moved to paddle, next step is collision
+    javafxRun(() -> myBoard.step(Board.SECOND_DELAY));
+    //After collision, next step registers that it was activated
+    javafxRun(() -> myBoard.step(Board.SECOND_DELAY));
+    assertEquals("Lives: 4 Score: 1" , myDisplay.getText());
+  }
+
 
 }

@@ -5,13 +5,14 @@ import javafx.scene.shape.Rectangle;
 
 public class Brick extends Rectangle {
 
-  private static final int WIDTH = 400 / 4;
-  private static final int HEIGHT = 400 / 10;
+  public static final int BRICK_WIDTH = Board.SIZE / 4;
+  public static final int BRICK_HEIGHT = Board.SIZE / 10;
   private int myLives;
-  private int myBricksDestroyed;
+  private boolean containsPowerUp = true;
+  private String powerUpType = "ExtraLife";
 
   public Brick(int lives) {
-    super(WIDTH, HEIGHT);
+    super(BRICK_WIDTH, BRICK_HEIGHT);
     myLives = lives;
     setColor();
   }
@@ -50,13 +51,21 @@ public class Brick extends Rectangle {
     boolean isDestroyed = false;
     if (getBrickLives() <= 0) {
       isDestroyed = true;
-      myBricksDestroyed++;
     }
     return isDestroyed;
   }
 
-  public int getBricksDestroyed() {
-    return myBricksDestroyed;
+  public void addPowerUp(String powerUpType){
+    containsPowerUp = true;
+    this.powerUpType = powerUpType;
+  }
+
+  public boolean checkPowerUp(){
+    return containsPowerUp;
+  }
+
+  public String getPowerUpType(){
+    return powerUpType;
   }
 
 
