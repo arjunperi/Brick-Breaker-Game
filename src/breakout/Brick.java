@@ -8,7 +8,7 @@ public class Brick extends Rectangle {
   public static final int BRICK_WIDTH = Board.SIZE / 4;
   public static final int BRICK_HEIGHT = Board.SIZE / 10;
   private int myLives;
-  private boolean containsPowerUp = true;
+  private boolean containsPowerUp = false;
   private String powerUpType = "ExtraLife";
 
   public Brick(int lives) {

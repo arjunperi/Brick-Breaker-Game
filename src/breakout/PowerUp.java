@@ -30,7 +30,7 @@ public class PowerUp extends Rectangle {
   }
 
   public void setColor() {
-    if(powerUpType.equals("ExtraLife")) {
+    if(powerUpType.equals("L")) {
       setFill(Color.YELLOW);
       setStroke(Color.RED);
     }
@@ -38,7 +38,7 @@ public class PowerUp extends Rectangle {
 
   public void activatePowerUp(Paddle myPaddle, Ball myBall){
     activated = true;
-    if(powerUpType == "ExtraLife"){
+    if(powerUpType.equals("L")){
       extraLife(myBall);
     }
   }

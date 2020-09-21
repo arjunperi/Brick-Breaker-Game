@@ -167,6 +167,7 @@ public class Board extends Application {
     else if (code == KeyCode.P){
       Brick tempBrick = new Brick(0);
       tempBrick.setPosition(SIZE / 2 - tempBrick.getWidth() / 2,SIZE - 200);
+      tempBrick.addPowerUp("L");
       dropPowerUp(tempBrick);
     }
   }
