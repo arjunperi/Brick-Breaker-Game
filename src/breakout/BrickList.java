@@ -1,6 +1,8 @@
 package breakout;
 
 
+import java.util.Iterator;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 
 import java.awt.*;
@@ -34,4 +36,20 @@ public class BrickList {
     }
     return myBricks;
   }
+
+  public static List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
+    //used an iterator here so that I don't get a concurrent modification exception
+    List<Brick> deletedBricks = new ArrayList<>();
+    Iterator<Brick> bricks = myLevelsBricks.iterator();
+    while (bricks.hasNext()) {
+      Brick currentBrick = bricks.next();
+      if (currentBrick.isDestroyed()) {
+        bricks.remove();
+        deletedBricks.add(currentBrick);
+      }
+    }
+    return deletedBricks;
+  }
+
+
 }

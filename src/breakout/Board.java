@@ -2,25 +2,15 @@ package breakout;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 import java.util.List;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -38,12 +28,14 @@ public class Board extends Application {
   private Paddle myPaddle;
   private Ball myBall;
   private List<Brick> myLevelsBricks;
+  private List<PowerUp> myLevelsPowerUps;
   private Display myDisplay;
   private Timeline animation;
   private boolean paused;
   private Group root;
   private int score;
   private int scoreMax;
+  private int powerUpIndex;
 
   public void start(Stage stage) throws FileNotFoundException {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -76,6 +68,8 @@ public class Board extends Application {
     myPaddle = new Paddle();
 
     myBall = new Ball();
+    myLevelsPowerUps = new ArrayList<>();
+    powerUpIndex = 0;
 
     root.getChildren().add(myPaddle);
     root.getChildren().add(myBall);
@@ -96,21 +90,33 @@ public class Board extends Application {
 
   private void updateShapes(double elapsedTime) {
     myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
-    deleteBrickIfDestroyed();
+    deleteBricksandCreatePowerUp();
     myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
+    checkPowerUps(elapsedTime);
     clearLevelIfOver();
   }
 
+  private void deleteBricksandCreatePowerUp(){
+    List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
+    for(Brick currentBrick: deletedBricks){
+      if(currentBrick.checkPowerUp()) {
+        PowerUp droppedPowerUp = new PowerUp(currentBrick);
+        root.getChildren().add(droppedPowerUp);
+        droppedPowerUp.setId("PowerUp" + powerUpIndex);
+        powerUpIndex++;
+        myLevelsPowerUps.add(droppedPowerUp);
+      }
+      root.getChildren().remove(currentBrick);
+      score++;
+    }
+  }
 
-  private void deleteBrickIfDestroyed() {
-    //used an iterator here so that I don't get a concurrent modification exception
-    Iterator<Brick> bricks = myLevelsBricks.iterator();
-    while (bricks.hasNext()) {
-      Brick currentBrick = bricks.next();
-      if (currentBrick.isDestroyed()) {
-        root.getChildren().remove(currentBrick);
-        bricks.remove();
-        score++;
+  private void checkPowerUps(double elapsedTime){
+    for(PowerUp currentPowerUp: myLevelsPowerUps){
+      currentPowerUp.update(elapsedTime);
+      if(currentPowerUp.checkActivation(myPaddle, myBall)){
+        root.getChildren().remove(currentPowerUp);
+       // myLevelsPowerUps.remove(currentPowerUp);
       }
     }
   }
