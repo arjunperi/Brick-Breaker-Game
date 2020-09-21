@@ -100,15 +100,19 @@ public class Board extends Application {
     List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
     for(Brick currentBrick: deletedBricks){
       if(currentBrick.checkPowerUp()) {
-        PowerUp droppedPowerUp = new PowerUp(currentBrick);
-        root.getChildren().add(droppedPowerUp);
-        droppedPowerUp.setId("PowerUp" + powerUpIndex);
-        powerUpIndex++;
-        myLevelsPowerUps.add(droppedPowerUp);
+        dropPowerUp(currentBrick);
       }
       root.getChildren().remove(currentBrick);
       score++;
     }
+  }
+
+  private void dropPowerUp(Brick powerBrick){
+    PowerUp droppedPowerUp = new PowerUp(powerBrick);
+    root.getChildren().add(droppedPowerUp);
+    droppedPowerUp.setId("PowerUp" + powerUpIndex);
+    powerUpIndex++;
+    myLevelsPowerUps.add(droppedPowerUp);
   }
 
   private void checkPowerUps(double elapsedTime){
@@ -159,6 +163,12 @@ public class Board extends Application {
       myBall.startBall(150);
     } else if (code == KeyCode.L) {
       myBall.addGameLives();
+    }
+    else if (code == KeyCode.P){
+      Brick tempBrick = new Brick(0);
+      tempBrick.setPosition(SIZE / 2 - tempBrick.getWidth() / 2,SIZE - 200);
+      tempBrick.addPowerUp("L");
+      dropPowerUp(tempBrick);
     }
   }
 

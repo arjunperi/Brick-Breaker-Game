@@ -108,29 +108,30 @@ public class Ball extends Circle {
     //corners?
     //bugs - when it hits an intersection?
 
-    for (Brick myBrick : myLevelsBricks) {
+    //for (Brick myBrick : myLevelsBricks) {
+    for (Brick myBrick: myLevelsBricks){
+      double brickEndX = myBrick.getX() + myBrick.getWidth();
+      double leftEdgeBall = getCenterX() - getRadius() / 2;
+      double rightEdgeBall = getCenterX() + getRadius() / 2;
+      double bottomEdgeBall  = getCenterY() + getRadius() / 2;
+      double topEdgeBall  = getCenterY() - getRadius() / 2;
 
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
-        //Y_DIRECTION *= -1;
-//        myBrick.subtractLives();
-//        myBrick.getBrickLives();
-
-        double brickEndX = myBrick.getX() + myBrick.getWidth();
-        double leftEdgeBall = getCenterX() - getRadius() / 2;
-        double rightEdgeBall = getCenterX() + getRadius() / 2;
-        double bottomEdgeBall  = getCenterY() + getRadius() / 2;
-
-        //case 1 - the ball hits either the top or the bottom of the brick
-        if (rightEdgeBall > myBrick.getX() && leftEdgeBall < myBrick.getX() + myBrick.getWidth()) {
+        if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
+            myBrick.subtractLives();
+            myBrick.getBrickLives();
+            Y_DIRECTION = 1;
+        }
+        else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
           myBrick.subtractLives();
           myBrick.getBrickLives();
-          Y_DIRECTION *= -1;
+          Y_DIRECTION = -1;
         }
-        else if (bottomEdgeBall > myBrick.getY()){
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
-          X_DIRECTION *=-1;
-        }
+       else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
+         myBrick.subtractLives();
+         myBrick.getBrickLives();
+         X_DIRECTION *=-1;
+       }
       }
     }
   }
