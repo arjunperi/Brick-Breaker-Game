@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 
-public class Board extends Application {
+public class BreakoutGame extends Application {
 
   public static final String TITLE = "Breakout JavaFX";
   public static final int SIZE = 400;
@@ -90,13 +90,13 @@ public class Board extends Application {
 
   private void updateShapes(double elapsedTime) {
     myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
-    deleteBricksandCreatePowerUp();
+    deleteBricksAndCreatePowerUp();
     myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
     checkPowerUps(elapsedTime);
     clearLevelIfOver();
   }
 
-  private void deleteBricksandCreatePowerUp(){
+  private void deleteBricksAndCreatePowerUp(){
     List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
     for(Brick currentBrick: deletedBricks){
       if(currentBrick.checkPowerUp()) {
@@ -109,6 +109,10 @@ public class Board extends Application {
 
   private void dropPowerUp(Brick powerBrick){
     PowerUp droppedPowerUp = new PowerUp(powerBrick);
+    addPowerUpToGame(droppedPowerUp);
+  }
+
+  private void addPowerUpToGame(PowerUp droppedPowerUp) {
     root.getChildren().add(droppedPowerUp);
     droppedPowerUp.setId("PowerUp" + powerUpIndex);
     powerUpIndex++;
@@ -120,7 +124,6 @@ public class Board extends Application {
       currentPowerUp.update(elapsedTime);
       if(currentPowerUp.checkActivation(myPaddle, myBall)){
         root.getChildren().remove(currentPowerUp);
-       // myLevelsPowerUps.remove(currentPowerUp);
       }
     }
   }
@@ -161,14 +164,18 @@ public class Board extends Application {
       }
     } else if (code == KeyCode.S) {
       myBall.startBall(150);
+
     } else if (code == KeyCode.L) {
       myBall.addGameLives();
     }
     else if (code == KeyCode.P){
-      Brick tempBrick = new Brick(0);
-      tempBrick.setPosition(SIZE / 2 - tempBrick.getWidth() / 2,SIZE - 200);
-      tempBrick.addPowerUp("L");
-      dropPowerUp(tempBrick);
+      PowerUp extraLife = new PowerUp();
+      addPowerUpToGame(extraLife);
+    }
+    else if (code == KeyCode.O){
+      for(Brick currentBrick: myLevelsBricks){
+        currentBrick.setLives(1);
+      }
     }
   }
 

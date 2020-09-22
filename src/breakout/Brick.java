@@ -5,8 +5,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Brick extends Rectangle {
 
-  public static final int BRICK_WIDTH = Board.SIZE / 4;
-  public static final int BRICK_HEIGHT = Board.SIZE / 10;
+  public static final int BRICK_WIDTH = BreakoutGame.SIZE / 4;
+  public static final int BRICK_HEIGHT = BreakoutGame.SIZE / 10;
   private int myLives;
   private boolean containsPowerUp = false;
   private String powerUpType = "ExtraLife";
@@ -23,6 +23,11 @@ public class Brick extends Rectangle {
 
   public void subtractLives() {
     myLives--;
+    setColor();
+  }
+
+  public void setLives(int lives) {
+    myLives = lives;
     setColor();
   }
 

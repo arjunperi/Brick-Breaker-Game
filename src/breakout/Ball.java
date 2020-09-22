@@ -16,7 +16,7 @@ public class Ball extends Circle {
   private int gameLives = 3;
 
   public Ball() {
-    super(Board.SIZE / 2, Board.SIZE - 60, 7, BALL_COLOR);
+    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - 60, 7, BALL_COLOR);
     this.setId("ball");
     Y_DIRECTION = 1;
     X_DIRECTION = 0;
@@ -65,14 +65,14 @@ public class Ball extends Circle {
 
   private void checkXPosition() {
 
-    if (getBoundsInParent().getMaxX() >= Board.SIZE || getCenterX() <= 0) {
+    if (getBoundsInParent().getMaxX() >= BreakoutGame.SIZE || getCenterX() <= 0) {
       X_DIRECTION = X_DIRECTION * -1;
     }
   }
 
 
   private void checkYPosition(Paddle paddle, List<Brick> myLevelsBricks) {
-    if (getCenterY() + getRadius() / 2 >= Board.SIZE) {
+    if (getCenterY() + getRadius() / 2 >= BreakoutGame.SIZE) {
       resetBall();
       gameLives--;
     }
@@ -138,8 +138,8 @@ public class Ball extends Circle {
 
 
   public void resetBall() {
-    setCenterX(Board.SIZE / 2);
-    setCenterY(Board.SIZE - 60);
+    setCenterX(BreakoutGame.SIZE / 2);
+    setCenterY(BreakoutGame.SIZE - 60);
     X_DIRECTION = 0;
     Y_DIRECTION = 1;
     endBall();

@@ -15,11 +15,20 @@ public class PowerUp extends Rectangle {
   private String powerUpType;
   private boolean activated;
   List<String> powerUpList = new ArrayList<String>(Arrays.asList("ExtraLife", "SpeedDecrease", "PaddleGrow"));
+  List<String> powerUpCode = new ArrayList<>(Arrays.asList("L"));
+
+  public PowerUp(){
+    super(BreakoutGame.SIZE / 2 - POWERUP_WIDTH / 2,BreakoutGame.SIZE - 200, POWERUP_WIDTH, POWERUP_HEIGHT);
+    this.setPowerUpType("ExtraLife");
+    this.setColor();
+    activated = false;
+  }
 
   public PowerUp (Brick poweredBrick){
     super(poweredBrick.getX() + POWER_UP_X_OFFSET, poweredBrick.getY() + POWER_UP_Y_OFFSET, POWERUP_WIDTH,
         POWERUP_HEIGHT);
-    this.setPowerUpType(poweredBrick.getPowerUpType());
+    int typeOfPower = powerUpCode.indexOf(poweredBrick.getPowerUpType());
+    this.setPowerUpType(powerUpList.get(typeOfPower));
     activated = false;
   }
 
@@ -30,7 +39,7 @@ public class PowerUp extends Rectangle {
   }
 
   public void setColor() {
-    if(powerUpType.equals("L")) {
+    if(powerUpType.equals("ExtraLife")) {
       setFill(Color.YELLOW);
       setStroke(Color.RED);
     }
@@ -38,7 +47,7 @@ public class PowerUp extends Rectangle {
 
   public void activatePowerUp(Paddle myPaddle, Ball myBall){
     activated = true;
-    if(powerUpType.equals("L")){
+    if(powerUpType.equals("ExtraLife")){
       extraLife(myBall);
     }
   }
