@@ -12,15 +12,15 @@ public class Paddle extends Rectangle {
   public static final int PADDLE_SPEED = 10;
 
   public Paddle() {
-    super(Board.SIZE / 2 - PADDLE_WIDTH / 2, Board.SIZE - PADDLE_HEIGHT, PADDLE_WIDTH,
+    super(BreakoutGame.SIZE / 2 - PADDLE_WIDTH / 2, BreakoutGame.SIZE - PADDLE_HEIGHT, PADDLE_WIDTH,
         PADDLE_HEIGHT);
     setFill(PADDLE_COLOR);
     setId("paddle");
   }
 
   public void resetPaddle() {
-    setX(Board.SIZE / 2 - PADDLE_WIDTH / 2);
-    setY(Board.SIZE - PADDLE_HEIGHT);
+    setX(BreakoutGame.SIZE / 2 - PADDLE_WIDTH / 2);
+    setY(BreakoutGame.SIZE - PADDLE_HEIGHT);
   }
 }
 

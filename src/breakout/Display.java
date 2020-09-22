@@ -6,7 +6,7 @@ import javafx.scene.text.Text;
 public class Display extends Text {
 
     public Display(){
-        super(50,350, "3 Lives Remaining, Score = 0");
+        super(50,350, "Lives: 3 Score = 0");
         setId("display");
     }
 

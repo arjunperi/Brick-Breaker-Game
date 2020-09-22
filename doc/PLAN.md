@@ -79,7 +79,7 @@
    * void movePaddle() - moves the paddle around the screen. 
 
  * Class 4
-   * breakout.Board class - sets the board that the game will be played on 
+   * breakout.BreakoutGame class - sets the board that the game will be played on 
 
    * void start (Stage stage) - sets the stage for the screen. 
 

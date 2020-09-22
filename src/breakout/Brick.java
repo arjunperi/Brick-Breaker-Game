@@ -3,13 +3,18 @@ package breakout;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Brick extends Rectangle {
 
-  public static final int BRICK_WIDTH = Board.SIZE / 4;
-  public static final int BRICK_HEIGHT = Board.SIZE / 10;
+  public static final int BRICK_WIDTH = BreakoutGame.SIZE / 4;
+  public static final int BRICK_HEIGHT = BreakoutGame.SIZE / 10;
   private int myLives;
   private boolean containsPowerUp = false;
   private String powerUpType = "ExtraLife";
+  private List<Color> brickColors = new ArrayList<>(Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
 
   public Brick(int lives) {
     super(BRICK_WIDTH, BRICK_HEIGHT);
@@ -26,24 +31,25 @@ public class Brick extends Rectangle {
     setColor();
   }
 
+  public void setLives(int lives) {
+    myLives = lives;
+    setColor();
+  }
+
   public void setPosition(double x, double y) {
     setX(x);
     setY(y);
   }
 
   public void setColor() {
-    if (myLives == 1) {
-      setFill(Color.HOTPINK);
-      setStroke(Color.BLACK);
+    //Sets corresponding color. If lives > 3, set color to black.
+    if(1 <= myLives && myLives <= brickColors.size()){
+      setFill(brickColors.get(myLives - 1));
     }
-    if (myLives == 2) {
-      setFill(Color.GREEN);
-      setStroke(Color.BLACK);
+    else{
+      setFill(Color.BLACK);
     }
-    if (myLives == 3) {
-      setFill(Color.BLUE);
-      setStroke(Color.BLACK);
-    }
+    setStroke(Color.BLACK);
   }
 
 
