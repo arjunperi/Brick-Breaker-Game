@@ -2,6 +2,7 @@ package breakout;
 
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -78,6 +79,42 @@ class DisplayTest extends DukeApplicationTest {
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals("Lives: 4 Score: 1" , myDisplay.getText());
     }
+
+    @Test
+    public void testLoseGame() {
+        //Each of these makes the ball go out out bounds and we lose a life
+        myBall.setCenterX(0);
+        myBall.setCenterY(BreakoutGame.SIZE);
+        myBall.setX_DIRECTION(0);
+        myBall.setY_DIRECTION(-1);
+        myBall.startBall(150);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+
+        myBall.setCenterX(0);
+        myBall.setCenterY(BreakoutGame.SIZE);
+        myBall.setX_DIRECTION(0);
+        myBall.setY_DIRECTION(-1);
+        myBall.startBall(150);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+
+        myBall.setCenterX(0);
+        myBall.setCenterY(BreakoutGame.SIZE);
+        myBall.setX_DIRECTION(0);
+        myBall.setY_DIRECTION(-1);
+        myBall.startBall(150);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+
+        assertEquals("GAME OVER" , myDisplay.getText());
+    }
+
+    @Test
+    public void testLevelCompletion() {
+        press(myScene, KeyCode.C);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals("LEVEL CLEARED" , myDisplay.getText());
+    }
+
+
 
 
 }

@@ -177,6 +177,9 @@ public class BreakoutGame extends Application {
         currentBrick.setLives(1);
       }
     }
+    else if(code == KeyCode.C){
+      score = scoreMax;
+    }
   }
 
 
