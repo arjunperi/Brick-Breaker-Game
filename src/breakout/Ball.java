@@ -16,10 +16,10 @@ public class Ball extends Circle {
   private int gameLives = 3;
 
   public Ball() {
-    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - 60, 7, BALL_COLOR);
+    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - 7, 7, BALL_COLOR);
     this.setId("ball");
-    Y_DIRECTION = 1;
-    X_DIRECTION = 0;
+    Y_DIRECTION = -1;
+    X_DIRECTION = 1;
   }
 
   public int getBALL_SPEED() {
@@ -51,8 +51,9 @@ public class Ball extends Circle {
   }
 
   public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks) {
-    checkXPosition();
-    checkYPosition(myPaddle, myLevelsBricks);
+    checkBorderCollision();
+    checkPaddleCollision(myPaddle);
+    checkBrickCollision(myLevelsBricks);
     setPosition(elapsedTime);
     return this;
   }
@@ -63,52 +64,27 @@ public class Ball extends Circle {
     setCenterX(getCenterX() + X_DIRECTION * BALL_SPEED * elapsedTime);
   }
 
-  private void checkXPosition() {
+  private void checkBorderCollision() {
 
     if (getBoundsInParent().getMaxX() >= BreakoutGame.SIZE || getCenterX() <= 0) {
       X_DIRECTION = X_DIRECTION * -1;
     }
-  }
-
-
-  private void checkYPosition(Paddle paddle, List<Brick> myLevelsBricks) {
     if (getCenterY() + getRadius() / 2 >= BreakoutGame.SIZE) {
       resetBall();
       gameLives--;
     }
-
     if (this.getCenterY() <= 0) {
       Y_DIRECTION *= -1;
     }
+  }
 
-    double ballCenter = getCenterX();
-    double paddleSection = paddle.getBoundsInLocal().getWidth() / 6;
-
-    if (paddle.getBoundsInParent().intersects(getBoundsInParent())) {
-      if (ballCenter <= paddle.getX() + paddleSection) {
-        X_DIRECTION = -1;
-        Y_DIRECTION *= -1;
-      } else if (ballCenter >= paddle.getX() + 5 * paddleSection) {
-        X_DIRECTION = 1;
-        Y_DIRECTION *= -1;
-      } else if (ballCenter <= paddle.getX() + 2 * paddleSection) {
-        X_DIRECTION = -0.5;
-        Y_DIRECTION *= -1;
-      } else if (ballCenter >= paddle.getX() + 4 * paddleSection) {
-        X_DIRECTION = 0.5;
-        Y_DIRECTION *= -1;
-        //If it hits hear the center, we don't change the angle of X for continuous momentum
-      } else if (ballCenter >= paddle.getX() + 2 * paddleSection) {
-        Y_DIRECTION *= -1;
-      }
-    }
+  private void checkBrickCollision(List<Brick> myLevelsBricks) {
 
     //current brick direction logic - if the ball hits the sides, change X direction and keep Y direction
     //if ball hits the top or bottom - change Y direction and keep X direction
     //corners?
     //bugs - when it hits an intersection?
 
-    //for (Brick myBrick : myLevelsBricks) {
     for (Brick myBrick: myLevelsBricks){
       double brickEndX = myBrick.getX() + myBrick.getWidth();
       double leftEdgeBall = getCenterX() - getRadius() / 2;
@@ -118,21 +94,43 @@ public class Ball extends Circle {
 
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
         if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
-            myBrick.subtractLives();
-            myBrick.getBrickLives();
-            Y_DIRECTION = 1;
+          myBrick.subtractLives();
+          myBrick.getBrickLives();
+          Y_DIRECTION = 1;
         }
         else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
           myBrick.subtractLives();
           myBrick.getBrickLives();
           Y_DIRECTION = -1;
         }
-       else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
-         myBrick.subtractLives();
-         myBrick.getBrickLives();
-         X_DIRECTION *=-1;
-       }
+        else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
+          myBrick.subtractLives();
+          myBrick.getBrickLives();
+          X_DIRECTION *=-1;
+        }
       }
+    }
+  }
+
+
+  private void checkPaddleCollision(Paddle paddle) {
+    //Split paddle into 6 regions with variable bounce directions
+
+    double ballCenter = getCenterX();
+    double paddleSection = paddle.getBoundsInLocal().getWidth() / 6;
+
+    if (paddle.getBoundsInParent().intersects(getBoundsInParent())) {
+      if (ballCenter <= paddle.getX() + paddleSection) {
+        X_DIRECTION = -1;
+      } else if (ballCenter >= paddle.getX() + 5 * paddleSection) {
+        X_DIRECTION = 1;
+      } else if (ballCenter <= paddle.getX() + 2 * paddleSection) {
+        X_DIRECTION = -0.5;
+      } else if (ballCenter >= paddle.getX() + 4 * paddleSection) {
+        X_DIRECTION = 0.5;
+      }
+      //If it hits hear the center, we don't change the angle of X for continuous momentum
+      Y_DIRECTION = -1;
     }
   }
 

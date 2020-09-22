@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -36,8 +37,8 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallInitPosition() {
-        assertEquals(400 / 2, myBall.getCenterX());
-        assertEquals(400 - 60, myBall.getCenterY());
+        assertEquals(myBreakoutGame.SIZE / 2, myBall.getCenterX());
+        assertEquals(myBreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius(), myBall.getCenterY());
     }
 
     @Test
@@ -73,13 +74,15 @@ class BallTest extends DukeApplicationTest {
     @Test
     public void testBallBounceOffPaddle() {
         myBall.setCenterX(BreakoutGame.SIZE / 2);
-        myBall.setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius());
+        myBall.setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius() - 1);
         myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
+        myBall.setY_DIRECTION(1);
         myBall.startBall(150);
         myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+
         assertEquals(0, myBall.getX_DIRECTION());
-        assertEquals(1, myBall.getY_DIRECTION());
+        assertEquals(-1, myBall.getY_DIRECTION());
 
     }
 
