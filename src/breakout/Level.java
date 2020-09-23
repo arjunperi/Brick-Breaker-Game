@@ -7,6 +7,7 @@ import javafx.scene.input.KeyCode;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Level {
@@ -73,7 +74,7 @@ public class Level {
     public void updateShapes(double elapsedTime) {
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
-        myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
+        myDisplay.setStats(myBall.getGameLives(), score);
         checkPowerUps(elapsedTime);
         clearLevelIfOver();
     }
@@ -82,12 +83,12 @@ public class Level {
         if (myBall.getGameLives() == 0){
             myRoot.getChildren().clear();
             myRoot.getChildren().add(myDisplay);
-            myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
+            myDisplay.displayGameOver();
         }
-        if (score == scoreMax){
+        if (myLevelsBricks.size() == 0){
             myRoot.getChildren().clear();
             myRoot.getChildren().add(myDisplay);
-            myDisplay.setStats(myBall.getGameLives(), score, scoreMax);
+            myDisplay.displayLevelClear();
         }
     }
 
@@ -114,11 +115,14 @@ public class Level {
         myLevelsPowerUps.add(droppedPowerUp);
     }
 
-    private void checkPowerUps(double elapsedTime){
-        for(PowerUp currentPowerUp: myLevelsPowerUps){
+    private void checkPowerUps(double elapsedTime) {
+        Iterator<PowerUp> powerUps = myLevelsPowerUps.iterator();
+        while (powerUps.hasNext()) {
+            PowerUp currentPowerUp = powerUps.next();
             currentPowerUp.update(elapsedTime);
-            if(currentPowerUp.checkActivation(myPaddle, myBall)){
+            if (currentPowerUp.checkActivation(myPaddle, myBall) || currentPowerUp.outOfBounds()) {
                 myRoot.getChildren().remove(currentPowerUp);
+                powerUps.remove();
             }
         }
     }
@@ -159,7 +163,7 @@ public class Level {
             }
         }
         else if(code == KeyCode.C){
-            score = scoreMax;
+            myLevelsBricks.clear();
         }
     }
 
