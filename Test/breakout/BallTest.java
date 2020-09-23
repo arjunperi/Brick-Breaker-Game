@@ -23,6 +23,9 @@ class BallTest extends DukeApplicationTest {
 
     private Ball myBall;
 
+    BallTest() throws FileNotFoundException {
+    }
+
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {

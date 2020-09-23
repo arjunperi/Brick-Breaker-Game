@@ -16,7 +16,6 @@ import java.util.Scanner;
 
 public class BrickList {
 
-
   public static List<Brick> setUpLevel(String levelName) throws FileNotFoundException {
     File myFile = new File("data/" + levelName + ".txt");
     List<Brick> myBricks = new ArrayList<>();
@@ -49,7 +48,6 @@ public class BrickList {
     }
     return myBricks;
   }
-
   public static List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
     //used an iterator here so that I don't get a concurrent modification exception
     List<Brick> deletedBricks = new ArrayList<>();
@@ -63,4 +61,10 @@ public class BrickList {
     }
     return deletedBricks;
   }
+
+  public void createLevel(Group root, int level){
+    //takes the root and level number and calls
+  }
+
+
 }

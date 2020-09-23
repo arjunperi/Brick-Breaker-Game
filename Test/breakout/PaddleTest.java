@@ -21,6 +21,9 @@ class PaddleTest extends DukeApplicationTest {
     private Scene myScene;
     private Paddle myPaddle;
 
+    PaddleTest() throws FileNotFoundException {
+    }
+
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
