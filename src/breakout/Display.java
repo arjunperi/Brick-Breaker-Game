@@ -10,16 +10,16 @@ public class Display extends Text {
         setId("display");
     }
 
-    public void setStats(int lives, int score, int scoreMax){
-        if (lives != 0) {
-            setText("Lives: " + lives + " Score: " + score);
-            if (score == scoreMax){
-                setText("LEVEL CLEARED");
-            }
-        }
-        else {
-            setText("GAME OVER");
-        }
+    public void displayGameOver(){
+        setText("GAME OVER");
+    }
+
+    public void displayLevelClear(){
+        setText("LEVEL CLEARED");
+    }
+
+    public void setStats(int lives, int score){
+        setText("Lives: " + lives + " Score: " + score);
     }
 
 }
