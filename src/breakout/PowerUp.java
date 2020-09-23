@@ -62,9 +62,11 @@ public class PowerUp extends Rectangle {
   public void update (double elapsedTime){
     this.setY(this.getY() + 80 * elapsedTime);
   }
+
   public boolean outOfBounds(){
     return this.getY() > BreakoutGame.SIZE;
   }
+
   public boolean checkActivation(Paddle myPaddle, Ball myBall) {
     if (checkHitPaddle(myPaddle) && !activated) {
       activatePowerUp(myPaddle, myBall);
@@ -76,6 +78,7 @@ public class PowerUp extends Rectangle {
   private boolean checkHitPaddle(Paddle myPaddle){
     return this.getBoundsInParent().intersects(myPaddle.getBoundsInParent());
   }
+
 
 
 }

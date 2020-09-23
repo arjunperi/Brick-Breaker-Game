@@ -24,6 +24,8 @@ class BrickTest extends DukeApplicationTest {
     private Ball myBall;
     private Display myDisplay;
 
+    BrickTest() throws FileNotFoundException {
+    }
 
 
     @Override

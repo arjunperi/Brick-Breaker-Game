@@ -26,17 +26,19 @@ public class BreakoutGame extends Application {
 
 
   private Scene myScene;
-  private Paddle myPaddle;
-  private Ball myBall;
-  private List<Brick> myLevelsBricks;
-  private List<PowerUp> myLevelsPowerUps;
-  private Display myDisplay;
   private Timeline animation;
-  private boolean paused;
-  private Group root;
-  private int score;
-  private int scoreMax;
-  private int powerUpIndex;
+
+
+  private Group root = new Group();
+  private Level myLevel = new Level ("level0", root);
+
+
+  public BreakoutGame() throws FileNotFoundException {
+  }
+  
+  public void changeLevel(String level) throws FileNotFoundException {
+    myLevel = new Level(level, root);
+  }
 
   public void start(Stage stage) throws FileNotFoundException {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -50,148 +52,21 @@ public class BreakoutGame extends Application {
     animation.getKeyFrames().add(frame);
 
     animation.play();
-    paused = false;
   }
 
   Scene setupScene(int width, int height, Paint background) throws FileNotFoundException {
-    root = new Group();
-
-    myLevelsBricks = BrickList.setUpLevel("level0");
-    int brickIndex = 0;
-    scoreMax = myLevelsBricks.size();
-
-    for (Brick currentBrick : myLevelsBricks) {
-      currentBrick.setId("brick" + brickIndex);
-      root.getChildren().add(currentBrick);
-      brickIndex++;
-    }
-
-    myPaddle = new Paddle();
-
-    myBall = new Ball();
-    myLevelsPowerUps = new ArrayList<>();
-    powerUpIndex = 0;
-
-    root.getChildren().add(myPaddle);
-    root.getChildren().add(myBall);
-
-    myDisplay = new Display();
-    root.getChildren().add(myDisplay);
-
     Scene scene = new Scene(root, width, height, background);
-
-    scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+    scene.setOnKeyPressed(e -> myLevel.handleKeyInput(e.getCode(), animation));
     return scene;
   }
 
-
   void step(double elapsedTime) {
-    updateShapes(elapsedTime);
+    myLevel.updateShapes(elapsedTime);
   }
-
-  private void updateShapes(double elapsedTime) {
-    myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
-    deleteBricksAndCreatePowerUp();
-    myDisplay.setStats(myBall.getGameLives(), score);
-    checkPowerUps(elapsedTime);
-    clearLevelIfOver();
-  }
-
-  private void deleteBricksAndCreatePowerUp(){
-    List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
-    for(Brick currentBrick: deletedBricks){
-      if(currentBrick.checkPowerUp()) {
-        dropPowerUp(currentBrick);
-      }
-      root.getChildren().remove(currentBrick);
-      score++;
-    }
-  }
-
-  private void dropPowerUp(Brick powerBrick){
-    PowerUp droppedPowerUp = new PowerUp(powerBrick);
-    addPowerUpToGame(droppedPowerUp);
-  }
-
-  private void addPowerUpToGame(PowerUp droppedPowerUp) {
-    root.getChildren().add(droppedPowerUp);
-    droppedPowerUp.setId("PowerUp" + powerUpIndex);
-    powerUpIndex++;
-    myLevelsPowerUps.add(droppedPowerUp);
-  }
-
-  private void checkPowerUps(double elapsedTime){
-    Iterator<PowerUp> powerUps = myLevelsPowerUps.iterator();
-    while (powerUps.hasNext()) {
-      PowerUp currentPowerUp = powerUps.next();
-      currentPowerUp.update(elapsedTime);
-      if(currentPowerUp.checkActivation(myPaddle, myBall) || currentPowerUp.outOfBounds()){
-        root.getChildren().remove(currentPowerUp);
-        powerUps.remove();
-      }
-    }
-
-  }
-
-  private void clearLevelIfOver(){
-    if (myBall.getGameLives() == 0){
-      root.getChildren().clear();
-      root.getChildren().add(myDisplay);
-      myDisplay.displayGameOver();
-    }
-    if (myLevelsBricks.size() == 0){
-      root.getChildren().clear();
-      root.getChildren().add(myDisplay);
-      myDisplay.displayLevelClear();
-    }
-  }
-
-
-  private void handleKeyInput(KeyCode code) {
-    if (code == KeyCode.LEFT) {
-      if(paused == false && myPaddle.getX() > 0) {
-        myPaddle.setX(myPaddle.getX() - Paddle.PADDLE_SPEED);
-      }
-    } else if (code == KeyCode.RIGHT) {
-      if(paused == false && myPaddle.getX() + myPaddle.PADDLE_WIDTH <SIZE) {
-        myPaddle.setX(myPaddle.getX() + Paddle.PADDLE_SPEED);
-      }
-    } else if (code == KeyCode.R) {
-      myPaddle.resetPaddle();
-      myBall.resetBall();
-    } else if (code == KeyCode.SPACE) {
-      if (paused) {
-        animation.play();
-        paused = false;
-      } else {
-        animation.pause();
-        paused = true;
-      }
-    } else if (code == KeyCode.S) {
-      myBall.startBall(150);
-
-    } else if (code == KeyCode.L) {
-      myBall.addGameLives();
-    }
-    else if (code == KeyCode.P){
-      PowerUp extraLife = new PowerUp();
-      addPowerUpToGame(extraLife);
-    }
-    else if (code == KeyCode.O){
-      for(Brick currentBrick: myLevelsBricks){
-        currentBrick.setLives(1);
-      }
-    }
-    else if(code == KeyCode.C){
-      myLevelsBricks.clear();
-    }
-  }
-
 
   public static void main(String[] args) {
     launch(args);
   }
-
 }
 
 

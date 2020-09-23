@@ -22,4 +22,5 @@ public class Display extends Text {
         setText("Lives: " + lives + " Score: " + score);
     }
 
+
 }
