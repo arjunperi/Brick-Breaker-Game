@@ -80,11 +80,6 @@ public class Ball extends Circle {
 
   private void checkBrickCollision(List<Brick> myLevelsBricks) {
 
-    //current brick direction logic - if the ball hits the sides, change X direction and keep Y direction
-    //if ball hits the top or bottom - change Y direction and keep X direction
-    //corners?
-    //bugs - when it hits an intersection?
-
     for (Brick myBrick: myLevelsBricks){
       double brickEndX = myBrick.getX() + myBrick.getWidth();
       double leftEdgeBall = getCenterX() - getRadius() / 2;
@@ -129,7 +124,6 @@ public class Ball extends Circle {
       } else if (ballCenter >= paddle.getX() + 4 * paddleSection) {
         X_DIRECTION = 0.5;
       }
-      //If it hits hear the center, we don't change the angle of X for continuous momentum
       Y_DIRECTION = -1;
     }
   }

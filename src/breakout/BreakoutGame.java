@@ -30,15 +30,11 @@ public class BreakoutGame extends Application {
 
 
   private Group root = new Group();
-  private Level myLevel = new Level ("level0", root);
+  private int currentLevel = 0;
+  private int levelMax = 2;
+  private Level myLevel = new Level (currentLevel, root);
 
 
-  public BreakoutGame() throws FileNotFoundException {
-  }
-  
-  public void changeLevel(String level) throws FileNotFoundException {
-    myLevel = new Level(level, root);
-  }
 
   public void start(Stage stage) throws FileNotFoundException {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -60,7 +56,11 @@ public class BreakoutGame extends Application {
     return scene;
   }
 
-  void step(double elapsedTime) {
+  void step(double elapsedTime){
+    if (myLevel.checkEnd() && currentLevel < levelMax){
+      currentLevel++;
+      myLevel = new Level(currentLevel,root);
+    }
     myLevel.updateShapes(elapsedTime);
   }
 
