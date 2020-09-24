@@ -29,9 +29,6 @@ class BreakoutGameTest extends DukeApplicationTest {
   private Display myDisplay;
   private PowerUp myPowerUp0;
 
-  BreakoutGameTest() throws FileNotFoundException {
-  }
-
 
   @Override
   public void start(Stage stage) throws FileNotFoundException {
@@ -84,7 +81,7 @@ class BreakoutGameTest extends DukeApplicationTest {
   public void testExtraLifeCheatKey() {
     press(myScene, KeyCode.L);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-    assertEquals("Lives: 4 Score: 0" , myDisplay.getText());
+    assertEquals("Lives: 4 Score: 0 Level: 0 High Score: 0" , myDisplay.getText());
   }
 
   @Test
@@ -92,6 +89,13 @@ class BreakoutGameTest extends DukeApplicationTest {
     assertEquals(2, myBrick0.getBrickLives());
     press(myScene, KeyCode.O);
     assertEquals(1, myBrick0.getBrickLives());
+  }
+
+  @Test
+  public void testDestroyBrickCheatKey(){
+    assertEquals(2, myBrick0.getBrickLives());
+    press(myScene, KeyCode.D);
+    assertEquals(0, myBrick0.getBrickLives());
   }
 
 

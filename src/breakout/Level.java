@@ -212,8 +212,8 @@ public class Level {
         }
         else if(code == KeyCode.D){
             if (myLevelsBricks.size()>0){
-                myRoot.getChildren().remove(myLevelsBricks.get(0));
-                myLevelsBricks.remove(0);
+                Brick targetBrick = myLevelsBricks.get(0);
+                targetBrick.setLives(0);
             }
         }
     }

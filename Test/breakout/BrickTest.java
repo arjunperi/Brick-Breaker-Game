@@ -58,6 +58,6 @@ class BrickTest extends DukeApplicationTest {
         myBall.setY_DIRECTION(-1);
         myBall.startBall(150);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals("Lives: 3 Score: 1", myDisplay.getText());
+        assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
     }
 }
