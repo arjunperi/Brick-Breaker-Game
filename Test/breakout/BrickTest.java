@@ -6,13 +6,14 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@Ignore
 class BrickTest extends DukeApplicationTest {
 
 

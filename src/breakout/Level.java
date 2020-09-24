@@ -26,11 +26,12 @@ public class Level {
     private boolean paused;
 
     private int score;
-    private int scoreMax;
     private int powerUpIndex;
 
+    private boolean levelOver;
 
-    public Level (String levelName, Group root) throws FileNotFoundException {
+
+    public Level (String levelName, Group root) {
         myRoot = root;
         myRoot.getChildren().clear();
         myLevelsBricks = BrickList.setUpLevel(levelName);
@@ -53,7 +54,6 @@ public class Level {
 
     private void addBricks(){
         int brickIndex = 0;
-        scoreMax = myLevelsBricks.size();
         for (Brick currentBrick : myLevelsBricks) {
             currentBrick.setId("brick" + brickIndex);
             myRoot.getChildren().add(currentBrick);
@@ -89,7 +89,12 @@ public class Level {
             myRoot.getChildren().clear();
             myRoot.getChildren().add(myDisplay);
             myDisplay.displayLevelClear();
+            levelOver = true;
         }
+    }
+
+    public boolean checkEnd(){
+        return (levelOver);
     }
 
     private void deleteBricksAndCreatePowerUp(){

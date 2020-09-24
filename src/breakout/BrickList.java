@@ -16,10 +16,11 @@ import java.util.Scanner;
 
 public class BrickList {
 
-  public static List<Brick> setUpLevel(String levelName) throws FileNotFoundException {
-    File myFile = new File("data/" + levelName + ".txt");
-    List<Brick> myBricks = new ArrayList<>();
-    Scanner myReader = new Scanner(myFile);
+  public static List<Brick> setUpLevel(String levelName) {
+    try {
+      File myFile = new File("data/" + levelName + ".txt");
+      List<Brick> myBricks = new ArrayList<>();
+      Scanner myReader = new Scanner(myFile);
     int yOffset = 0;
     while (myReader.hasNextLine()) {
       String[] myRow = myReader.nextLine().split(" ");
@@ -47,6 +48,11 @@ public class BrickList {
       yOffset += 40;
     }
     return myBricks;
+    }
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+    }
+    return null;
   }
   public static List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
     //used an iterator here so that I don't get a concurrent modification exception
