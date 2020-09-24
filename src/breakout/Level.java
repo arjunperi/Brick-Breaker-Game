@@ -158,14 +158,13 @@ public class Level {
         try {
             FileWriter myWriter = new FileWriter("data/highScore.txt");
             if (score > getHighScore()) {
-                myWriter.write(score);
+                myWriter.write(Integer.toString(score));
                 myWriter.close();
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
-
     }
 
 
