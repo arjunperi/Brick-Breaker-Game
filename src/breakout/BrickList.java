@@ -16,38 +16,38 @@ import java.util.Scanner;
 
 public class BrickList {
 
-  public static List<Brick> setUpLevel(String levelName) {
+  public static List<Brick> setUpLevel(int levelNum) {
     try {
-      File myFile = new File("data/" + levelName + ".txt");
+      File myFile = new File("data/level" + levelNum + ".txt");
       List<Brick> myBricks = new ArrayList<>();
       Scanner myReader = new Scanner(myFile);
-    int yOffset = 0;
-    while (myReader.hasNextLine()) {
-      String[] myRow = myReader.nextLine().split(" ");
-      for (int col = 0; col < myRow.length; col++) {
-        boolean containsPowerUp = false;
-        String powerUpType = "";
-        int currentBrickLives;
-        if (myRow[col].contains("L")){
-          currentBrickLives = Integer.parseInt(myRow[col].substring(1,2));
-          powerUpType = myRow[col].substring(0,1);
-          containsPowerUp = true;
-        }
-        else {
-          currentBrickLives = Integer.parseInt(myRow[col]);
-        }
-        if (currentBrickLives != 0) {
-          Brick currentBrick = new Brick(currentBrickLives);
-          if (containsPowerUp){
-            currentBrick.addPowerUp(powerUpType);
+      int yOffset = 0;
+      while (myReader.hasNextLine()) {
+        String[] myRow = myReader.nextLine().split(" ");
+        for (int col = 0; col < myRow.length; col++) {
+          boolean containsPowerUp = false;
+          String powerUpType = "";
+          int currentBrickLives;
+          if (myRow[col].contains("L")){
+            currentBrickLives = Integer.parseInt(myRow[col].substring(1,2));
+            powerUpType = myRow[col].substring(0,1);
+            containsPowerUp = true;
           }
-          currentBrick.setPosition(col * 100, yOffset);
-          myBricks.add(currentBrick);
+          else {
+            currentBrickLives = Integer.parseInt(myRow[col]);
+          }
+          if (currentBrickLives != 0) {
+            Brick currentBrick = new Brick(currentBrickLives);
+            if (containsPowerUp){
+              currentBrick.addPowerUp(powerUpType);
+            }
+            currentBrick.setPosition(col * 100, yOffset);
+            myBricks.add(currentBrick);
+          }
         }
+        yOffset += 40;
       }
-      yOffset += 40;
-    }
-    return myBricks;
+      return myBricks;
     }
     catch (FileNotFoundException e) {
       e.printStackTrace();

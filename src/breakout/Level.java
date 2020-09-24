@@ -5,10 +5,14 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 public class Level {
     //what's different abotut levels?
@@ -27,14 +31,15 @@ public class Level {
 
     private int score;
     private int powerUpIndex;
-
+    private int currentLevel;
     private boolean levelOver;
 
 
-    public Level (String levelName, Group root) {
+    public Level (int levelNum, Group root) {
         myRoot = root;
         myRoot.getChildren().clear();
-        myLevelsBricks = BrickList.setUpLevel(levelName);
+        currentLevel = levelNum;
+        myLevelsBricks = BrickList.setUpLevel(levelNum);
         addPaddle();
         addBall();
         addBricks();
@@ -74,8 +79,9 @@ public class Level {
     public void updateShapes(double elapsedTime) {
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
-        myDisplay.setStats(myBall.getGameLives(), score);
+        myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
         checkPowerUps(elapsedTime);
+        setHighScore();
         clearLevelIfOver();
     }
 
@@ -132,6 +138,40 @@ public class Level {
         }
     }
 
+    private int getHighScore(){
+        int highScore = 0;
+        try {
+            File myObj = new File("data/highScore.txt");
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                highScore = Integer.parseInt(myReader.nextLine());
+            }
+            myReader.close();
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        return highScore;
+    }
+
+
+    private void setHighScore() {
+        FileWriter myWriter = null;
+        try {
+            myWriter = new FileWriter("data/highScore.txt");
+            if (score > getHighScore()) {
+                myWriter.write(Integer.toString(score));
+                myWriter.close();
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
+
+
     public void handleKeyInput(KeyCode code, Timeline animation) {
         if (code == KeyCode.LEFT) {
             if(paused == false && myPaddle.getX() > 0) {
@@ -169,6 +209,12 @@ public class Level {
         }
         else if(code == KeyCode.C){
             myLevelsBricks.clear();
+        }
+        else if(code == KeyCode.D){
+            if (myLevelsBricks.size()>0){
+                myRoot.getChildren().remove(myLevelsBricks.get(0));
+                myLevelsBricks.remove(0);
+            }
         }
     }
 

@@ -18,8 +18,9 @@ public class Display extends Text {
         setText("LEVEL CLEARED");
     }
 
-    public void setStats(int lives, int score){
-        setText("Lives: " + lives + " Score: " + score);
+
+    public void setStats(int lives, int score, int levelNum, int highScore){
+        setText("Lives: " + lives + " Score: " + score + " Level: " + levelNum + " High Score: " + highScore);
     }
 
 

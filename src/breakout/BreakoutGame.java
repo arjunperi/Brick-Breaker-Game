@@ -30,8 +30,9 @@ public class BreakoutGame extends Application {
 
 
   private Group root = new Group();
-  private int currentLevel;
-  private Level myLevel = new Level ("level0", root);
+  private int currentLevel = 0;
+  private int levelMax = 2;
+  private Level myLevel = new Level (currentLevel, root);
 
 
 
@@ -56,9 +57,9 @@ public class BreakoutGame extends Application {
   }
 
   void step(double elapsedTime){
-    if (myLevel.checkEnd()){
+    if (myLevel.checkEnd() && currentLevel < levelMax){
       currentLevel++;
-      myLevel = new Level("level" + currentLevel,root);
+      myLevel = new Level(currentLevel,root);
     }
     myLevel.updateShapes(elapsedTime);
   }
