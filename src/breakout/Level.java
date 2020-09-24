@@ -5,10 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -138,6 +135,7 @@ public class Level {
         }
     }
 
+
     private int getHighScore(){
         int highScore = 0;
         try {
@@ -155,19 +153,19 @@ public class Level {
         return highScore;
     }
 
-
+    //needs to be edited- the high score file is being updated during a run, but it's not being saved.
     private void setHighScore() {
-        FileWriter myWriter = null;
         try {
-            myWriter = new FileWriter("data/highScore.txt");
+            FileWriter myWriter = new FileWriter("data/highScore.txt");
             if (score > getHighScore()) {
-                myWriter.write(Integer.toString(score));
+                myWriter.write(score);
                 myWriter.close();
             }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
+
     }
 
 
