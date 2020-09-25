@@ -15,7 +15,6 @@ import java.util.Scanner;
 public class Level {
 
     private Ball myBall;
-    //private Display myDisplay;
     private Display stats;
     private Display lose;
     private Display win;
@@ -70,7 +69,6 @@ public class Level {
     }
 
     private void addDisplay(){
-        //myDisplay = new Display();
         stats = new statsDisplay();
         win = new winDisplay();
         lose = new loseDisplay();
@@ -106,13 +104,13 @@ public class Level {
     }
 
     private void clearLevelIfOver(){
-        if (myBall.getGameLives() == 0){
+        if (myBall.getGameLives() == 0 && currentLevel > 0) {
             myRoot.getChildren().clear();
             myRoot.getChildren().add(lose);
             lose.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
             lose.changeText();
         }
-        if (myLevelsBricks.size() == 0){
+        if (myLevelsBricks.size() == 0 && currentLevel>0 ){
             myRoot.getChildren().clear();
             myRoot.getChildren().add(clear);
             clear.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
