@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Level {
-    //what's different abotut levels?
-        //1. block configuration - all good
-        //2. the types of blocks available - should be good since it's based on the file reading
-        //3. the types of power ups available
 
     private Ball myBall;
     private Display myDisplay;
@@ -38,12 +34,13 @@ public class Level {
         myRoot = root;
         myRoot.getChildren().clear();
         currentLevel = levelNum;
-        myLevelsBricks = BrickList.setUpLevel(levelNum);
+        addDisplay();
         addPaddle();
         addBall();
+        myLevelsBricks = BrickList.setUpLevel(levelNum);
         addBricks();
-        addDisplay();
         initializePowerUps();
+
     }
 
     private void addPaddle(){
@@ -76,12 +73,19 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
+        if (currentLevel == 0){
+            myDisplay.displayRules();
+            levelOver = true;
+        }
+        else{
+            myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            clearLevelIfOver();
+        }
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
-        myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
         checkPowerUps(elapsedTime);
         setHighScore();
-        clearLevelIfOver();
+        //clearLevelIfOver();
     }
 
     private void clearLevelIfOver(){
@@ -155,7 +159,6 @@ public class Level {
         return highScore;
     }
 
-    //needs to be edited- the high score file is being updated during a run, but it's not being saved.
     private void setHighScore() {
         try {
             FileWriter myWriter = new FileWriter("data/highScore.txt", true);
