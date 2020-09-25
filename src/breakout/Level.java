@@ -100,6 +100,9 @@ public class Level {
             myRoot.getChildren().add(myDisplay);
             myDisplay.displayLevelClear();
             levelOver = true;
+            if (currentLevel == 3){
+                myDisplay.displayGameWon();
+            }
         }
     }
 
@@ -151,7 +154,6 @@ public class Level {
             }
         }
     }
-
 
     private int getHighScore(){
         int highScore = 0;

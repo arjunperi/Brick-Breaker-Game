@@ -31,7 +31,7 @@ public class BreakoutGame extends Application {
 
   private Group root = new Group();
   private int currentLevel = 0;
-  private int levelMax = 2;
+  private int levelMax = 3;
   private Level myLevel = new Level (currentLevel, root);
 
 

@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
 public class Display extends Text {
+
+    private int myScore;
+    private int myLives;
+    private int myLevel;
+    private int myHighScore;
+    private boolean hideStats;
 
     public Display(){
         super(50,350, "Lives: 3 Score = 0");
@@ -17,6 +22,7 @@ public class Display extends Text {
     }
 
     public void displayRules(){
+        hideStats = true;
         setLocation(5,20);
         readText("startupScreen");
     }
@@ -29,7 +35,7 @@ public class Display extends Text {
 
 
     public void displayGameOver(){
-        setText("GAME OVER: Press Q to restart game");
+       readText("gameOver");
     }
 
     public void displayLevelClear(){
@@ -37,7 +43,16 @@ public class Display extends Text {
         readText("levelCleared");
     }
 
+    public void displayGameWon(){
+        readText("gameWon");
+    }
+
+
     public void setStats(int lives, int score, int levelNum, int highScore){
+        myLives = lives;
+        myScore = score;
+        myLevel = levelNum;
+        myHighScore = highScore;
         setText("Lives: " + lives + " Score: " + score + " Level: " + levelNum + " High Score: " + highScore);
     }
 
@@ -54,7 +69,12 @@ public class Display extends Text {
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        setText(displayText);
+        if (hideStats){
+            setText(displayText);
+        }
+        else {
+            setText(displayText + "\nLevel just completed: " + myLevel +  "\nLives remaining: " +  myLives +  "\nCurrent score: " + myScore + "\nHigh score to beat: " + myHighScore);
+        }
     }
 
 
