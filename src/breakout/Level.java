@@ -15,11 +15,7 @@ import javafx.scene.input.KeyCode;
 public class Level {
 
     private Ball myBall;
-    private Display stats;
-    private Display lose;
-    private Display win;
-    private Display clear;
-    private Display rules;
+    private Display myDisplay;
 
     private final Group myRoot;
     private final List<Brick> myLevelsBricks;
@@ -69,17 +65,10 @@ public class Level {
     }
 
     private void addDisplay(){
-        stats = new statsDisplay();
-        win = new winDisplay();
-        lose = new loseDisplay();
-        clear = new levelClearDisplay();
-        rules = new startDisplay();
-        myRoot.getChildren().add(stats);
-        myRoot.getChildren().add(win);
-        myRoot.getChildren().add(lose);
-        myRoot.getChildren().add(clear);
-        myRoot.getChildren().add(rules);
+        myDisplay = new Display();
+        myRoot.getChildren().add(myDisplay);
     }
+
 
     private void initializePowerUps(){
         myLevelsPowerUps = new ArrayList<>();
@@ -87,15 +76,14 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
-        if (currentLevel == 0){
-            rules.changeText();
-            levelOver = true;
-        }
-        else{
-            stats.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
-            stats.changeText();
-            clearLevelIfOver();
-        }
+//        if (currentLevel == 0){
+//            myDisplay.startup();
+//            levelOver = true;
+//        }
+
+        myDisplay.stats();
+        clearLevelIfOver();
+        myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
         checkPowerUps(elapsedTime);
@@ -106,28 +94,24 @@ public class Level {
     private void clearLevelIfOver(){
         if (myBall.getGameLives() == 0 && currentLevel > 0) {
             myRoot.getChildren().clear();
-            myRoot.getChildren().add(lose);
-            lose.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
-            lose.changeText();
+            myRoot.getChildren().add(myDisplay);
+            myDisplay.lose();
         }
         if (myLevelsBricks.size() == 0 && currentLevel>0 ){
             myRoot.getChildren().clear();
-            myRoot.getChildren().add(clear);
-            clear.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
-            clear.changeText();
+            myRoot.getChildren().add(myDisplay);
+            myDisplay.clear();
             levelOver = true;
             if (currentLevel == 3){
                 myRoot.getChildren().clear();
-                win.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
-                myRoot.getChildren().add(win);
-                win.changeText();
+                myRoot.getChildren().add(myDisplay);
+                myDisplay.win();
             }
         }
     }
 
     public boolean checkEnd(){
         return (levelOver && continueGame);
-
     }
 
     public int changeLevel(){
@@ -252,10 +236,10 @@ public class Level {
         else if(code == KeyCode.Y){
             continueGame = true;
         }
-        else if(code == KeyCode.DIGIT0){
-            levelChange = true;
-            currentLevel = 0;
-        }
+//        else if(code == KeyCode.DIGIT0){
+//            levelChange = true;
+//            currentLevel = 0;
+//        }
         else if(code == KeyCode.DIGIT1){
             levelChange = true;
             currentLevel = 1;

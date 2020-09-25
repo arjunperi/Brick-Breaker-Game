@@ -15,7 +15,6 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Ignore
 class BallTest extends DukeApplicationTest {
 
 
@@ -24,19 +23,15 @@ class BallTest extends DukeApplicationTest {
 
     private Ball myBall;
 
-    BallTest() throws FileNotFoundException {
-    }
-
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
         myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
-
+        //press(myScene, KeyCode.DIGIT1);
+        //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myBall = lookup("#ball").query();
-
-
     }
 
     @Test
@@ -116,6 +111,7 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallBounceOffBrickX(){
+        //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myBall.setCenterX(300 + myBall.getRadius() / 2);
         myBall.setCenterY(150);
         myBall.setX_DIRECTION(-1);

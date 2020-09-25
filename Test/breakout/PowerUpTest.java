@@ -14,7 +14,7 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Ignore
+
 class PowerUpTest extends DukeApplicationTest {
 
 
