@@ -2,6 +2,7 @@ package breakout;
 
 
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -13,7 +14,7 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Ignore
+
 class BrickTest extends DukeApplicationTest {
 
 
@@ -44,6 +45,8 @@ class BrickTest extends DukeApplicationTest {
 
     @Test
     public void testFirstBrickInFirstAndSecondRow() {
+        press(myScene, KeyCode.DIGIT1);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(100, myBrick0.getX());
         assertEquals(0, myBrick0.getY());
         assertEquals(0, myBrick1.getX());

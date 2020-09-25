@@ -30,10 +30,10 @@ public class BreakoutGame extends Application {
 
 
   private Group root = new Group();
-  private int currentLevel = 0;
+  private int currentLevel = 1;
   private int levelMax = 3;
+  //private Level myLevel = new Level (currentLevel, root);
   private Level myLevel = new Level (currentLevel, root);
-
 
 
   public void start(Stage stage) throws FileNotFoundException {

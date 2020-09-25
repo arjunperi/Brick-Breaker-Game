@@ -14,7 +14,7 @@ import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Ignore
+
 class BreakoutGameTest extends DukeApplicationTest {
 
 
@@ -35,7 +35,6 @@ class BreakoutGameTest extends DukeApplicationTest {
     myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
     stage.setScene(myScene);
     stage.show();
-
     myBrick0 = lookup("#brick0").query();
     myBrick1 = lookup("#brick1").query();
     myBrick8 = lookup("#brick8").query();

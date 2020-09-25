@@ -76,14 +76,13 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
-        if (currentLevel == 0){
-            myDisplay.startup();
-            levelOver = true;
-        }
-        else{
-            myDisplay.stats();
-            clearLevelIfOver();
-        }
+//        if (currentLevel == 0){
+//            myDisplay.startup();
+//            levelOver = true;
+//        }
+
+        myDisplay.stats();
+        clearLevelIfOver();
         myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
@@ -113,7 +112,6 @@ public class Level {
 
     public boolean checkEnd(){
         return (levelOver && continueGame);
-
     }
 
     public int changeLevel(){
@@ -238,10 +236,10 @@ public class Level {
         else if(code == KeyCode.Y){
             continueGame = true;
         }
-        else if(code == KeyCode.DIGIT0){
-            levelChange = true;
-            currentLevel = 0;
-        }
+//        else if(code == KeyCode.DIGIT0){
+//            levelChange = true;
+//            currentLevel = 0;
+//        }
         else if(code == KeyCode.DIGIT1){
             levelChange = true;
             currentLevel = 1;
