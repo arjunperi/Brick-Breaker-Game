@@ -36,7 +36,7 @@ public class BreakoutGame extends Application {
   private Level myLevel = new Level (currentLevel, root);
 
 
-  public void start(Stage stage) throws FileNotFoundException {
+  public void start(Stage stage)  {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
     stage.setTitle(TITLE);
@@ -50,7 +50,7 @@ public class BreakoutGame extends Application {
     animation.play();
   }
 
-  Scene setupScene(int width, int height, Paint background) throws FileNotFoundException {
+  Scene setupScene(int width, int height, Paint background) {
     Scene scene = new Scene(root, width, height, background);
     scene.setOnKeyPressed(e -> myLevel.handleKeyInput(e.getCode(), animation));
     return scene;
