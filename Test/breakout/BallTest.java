@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
