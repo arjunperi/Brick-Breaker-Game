@@ -26,9 +26,6 @@ class DisplayTest extends DukeApplicationTest {
     private Display myDisplay;
     private PowerUp myPowerUp0;
 
-    DisplayTest() throws FileNotFoundException {
-    }
-
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {

@@ -6,19 +6,22 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 import java.io.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 
 public class Level {
-    //what's different abotut levels?
-        //1. block configuration - all good
-        //2. the types of blocks available - should be good since it's based on the file reading
-        //3. the types of power ups available
 
     private Ball myBall;
-    private Display myDisplay;
+    //private Display myDisplay;
+    private Display stats;
+    private Display lose;
+    private Display win;
+    private Display clear;
+    private Display rules;
+
     private Group myRoot;
     private List<Brick> myLevelsBricks;
     private Paddle myPaddle;
@@ -30,18 +33,21 @@ public class Level {
     private int powerUpIndex;
     private int currentLevel;
     private boolean levelOver;
+    private boolean continueGame;
+    private boolean levelChange;
 
 
     public Level (int levelNum, Group root) {
         myRoot = root;
         myRoot.getChildren().clear();
         currentLevel = levelNum;
-        myLevelsBricks = BrickList.setUpLevel(levelNum);
+        addDisplay();
         addPaddle();
         addBall();
+        myLevelsBricks = BrickList.setUpLevel(levelNum);
         addBricks();
-        addDisplay();
         initializePowerUps();
+
     }
 
     private void addPaddle(){
@@ -64,8 +70,17 @@ public class Level {
     }
 
     private void addDisplay(){
-        myDisplay = new Display();
-        myRoot.getChildren().add(myDisplay);
+        //myDisplay = new Display();
+        stats = new statsDisplay();
+        win = new winDisplay();
+        lose = new loseDisplay();
+        clear = new levelClearDisplay();
+        rules = new startDisplay();
+        myRoot.getChildren().add(stats);
+        myRoot.getChildren().add(win);
+        myRoot.getChildren().add(lose);
+        myRoot.getChildren().add(clear);
+        myRoot.getChildren().add(rules);
     }
 
     private void initializePowerUps(){
@@ -74,9 +89,17 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
+        if (currentLevel == 0){
+            rules.changeText();
+            levelOver = true;
+        }
+        else{
+            stats.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            stats.changeText();
+            clearLevelIfOver();
+        }
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
-        myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
         checkPowerUps(elapsedTime);
         setHighScore();
         clearLevelIfOver();
@@ -85,19 +108,37 @@ public class Level {
     private void clearLevelIfOver(){
         if (myBall.getGameLives() == 0){
             myRoot.getChildren().clear();
-            myRoot.getChildren().add(myDisplay);
-            myDisplay.displayGameOver();
+            myRoot.getChildren().add(lose);
+            lose.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            lose.changeText();
         }
         if (myLevelsBricks.size() == 0){
             myRoot.getChildren().clear();
-            myRoot.getChildren().add(myDisplay);
-            myDisplay.displayLevelClear();
+            myRoot.getChildren().add(clear);
+            clear.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            clear.changeText();
             levelOver = true;
+            if (currentLevel == 3){
+                myRoot.getChildren().clear();
+                win.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+                myRoot.getChildren().add(win);
+                win.changeText();
+            }
         }
     }
 
     public boolean checkEnd(){
-        return (levelOver);
+        return (levelOver && continueGame);
+
+    }
+
+    public int changeLevel(){
+        if (levelChange){
+            return currentLevel;
+        }
+        else {
+            return -1;
+        }
     }
 
     private void deleteBricksAndCreatePowerUp(){
@@ -135,7 +176,6 @@ public class Level {
         }
     }
 
-
     private int getHighScore(){
         int highScore = 0;
         try {
@@ -153,12 +193,12 @@ public class Level {
         return highScore;
     }
 
-    //needs to be edited- the high score file is being updated during a run, but it's not being saved.
     private void setHighScore() {
         try {
-            FileWriter myWriter = new FileWriter("data/highScore.txt");
+            FileWriter myWriter = new FileWriter("data/highScore.txt", true);
             if (score > getHighScore()) {
                 myWriter.write(Integer.toString(score));
+                myWriter.write("\n");
                 myWriter.close();
             }
         } catch (IOException e) {
@@ -212,6 +252,25 @@ public class Level {
                 Brick targetBrick = myLevelsBricks.get(0);
                 targetBrick.setLives(0);
             }
+        }
+        else if(code == KeyCode.Y){
+            continueGame = true;
+        }
+        else if(code == KeyCode.DIGIT0){
+            levelChange = true;
+            currentLevel = 0;
+        }
+        else if(code == KeyCode.DIGIT1){
+            levelChange = true;
+            currentLevel = 1;
+        }
+        else if(code == KeyCode.DIGIT2){
+            levelChange = true;
+            currentLevel = 2;
+        }
+        else if(code == KeyCode.DIGIT3){
+            levelChange = true;
+            currentLevel = 3;
         }
     }
 

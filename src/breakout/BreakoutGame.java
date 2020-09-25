@@ -31,7 +31,7 @@ public class BreakoutGame extends Application {
 
   private Group root = new Group();
   private int currentLevel = 0;
-  private int levelMax = 2;
+  private int levelMax = 3;
   private Level myLevel = new Level (currentLevel, root);
 
 
@@ -60,6 +60,9 @@ public class BreakoutGame extends Application {
     if (myLevel.checkEnd() && currentLevel < levelMax){
       currentLevel++;
       myLevel = new Level(currentLevel,root);
+    }
+    if (myLevel.changeLevel() >= 0){
+      myLevel = new Level(myLevel.changeLevel(), root);
     }
     myLevel.updateShapes(elapsedTime);
   }

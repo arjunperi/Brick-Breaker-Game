@@ -1,0 +1,4 @@
+GAME WON!
+Press 1 to restart game from level 1
+Press 0 to restart game from rules screen
+Nice job!
