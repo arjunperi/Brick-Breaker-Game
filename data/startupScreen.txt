@@ -5,4 +5,4 @@ The ball will bounce around the screen and off bricks
 But don't let it fall to the bottom, or you lose a life!
 Clear all the bricks to complete a level
 But lose all three of your lives, and it's game over!
-Press Y to begin
+Press Y to begin level 1
