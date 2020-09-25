@@ -61,6 +61,9 @@ public class BreakoutGame extends Application {
       currentLevel++;
       myLevel = new Level(currentLevel,root);
     }
+    if (myLevel.changeLevel() >= 0){
+      myLevel = new Level(myLevel.changeLevel(), root);
+    }
     myLevel.updateShapes(elapsedTime);
   }
 

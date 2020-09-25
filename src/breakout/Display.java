@@ -2,6 +2,12 @@ package breakout;
 
 import javafx.scene.text.Text;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 
 public class Display extends Text {
 
@@ -12,15 +18,9 @@ public class Display extends Text {
 
     public void displayRules(){
         setLocation(5,20);
-        setText("Welcome to Breakout! Here are the rules of the game:" +
-                "\nMove the paddle across the screen using the left and right keys" +
-                "\nPress S to start the ball" +
-                "\nThe ball will bounce around the screen and off bricks" +
-                "\nBut don't let it fall to the bottom, or you lose a life!" +
-                "\nClear all the bricks to complete a level" +
-                "\nBut lose all three of your lives, and it's game over!" +
-                "\nPress Y to begin ");
+        readText("startupScreen");
     }
+
 
     private void setLocation(int x, int y){
         setX(x);
@@ -29,15 +29,32 @@ public class Display extends Text {
 
 
     public void displayGameOver(){
-        setText("GAME OVER");
+        setText("GAME OVER: Press Q to restart game");
     }
 
     public void displayLevelClear(){
-        setText("LEVEL CLEARED: Press Y to continue");
+        setLocation(5,20);
+        readText("levelCleared");
     }
 
     public void setStats(int lives, int score, int levelNum, int highScore){
         setText("Lives: " + lives + " Score: " + score + " Level: " + levelNum + " High Score: " + highScore);
+    }
+
+    private void readText(String fileName){
+        String displayText = "";
+        try {
+            File myFile = new File("data/" + fileName + ".txt");
+            Scanner myReader = new Scanner(myFile);
+            while (myReader.hasNextLine()) {
+                displayText += myReader.nextLine();
+                displayText += "\n";
+            }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        setText(displayText);
     }
 
 

@@ -1,0 +1,8 @@
+Welcome to Breakout! Here are the rules of the game:
+Move the paddle across the screen using the left and right keys
+Press S to start the ball
+The ball will bounce around the screen and off bricks
+But don't let it fall to the bottom, or you lose a life!
+Clear all the bricks to complete a level
+But lose all three of your lives, and it's game over!
+Press Y to begin

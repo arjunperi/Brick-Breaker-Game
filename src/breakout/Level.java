@@ -28,6 +28,7 @@ public class Level {
     private int currentLevel;
     private boolean levelOver;
     private boolean continueGame;
+    private boolean levelChange;
 
 
     public Level (int levelNum, Group root) {
@@ -104,6 +105,16 @@ public class Level {
 
     public boolean checkEnd(){
         return (levelOver && continueGame);
+
+    }
+
+    public int changeLevel(){
+        if (levelChange){
+            return currentLevel;
+        }
+        else {
+            return -1;
+        }
     }
 
     private void deleteBricksAndCreatePowerUp(){
@@ -221,6 +232,22 @@ public class Level {
         }
         else if(code == KeyCode.Y){
             continueGame = true;
+        }
+        else if(code == KeyCode.DIGIT0){
+            levelChange = true;
+            currentLevel = 0;
+        }
+        else if(code == KeyCode.DIGIT1){
+            levelChange = true;
+            currentLevel = 1;
+        }
+        else if(code == KeyCode.DIGIT2){
+            levelChange = true;
+            currentLevel = 2;
+        }
+        else if(code == KeyCode.DIGIT3){
+            levelChange = true;
+            currentLevel = 3;
         }
     }
 
