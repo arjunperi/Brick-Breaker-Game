@@ -6,7 +6,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public abstract class Display extends Text {
+public class Display extends Text {
 
     private int myScore;
     private int myLives;
@@ -19,27 +19,30 @@ public abstract class Display extends Text {
         setId("display");
     }
 
-    public abstract void changeText();
-
-    public int getScore(){
-        return myScore;
-    }
-
-    public int getLives(){
-        return myLives;
-    }
-
-    public int getLevel(){
-        return myLevel;
-    }
-
-    public int getHighScore(){
-        return myHighScore;
-    }
-
     private void setLocation(int x, int y){
         setX(x);
         setY(y);
+    }
+
+    public void startup(){
+        setText(readText("startupScreen"));
+    }
+
+    public void clear(){
+        setText(readText("levelCleared") + "\nLevel just completed: " + myLevel +  "\nLives remaining: " +
+                myLives +  "\nCurrent score: " + myScore + "\nHigh score to beat: " + myHighScore);
+    }
+    public void win(){
+        setText(readText("gameWon") + "\nLives remaining: " +  myLives +  "\nScore reached: "
+                + myScore + "\nHigh score to beat: " + myHighScore);
+    }
+    public void lose(){
+        setText(readText("gameOver") + "\nLevel reached: " + myLevel +  "\nScore reached: "
+                + myScore + "\nHigh score to beat: " + myScore);
+    }
+
+    public void stats(){
+        setText("Lives: " + myLives + " Score: " + myScore + " Level: " + myLevel + " High Score: " + myScore);
     }
 
 
