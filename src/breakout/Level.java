@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 import java.io.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +31,7 @@ public class Level {
     private int powerUpIndex;
     private int currentLevel;
     private boolean levelOver;
+    private boolean continueGame;
 
 
     public Level (int levelNum, Group root) {
@@ -97,7 +99,7 @@ public class Level {
     }
 
     public boolean checkEnd(){
-        return (levelOver);
+        return (levelOver && continueGame);
     }
 
     private void deleteBricksAndCreatePowerUp(){
@@ -156,9 +158,10 @@ public class Level {
     //needs to be edited- the high score file is being updated during a run, but it's not being saved.
     private void setHighScore() {
         try {
-            FileWriter myWriter = new FileWriter("data/highScore.txt");
+            FileWriter myWriter = new FileWriter("data/highScore.txt", true);
             if (score > getHighScore()) {
                 myWriter.write(Integer.toString(score));
+                myWriter.write("\n");
                 myWriter.close();
             }
         } catch (IOException e) {
@@ -212,6 +215,9 @@ public class Level {
                 Brick targetBrick = myLevelsBricks.get(0);
                 targetBrick.setLives(0);
             }
+        }
+        else if(code == KeyCode.Y){
+            continueGame = true;
         }
     }
 

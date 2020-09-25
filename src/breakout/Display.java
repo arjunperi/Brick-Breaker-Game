@@ -15,9 +15,8 @@ public class Display extends Text {
     }
 
     public void displayLevelClear(){
-        setText("LEVEL CLEARED");
+        setText("LEVEL CLEARED: Press Y to continue");
     }
-
 
     public void setStats(int lives, int score, int levelNum, int highScore){
         setText("Lives: " + lives + " Score: " + score + " Level: " + levelNum + " High Score: " + highScore);
