@@ -4,11 +4,9 @@ import javafx.scene.text.Text;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
-public class Display extends Text {
+public abstract class Display extends Text {
 
     private int myScore;
     private int myLives;
@@ -17,34 +15,31 @@ public class Display extends Text {
     private boolean hideStats;
 
     public Display(){
-        super(50,350, "Lives: 3 Score = 0");
+        super(50,350,"");
         setId("display");
     }
 
-    public void displayRules(){
-        hideStats = true;
-        setLocation(5,20);
-        readText("startupScreen");
+    public abstract void changeText();
+
+    public int getScore(){
+        return myScore;
     }
 
+    public int getLives(){
+        return myLives;
+    }
+
+    public int getLevel(){
+        return myLevel;
+    }
+
+    public int getHighScore(){
+        return myHighScore;
+    }
 
     private void setLocation(int x, int y){
         setX(x);
         setY(y);
-    }
-
-
-    public void displayGameOver(){
-       readText("gameOver");
-    }
-
-    public void displayLevelClear(){
-        setLocation(5,20);
-        readText("levelCleared");
-    }
-
-    public void displayGameWon(){
-        readText("gameWon");
     }
 
 
@@ -53,10 +48,10 @@ public class Display extends Text {
         myScore = score;
         myLevel = levelNum;
         myHighScore = highScore;
-        setText("Lives: " + lives + " Score: " + score + " Level: " + levelNum + " High Score: " + highScore);
     }
 
-    private void readText(String fileName){
+    public String readText(String fileName){
+        setLocation(5,20);
         String displayText = "";
         try {
             File myFile = new File("data/" + fileName + ".txt");
@@ -69,12 +64,7 @@ public class Display extends Text {
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        if (hideStats){
-            setText(displayText);
-        }
-        else {
-            setText(displayText + "\nLevel just completed: " + myLevel +  "\nLives remaining: " +  myLives +  "\nCurrent score: " + myScore + "\nHigh score to beat: " + myHighScore);
-        }
+        return displayText;
     }
 
 

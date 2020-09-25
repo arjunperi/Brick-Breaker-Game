@@ -15,7 +15,13 @@ import java.util.Scanner;
 public class Level {
 
     private Ball myBall;
-    private Display myDisplay;
+    //private Display myDisplay;
+    private Display stats;
+    private Display lose;
+    private Display win;
+    private Display clear;
+    private Display rules;
+
     private Group myRoot;
     private List<Brick> myLevelsBricks;
     private Paddle myPaddle;
@@ -64,8 +70,17 @@ public class Level {
     }
 
     private void addDisplay(){
-        myDisplay = new Display();
-        myRoot.getChildren().add(myDisplay);
+        //myDisplay = new Display();
+        stats = new statsDisplay();
+        win = new winDisplay();
+        lose = new loseDisplay();
+        clear = new levelClearDisplay();
+        rules = new startDisplay();
+        myRoot.getChildren().add(stats);
+        myRoot.getChildren().add(win);
+        myRoot.getChildren().add(lose);
+        myRoot.getChildren().add(clear);
+        myRoot.getChildren().add(rules);
     }
 
     private void initializePowerUps(){
@@ -75,33 +90,39 @@ public class Level {
 
     public void updateShapes(double elapsedTime) {
         if (currentLevel == 0){
-            myDisplay.displayRules();
+            rules.changeText();
             levelOver = true;
         }
         else{
-            myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            stats.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            stats.changeText();
             clearLevelIfOver();
         }
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
         checkPowerUps(elapsedTime);
         setHighScore();
-        //clearLevelIfOver();
+        clearLevelIfOver();
     }
 
     private void clearLevelIfOver(){
         if (myBall.getGameLives() == 0){
             myRoot.getChildren().clear();
-            myRoot.getChildren().add(myDisplay);
-            myDisplay.displayGameOver();
+            myRoot.getChildren().add(lose);
+            lose.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            lose.changeText();
         }
         if (myLevelsBricks.size() == 0){
             myRoot.getChildren().clear();
-            myRoot.getChildren().add(myDisplay);
-            myDisplay.displayLevelClear();
+            myRoot.getChildren().add(clear);
+            clear.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+            clear.changeText();
             levelOver = true;
             if (currentLevel == 3){
-                myDisplay.displayGameWon();
+                myRoot.getChildren().clear();
+                win.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
+                myRoot.getChildren().add(win);
+                win.changeText();
             }
         }
     }
