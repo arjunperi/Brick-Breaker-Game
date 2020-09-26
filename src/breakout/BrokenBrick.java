@@ -7,19 +7,16 @@ public class BrokenBrick extends Brick{
         super(lives);
         setFill(Color.BROWN);
     }
-
     @Override
-    public int topBallCollision(){
-        return 1;
+    public void topBallCollision(Ball myBall){
+        return;
     }
-
     @Override
-    public int bottomBallCollision(){
-        return -1;
+    public void bottomBallCollision(Ball myBall){
+        return;
     }
-
     @Override
-    public int sideBallCollision(){
-        return 1;
+    public void sideBallCollision(Ball myBall){
+        return;
     }
 }

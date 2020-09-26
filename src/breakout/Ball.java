@@ -95,17 +95,17 @@ public class Ball extends Circle {
 
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
         if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
-          yDirection = myBrick.bottomBallCollision();
+          myBrick.bottomBallCollision(this);
           myBrick.subtractLives();
           myBrick.getBrickLives();
         }
         else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
-          yDirection = myBrick.topBallCollision();
+          myBrick.topBallCollision(this);
           myBrick.subtractLives();
           myBrick.getBrickLives();
         }
         else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
-          xDirection *= myBrick.sideBallCollision();
+          myBrick.sideBallCollision(this);
           myBrick.subtractLives();
           myBrick.getBrickLives();
         }

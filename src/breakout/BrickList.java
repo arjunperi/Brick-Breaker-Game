@@ -2,15 +2,10 @@ package breakout;
 
 
 import java.util.Iterator;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,7 +26,7 @@ public class BrickList {
             constructBrokenBrick(myBricks, yOffset, myRow, col);
           }
           else {
-            constructNormalBrick(myBricks, yOffset, myRow, col);
+            constructNormalOrRubberBrick(myBricks, yOffset, myRow, col);
           }
         }
         yOffset += Brick.BRICK_HEIGHT;
@@ -43,12 +38,17 @@ public class BrickList {
     }
   }
 
-  private static void constructNormalBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+  private static void constructNormalOrRubberBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
     Brick currentBrick;
     String powerUpType = "";
     int currentBrickLives = Integer.parseInt(myRow[col].replaceAll("\\D", ""));
     if(currentBrickLives != 0) {
-      currentBrick = new Brick(currentBrickLives);
+      if(myRow[col].contains("+")){
+        currentBrick = new RubberBrick(currentBrickLives);
+      }
+      else {
+        currentBrick = new Brick(currentBrickLives);
+      }
       if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")) {
         powerUpType = myRow[col].substring(0, 1);
         currentBrick.addPowerUp(powerUpType);
