@@ -70,7 +70,6 @@ class PowerUpTest extends DukeApplicationTest {
         //Power up moved to paddle, next step is collision
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         //After collision, next step registers that it was activated
-        sleep(1, TimeUnit.SECONDS);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals("Lives: 4 Score: 0" , myDisplay.getText());
       //  assertEquals("Lives: 4 Score: 0 Level: 0 High Score: 1" , myDisplay.getText());
@@ -81,16 +80,13 @@ class PowerUpTest extends DukeApplicationTest {
         press(myScene, KeyCode.B);
         myPowerUp0 = lookup("#PowerUp0").query();
         myBall.startBall();
-        sleep(1, TimeUnit.SECONDS);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
         myPowerUp0 = lookup("#PowerUp0").query();
         myPowerUp0.setY(BreakoutGame.SIZE - PowerUp.POWERUP_HEIGHT - Paddle.PADDLE_HEIGHT);
         //Power up moved to paddle, next step is collision
-        sleep(1, TimeUnit.SECONDS);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         //After collision, next step registers that it was activated
-        sleep(1, TimeUnit.SECONDS);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(Ball.START_SPEED - BallSpeedReductionPowerUp.SPEED_DECREASE, myBall.getSpeed());
     }

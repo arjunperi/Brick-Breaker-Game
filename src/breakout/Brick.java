@@ -74,5 +74,17 @@ public class Brick extends Rectangle {
     return powerUpType;
   }
 
+  public int topBallCollision(){
+    return -1;
+  }
+
+  public int bottomBallCollision(){
+    return 1;
+  }
+
+  public int sideBallCollision(){
+    return -1;
+  }
+
 
 }

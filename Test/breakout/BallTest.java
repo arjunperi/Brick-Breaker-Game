@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -109,14 +110,14 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallBounceOffBrickX(){
-        //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        myBall.setCenterX(300 + myBall.getRadius() / 2);
-        myBall.setCenterY(150);
-        myBall.setXDirection(-1);
+        myBall.setCenterX(Brick.BRICK_WIDTH - myBall.getRadius());
+        myBall.setCenterY(myBall.getRadius());
+        myBall.setXDirection(1);
         myBall.setYDirection(0);
         myBall.startBall();
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
-        assertEquals(1, myBall.getXDirection());
+        sleep(1, TimeUnit.SECONDS);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals(-1, myBall.getXDirection());
     }
 
 
