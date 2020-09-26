@@ -1,24 +1,24 @@
 package breakout;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
+import javafx.animation.Timeline;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+
+import java.io.*;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import javafx.animation.Timeline;
-import javafx.scene.Group;
-import javafx.scene.input.KeyCode;
 
 public class Level {
 
     private Ball myBall;
     private Display myDisplay;
 
-    private final Group myRoot;
-    private final List<Brick> myLevelsBricks;
+    private Group myRoot;
+    private List<Brick> myLevelsBricks;
     private Paddle myPaddle;
     private List<PowerUp> myLevelsPowerUps;
 
@@ -169,7 +169,8 @@ public class Level {
             myReader.close();
         }
         catch (FileNotFoundException e) {
-            throw new IllegalStateException();
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
         return highScore;
     }
@@ -183,7 +184,8 @@ public class Level {
                 myWriter.close();
             }
         } catch (IOException e) {
-            throw new IllegalStateException();
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
     }
 
@@ -191,11 +193,11 @@ public class Level {
 
     public void handleKeyInput(KeyCode code, Timeline animation) {
         if (code == KeyCode.LEFT) {
-            if(!paused && myPaddle.getX() > 0) {
+            if(paused == false && myPaddle.getX() > 0) {
                 myPaddle.setX(myPaddle.getX() - Paddle.PADDLE_SPEED);
             }
         } else if (code == KeyCode.RIGHT) {
-            if(!paused && myPaddle.getX() + Paddle.PADDLE_WIDTH < BreakoutGame.SIZE) {
+            if(paused == false && myPaddle.getX() + myPaddle.PADDLE_WIDTH < BreakoutGame.SIZE) {
                 myPaddle.setX(myPaddle.getX() + Paddle.PADDLE_SPEED);
             }
         } else if (code == KeyCode.R) {

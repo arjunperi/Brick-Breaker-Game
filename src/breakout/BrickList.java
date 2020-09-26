@@ -2,9 +2,15 @@ package breakout;
 
 
 import java.util.Iterator;
+import javafx.scene.Group;
+import javafx.scene.paint.Color;
+
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,8 +50,9 @@ public class BrickList {
       return myBricks;
     }
     catch (FileNotFoundException e) {
-      throw new IllegalStateException();
+      e.printStackTrace();
     }
+    return null;
   }
   public static List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
     //used an iterator here so that I don't get a concurrent modification exception
@@ -61,6 +68,9 @@ public class BrickList {
     return deletedBricks;
   }
 
+  public void createLevel(Group root, int level){
+    //takes the root and level number and calls
+  }
 
 
 }
