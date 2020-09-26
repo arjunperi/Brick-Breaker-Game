@@ -23,15 +23,14 @@ public class Level {
     private List<PowerUp> myLevelsPowerUps;
 
     private boolean paused;
-
     private int myScore;
     private int myLives;
-
     private int powerUpIndex;
     private int currentLevel;
     private boolean levelOver;
     private boolean continueGame;
-    private boolean levelChange;
+    private boolean changeKeyPressed;
+    private boolean gameEnd;
 
 
     public Level (int levelNum, int score, int lives,  Group root) {
@@ -40,7 +39,6 @@ public class Level {
         currentLevel = levelNum;
         myLives = lives;
         myScore = score;
-        //myHighScore = highScore;
         addDisplay();
         addPaddle();
         addBall();
@@ -55,7 +53,7 @@ public class Level {
     }
 
     private void addBall(){
-        myBall = new Ball();
+        myBall = new Ball(myLives);
         myRoot.getChildren().add(myBall);
     }
 
@@ -80,6 +78,12 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
+        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
+        deleteBricksAndCreatePowerUp();
+        checkPowerUps(elapsedTime);
+        setHighScore();
+        myLives = myBall.getGameLives();
+        myDisplay.setStats(myLives, myScore, currentLevel, getHighScore());
         if (currentLevel == 0){
             myDisplay.startup();
             levelOver = true;
@@ -88,13 +92,6 @@ public class Level {
             myDisplay.stats();
             clearLevelIfOver();
         }
-        myDisplay.setStats(myBall.getGameLives(), myScore, currentLevel, getHighScore());
-
-        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
-        deleteBricksAndCreatePowerUp();
-        checkPowerUps(elapsedTime);
-        setHighScore();
-        //clearLevelIfOver();
     }
 
     public int getScore(){
@@ -102,15 +99,20 @@ public class Level {
     }
 
     public int getLives(){
-        return myBall.getGameLives();
+        return myLives;
     }
 
+    private void resetStats(){
+        myLives = 3;
+        myScore = 0;
+    }
 
     private void clearLevelIfOver(){
         if (myBall.getGameLives() == 0 && currentLevel > 0) {
             myRoot.getChildren().clear();
             myRoot.getChildren().add(myDisplay);
             myDisplay.lose();
+            gameEnd = true;
         }
         if (myLevelsBricks.size() == 0 && currentLevel>0 ){
             myRoot.getChildren().clear();
@@ -121,6 +123,7 @@ public class Level {
                 myRoot.getChildren().clear();
                 myRoot.getChildren().add(myDisplay);
                 myDisplay.win();
+                gameEnd = true;
             }
         }
     }
@@ -130,7 +133,7 @@ public class Level {
     }
 
     public int changeLevel(){
-        if (levelChange){
+        if (changeKeyPressed){
             return currentLevel;
         }
         else {
@@ -241,7 +244,10 @@ public class Level {
             }
         }
         else if(code == KeyCode.C){
-            myLevelsBricks.clear();
+            if (currentLevel > 0){
+                myLevelsBricks.clear();
+                myBall.endBall();
+            }
         }
         else if(code == KeyCode.D){
             if (myLevelsBricks.size()>0){
@@ -249,23 +255,35 @@ public class Level {
                 targetBrick.setLives(0);
             }
         }
-        else if(code == KeyCode.Y){
+        else if(code == KeyCode.Y && levelOver){
             continueGame = true;
         }
         else if(code == KeyCode.DIGIT0){
-            levelChange = true;
+            if (gameEnd){
+                resetStats();
+            }
+            changeKeyPressed = true;
             currentLevel = 0;
         }
         else if(code == KeyCode.DIGIT1){
-            levelChange = true;
+            if (gameEnd){
+                resetStats();
+            }
+            changeKeyPressed = true;
             currentLevel = 1;
         }
         else if(code == KeyCode.DIGIT2){
-            levelChange = true;
+            if (gameEnd){
+                resetStats();
+            }
+            changeKeyPressed = true;
             currentLevel = 2;
         }
         else if(code == KeyCode.DIGIT3){
-            levelChange = true;
+            if (gameEnd){
+                resetStats();
+            }
+            changeKeyPressed = true;
             currentLevel = 3;
         }
     }

@@ -1,14 +1,11 @@
 package breakout;
 
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
-import java.io.FileNotFoundException;
-import java.util.concurrent.TimeUnit;
-
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -20,19 +17,20 @@ class BallTest extends DukeApplicationTest {
 
     private final BreakoutGame myBreakoutGame = new BreakoutGame();
     private Scene myScene;
-
     private Ball myBall;
+    private Display myDisplay;
+    private Stage myStage;
+
 
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
-        stage.setScene(myScene);
-        stage.show();
-        //press(myScene, KeyCode.DIGIT1);
-        //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        //javafxRun(() -> press(myScene, KeyCode.DIGIT1));
+    public void start(Stage stage) {
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myStage = stage;
+        myStage.setScene(myScene);
+        myStage.show();
         myBall = lookup("#ball").query();
+        myDisplay = lookup("#display").query();
     }
 
     @Test
@@ -54,7 +52,6 @@ class BallTest extends DukeApplicationTest {
     @Test
     public void testBallVelocityAfterStart() {
         press(myScene, KeyCode.S);
-
         assertEquals(150, myBall.getBALL_SPEED());
     }
 
@@ -65,7 +62,7 @@ class BallTest extends DukeApplicationTest {
         myBall.setX_DIRECTION(-1);
         myBall.setY_DIRECTION(-1);
         myBall.startBall(150);
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(1, myBall.getX_DIRECTION());
         assertEquals(1, myBall.getY_DIRECTION());
 
@@ -78,12 +75,10 @@ class BallTest extends DukeApplicationTest {
         myBall.setX_DIRECTION(0);
         myBall.setY_DIRECTION(1);
         myBall.startBall(150);
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
-
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(0, myBall.getX_DIRECTION());
         assertEquals(-1, myBall.getY_DIRECTION());
-
     }
 
     @Test
@@ -93,10 +88,11 @@ class BallTest extends DukeApplicationTest {
         myBall.setX_DIRECTION(0);
         myBall.setY_DIRECTION(-1);
         myBall.startBall(150);
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        myDisplay.stats();
         assertEquals(400 / 2, myBall.getCenterX());
         assertEquals(400 - 60, myBall.getCenterY());
-
+        assertEquals(2,myBall.getGameLives());
     }
 
     @Test
@@ -112,15 +108,18 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallBounceOffBrickX(){
-        //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        press(myScene, KeyCode.DIGIT1);
-        javafxRun(() -> press(myScene, KeyCode.DIGIT1));
+//        Group temp = new Group();
+//        myScene.setRoot(temp);
+//        javafxRun(() -> myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
+//        javafxRun(() -> myStage.setScene(myScene));
+//        sleep(1000);
+//        myBall = lookup("#ball").query();
         myBall.setCenterX(300 + myBall.getRadius() / 2);
         myBall.setCenterY(150);
         myBall.setX_DIRECTION(-1);
         myBall.setY_DIRECTION(0);
         myBall.startBall(150);
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(1, myBall.getX_DIRECTION());
     }
 

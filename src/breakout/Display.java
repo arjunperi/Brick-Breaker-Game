@@ -37,7 +37,7 @@ public class Display extends Text {
     }
     public void lose(){
         setText(readText("gameOver") + "\nLevel reached: " + myLevel +  "\nScore reached: "
-                + myScore + "\nHigh score to beat: " + myScore);
+                + myScore + "\nHigh score to beat: " + myHighScore);
     }
 
     public void stats(){
@@ -51,6 +51,23 @@ public class Display extends Text {
         myLevel = levelNum;
         myHighScore = highScore;
     }
+
+    public int getLives(){
+        return myLives;
+    }
+
+    public int getScore(){
+        return myScore;
+    }
+
+    public int getLevel(){
+        return myLevel;
+    }
+
+    public int getHighScore(){
+        return myHighScore;
+    }
+
 
     public String readText(String fileName){
         setLocation(5,20);

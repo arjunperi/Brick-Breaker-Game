@@ -29,13 +29,11 @@ class PowerUpTest extends DukeApplicationTest {
     private Display myDisplay;
     private PowerUp myPowerUp0;
 
-    PowerUpTest() throws FileNotFoundException {
-    }
-
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        //myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
 
@@ -80,7 +78,9 @@ class PowerUpTest extends DukeApplicationTest {
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         //After collision, next step registers that it was activated
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals("Lives: 4 Score: 1 Level: 0 High Score: 1" , myDisplay.getText());
+        myDisplay.stats();
+        assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+                myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
     }
 
     @Test

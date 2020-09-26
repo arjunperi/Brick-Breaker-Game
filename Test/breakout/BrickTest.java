@@ -26,27 +26,20 @@ class BrickTest extends DukeApplicationTest {
     private Ball myBall;
     private Display myDisplay;
 
-    BrickTest() throws FileNotFoundException {
-    }
-
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
-
         myBrick0 = lookup("#brick0").query();
         myBrick1 = lookup("#brick1").query();
         myBall = lookup("#ball").query();
         myDisplay = lookup("#display").query();
-
     }
 
     @Test
     public void testFirstBrickInFirstAndSecondRow() {
-        press(myScene, KeyCode.DIGIT1);
-        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(100, myBrick0.getX());
         assertEquals(0, myBrick0.getY());
         assertEquals(0, myBrick1.getX());
@@ -55,12 +48,13 @@ class BrickTest extends DukeApplicationTest {
 
     @Test
     public void testBrickDestruction(){
-        myBall.setCenterX(0);
-        myBall.setCenterY(160 + myBall.getRadius() / 2);
+        myBall.setCenterX(30);
+        myBall.setCenterY(160 + myBall.getRadius());
         myBall.setX_DIRECTION(0);
         myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
+        myDisplay.stats();
+        assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+                myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
     }
 }

@@ -28,7 +28,8 @@ class PaddleTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        //myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
 
@@ -66,6 +67,5 @@ class PaddleTest extends DukeApplicationTest {
         press(myScene, KeyCode.R);
         assertEquals(BreakoutGame.SIZE / 2 - Paddle.PADDLE_WIDTH / 2, myPaddle.getX());
         assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT, myPaddle.getY());
-
     }
 }
