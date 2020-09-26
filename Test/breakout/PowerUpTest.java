@@ -76,7 +76,8 @@ class PowerUpTest extends DukeApplicationTest {
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         //After collision, next step registers that it was activated
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals("Lives: 4 Score: 1 Level: 0 High Score: 1" , myDisplay.getText());
+        assertEquals("Lives: 4 Score: 1" , myDisplay.getText());
+      //  assertEquals("Lives: 4 Score: 1 Level: 0 High Score: 1" , myDisplay.getText());
     }
 
     @Test
