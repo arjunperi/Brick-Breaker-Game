@@ -53,7 +53,7 @@ class BrickTest extends DukeApplicationTest {
     }
 
     @Test
-    public void testBrickDestruction(){
+    public void testBrickDestruction() {
         myBall.setCenterX(0);
         myBall.setCenterY(160 + myBall.getRadius() / 2);
         myBall.setXDirection(0);
@@ -61,6 +61,19 @@ class BrickTest extends DukeApplicationTest {
         myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals("Lives: 3 Score: 1", myDisplay.getText());
-       // assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
+        // assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
+    }
+
+    @Test
+    public void testBrokenBrickDestructionAndNoCollision() {
+        myBall.setCenterX(350);
+        myBall.setCenterY(160 + myBall.getRadius() / 2);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals("Lives: 3 Score: 1", myDisplay.getText());
+        assertEquals(-1, myBall.getYDirection());
+        // assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
     }
 }
