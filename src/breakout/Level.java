@@ -113,6 +113,7 @@ public class Level {
             myRoot.getChildren().add(myDisplay);
             myDisplay.lose();
             gameEnd = true;
+            myBall.endBall();
         }
         if (myLevelsBricks.size() == 0 && currentLevel>0 ){
             myRoot.getChildren().clear();
@@ -125,6 +126,7 @@ public class Level {
                 myDisplay.win();
                 gameEnd = true;
             }
+            myBall.endBall();
         }
     }
 
