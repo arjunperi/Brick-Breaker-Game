@@ -24,7 +24,9 @@ public class Level {
 
     private boolean paused;
 
-    private int score;
+    private int myScore;
+    private int myLives;
+
     private int powerUpIndex;
     private int currentLevel;
     private boolean levelOver;
@@ -32,17 +34,19 @@ public class Level {
     private boolean levelChange;
 
 
-    public Level (int levelNum, Group root) {
+    public Level (int levelNum, int score, int lives,  Group root) {
         myRoot = root;
         myRoot.getChildren().clear();
         currentLevel = levelNum;
+        myLives = lives;
+        myScore = score;
+        //myHighScore = highScore;
         addDisplay();
         addPaddle();
         addBall();
         myLevelsBricks = BrickList.setUpLevel(levelNum);
         addBricks();
         initializePowerUps();
-
     }
 
     private void addPaddle(){
@@ -76,20 +80,31 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
-//        if (currentLevel == 0){
-//            myDisplay.startup();
-//            levelOver = true;
-//        }
+        if (currentLevel == 0){
+            myDisplay.startup();
+            levelOver = true;
+        }
+        else {
+            myDisplay.stats();
+            clearLevelIfOver();
+        }
+        myDisplay.setStats(myBall.getGameLives(), myScore, currentLevel, getHighScore());
 
-        myDisplay.stats();
-        clearLevelIfOver();
-        myDisplay.setStats(myBall.getGameLives(), score, currentLevel, getHighScore());
         myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
         deleteBricksAndCreatePowerUp();
         checkPowerUps(elapsedTime);
         setHighScore();
-        clearLevelIfOver();
+        //clearLevelIfOver();
     }
+
+    public int getScore(){
+        return myScore;
+    }
+
+    public int getLives(){
+        return myBall.getGameLives();
+    }
+
 
     private void clearLevelIfOver(){
         if (myBall.getGameLives() == 0 && currentLevel > 0) {
@@ -125,12 +140,14 @@ public class Level {
 
     private void deleteBricksAndCreatePowerUp(){
         List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
-        for(Brick currentBrick: deletedBricks){
-            if(currentBrick.checkPowerUp()) {
-            dropPowerUp(currentBrick);
-         }
+        for(Brick currentBrick: deletedBricks) {
+            if (currentBrick.checkPowerUp()) {
+                dropPowerUp(currentBrick);
+            }
             myRoot.getChildren().remove(currentBrick);
-            score++;
+            if (currentLevel > 0) {
+                myScore++;
+            }
         }
     }
 
@@ -158,7 +175,7 @@ public class Level {
         }
     }
 
-    private int getHighScore(){
+    public int getHighScore(){
         int highScore = 0;
         try {
             File myObj = new File("data/highScore.txt");
@@ -177,8 +194,8 @@ public class Level {
     private void setHighScore() {
         try {
             FileWriter myWriter = new FileWriter("data/highScore.txt", true);
-            if (score > getHighScore()) {
-                myWriter.write(Integer.toString(score));
+            if (myScore > getHighScore()) {
+                myWriter.write(Integer.toString(myScore));
                 myWriter.write("\n");
                 myWriter.close();
             }
@@ -186,7 +203,6 @@ public class Level {
             throw new IllegalStateException();
         }
     }
-
 
 
     public void handleKeyInput(KeyCode code, Timeline animation) {
@@ -236,10 +252,10 @@ public class Level {
         else if(code == KeyCode.Y){
             continueGame = true;
         }
-//        else if(code == KeyCode.DIGIT0){
-//            levelChange = true;
-//            currentLevel = 0;
-//        }
+        else if(code == KeyCode.DIGIT0){
+            levelChange = true;
+            currentLevel = 0;
+        }
         else if(code == KeyCode.DIGIT1){
             levelChange = true;
             currentLevel = 1;

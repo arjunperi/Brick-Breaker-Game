@@ -29,6 +29,11 @@ class BreakoutGameTest extends DukeApplicationTest {
   private Display myDisplay;
   private PowerUp myPowerUp0;
 
+  private int lives;
+  private int score;
+  private int highScore;
+
+
 
   @Override
   public void start(Stage stage) throws FileNotFoundException {

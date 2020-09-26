@@ -1,15 +1,12 @@
 package breakout;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -28,13 +25,17 @@ public class BreakoutGame extends Application {
   private Scene myScene;
   private Timeline animation;
 
+  private int lives;
+  private int score;
+  //private int highScore;
+
 
   private Group root = new Group();
-  private int currentLevel = 1;
+  private Group displayRoot = new Group();
+  private int currentLevel = 0;
   private int levelMax = 3;
-  //private Level myLevel = new Level (currentLevel, root);
-  private Level myLevel = new Level (currentLevel, root);
 
+  private Level myLevel = new Level (currentLevel, score, lives, root);
 
   public void start(Stage stage) throws FileNotFoundException {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
@@ -50,19 +51,27 @@ public class BreakoutGame extends Application {
     animation.play();
   }
 
-  Scene setupScene(int width, int height, Paint background) throws FileNotFoundException {
+  Scene setupScene(int width, int height, Paint background) {
     Scene scene = new Scene(root, width, height, background);
     scene.setOnKeyPressed(e -> myLevel.handleKeyInput(e.getCode(), animation));
     return scene;
   }
 
   void step(double elapsedTime){
+    if (currentLevel == 0){
+      lives = 3;
+    }
+    else{
+      lives = myLevel.getLives();
+    }
+    score = myLevel.getScore();
+    
     if (myLevel.checkEnd() && currentLevel < levelMax){
       currentLevel++;
-      myLevel = new Level(currentLevel,root);
+      myLevel = new Level(currentLevel, score, lives, root);
     }
     if (myLevel.changeLevel() >= 0){
-      myLevel = new Level(myLevel.changeLevel(), root);
+      myLevel = new Level(myLevel.changeLevel(), score, lives, root);
     }
     myLevel.updateShapes(elapsedTime);
   }

@@ -31,6 +31,7 @@ class BallTest extends DukeApplicationTest {
         stage.show();
         //press(myScene, KeyCode.DIGIT1);
         //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        //javafxRun(() -> press(myScene, KeyCode.DIGIT1));
         myBall = lookup("#ball").query();
     }
 
@@ -112,6 +113,8 @@ class BallTest extends DukeApplicationTest {
     @Test
     public void testBallBounceOffBrickX(){
         //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        press(myScene, KeyCode.DIGIT1);
+        javafxRun(() -> press(myScene, KeyCode.DIGIT1));
         myBall.setCenterX(300 + myBall.getRadius() / 2);
         myBall.setCenterY(150);
         myBall.setX_DIRECTION(-1);

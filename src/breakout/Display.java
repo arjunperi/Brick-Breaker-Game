@@ -12,7 +12,6 @@ public class Display extends Text {
     private int myLives;
     private int myLevel;
     private int myHighScore;
-    private boolean hideStats;
 
     public Display(){
         super(50,350,"");
@@ -42,7 +41,7 @@ public class Display extends Text {
     }
 
     public void stats(){
-        setText("Lives: " + myLives + " Score: " + myScore + " Level: " + myLevel + " High Score: " + myScore);
+        setText("Lives: " + myLives + " Score: " + myScore + " Level: " + myLevel + " High Score: " + myHighScore);
     }
 
 
