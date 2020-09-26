@@ -29,7 +29,7 @@ public class BrickList {
           boolean containsPowerUp = false;
           String powerUpType = "";
           int currentBrickLives;
-          if (myRow[col].contains("L")) {
+          if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")) {
             currentBrickLives = Integer.parseInt(myRow[col].substring(1, 2));
             powerUpType = myRow[col].substring(0, 1);
             containsPowerUp = true;
@@ -41,11 +41,11 @@ public class BrickList {
             if (containsPowerUp) {
               currentBrick.addPowerUp(powerUpType);
             }
-            currentBrick.setPosition(col * 100, yOffset);
+            currentBrick.setPosition(col * Brick.BRICK_WIDTH, yOffset);
             myBricks.add(currentBrick);
           }
         }
-        yOffset += 40;
+        yOffset += Brick.BRICK_HEIGHT;
       }
       return myBricks;
     }

@@ -56,9 +56,9 @@ class BrickTest extends DukeApplicationTest {
     public void testBrickDestruction(){
         myBall.setCenterX(0);
         myBall.setCenterY(160 + myBall.getRadius() / 2);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals("Lives: 3 Score: 1", myDisplay.getText());
        // assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());

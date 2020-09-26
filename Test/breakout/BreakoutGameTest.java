@@ -55,10 +55,10 @@ class BreakoutGameTest extends DukeApplicationTest {
 
   @Test
   public void testStartKey() {
-    assertEquals(0, myBall.getBALL_SPEED());
+    assertEquals(0, myBall.getSpeed());
     press(myScene, KeyCode.S);
 
-    assertEquals(150, myBall.getBALL_SPEED());
+    assertEquals(150, myBall.getSpeed());
   }
 
   @Test

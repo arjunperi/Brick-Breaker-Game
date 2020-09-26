@@ -13,7 +13,7 @@ public class Brick extends Rectangle {
   public static final int BRICK_HEIGHT = BreakoutGame.SIZE / 10;
   private int myLives;
   private boolean containsPowerUp = false;
-  private String powerUpType = "ExtraLife";
+  private String powerUpType;
   private List<Color> brickColors = new ArrayList<>(Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
 
   public Brick(int lives) {
