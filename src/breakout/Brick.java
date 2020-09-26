@@ -47,7 +47,7 @@ public class Brick extends Rectangle {
       setFill(brickColors.get(myLives - 1));
     }
     else{
-      setFill(Color.BLACK);
+      setFill(Color.BEIGE);
     }
     setStroke(Color.BLACK);
   }
@@ -74,16 +74,16 @@ public class Brick extends Rectangle {
     return powerUpType;
   }
 
-  public int topBallCollision(){
-    return -1;
+  public void topBallCollision(Ball myBall){
+    myBall.setYDirection(-1);
   }
 
-  public int bottomBallCollision(){
-    return 1;
+  public void bottomBallCollision(Ball myBall){
+    myBall.setYDirection(1);
   }
 
-  public int sideBallCollision(){
-    return -1;
+  public void sideBallCollision(Ball myBall){
+    myBall.setXDirection(myBall.getXDirection() * -1);
   }
 
 
