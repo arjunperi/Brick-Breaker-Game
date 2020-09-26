@@ -26,29 +26,12 @@ public class BrickList {
       while (myReader.hasNextLine()) {
         String[] myRow = myReader.nextLine().split(" ");
         for (int col = 0; col < myRow.length; col++) {
-          Brick currentBrick;
+
           if(myRow[col].contains("*")) {
-            currentBrick = new BrokenBrick(1);
-            addBrickToList(myBricks, yOffset, col, currentBrick);
+            constructBrokenBrick(myBricks, yOffset, myRow, col);
           }
           else {
-            boolean containsPowerUp = false;
-            String powerUpType = "";
-            int currentBrickLives;
-            if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")) {
-              currentBrickLives = Integer.parseInt(myRow[col].substring(1, 2));
-              powerUpType = myRow[col].substring(0, 1);
-              containsPowerUp = true;
-            } else {
-              currentBrickLives = Integer.parseInt(myRow[col]);
-            }
-            if (currentBrickLives != 0) {
-              currentBrick = new Brick(currentBrickLives);
-              if (containsPowerUp) {
-                currentBrick.addPowerUp(powerUpType);
-              }
-              addBrickToList(myBricks, yOffset, col, currentBrick);
-            }
+            constructNormalBrick(myBricks, yOffset, myRow, col);
           }
         }
         yOffset += Brick.BRICK_HEIGHT;
@@ -58,6 +41,30 @@ public class BrickList {
     catch(FileNotFoundException e){
       throw new IllegalArgumentException();
     }
+  }
+
+  private static void constructNormalBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+    Brick currentBrick;
+    String powerUpType = "";
+    int currentBrickLives = Integer.parseInt(myRow[col].replaceAll("\\D", ""));
+    if(currentBrickLives != 0) {
+      currentBrick = new Brick(currentBrickLives);
+      if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")) {
+        powerUpType = myRow[col].substring(0, 1);
+        currentBrick.addPowerUp(powerUpType);
+      }
+      addBrickToList(myBricks, yOffset, col, currentBrick);
+    }
+  }
+
+  private static void constructBrokenBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+    Brick currentBrick = new BrokenBrick(1);
+    if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")){
+      String powerUpType = myRow[col].substring(0, 1);
+      currentBrick.addPowerUp(powerUpType);
+    }
+
+    addBrickToList(myBricks, yOffset, col, currentBrick);
   }
 
   private static void addBrickToList(List<Brick> myBricks, int yOffset, int col, Brick currentBrick) {
