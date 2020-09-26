@@ -6,7 +6,6 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -46,26 +45,26 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallInitVelocity() {
-        assertEquals(0, myBall.getBALL_SPEED());
+        assertEquals(0, myBall.getSpeed());
     }
 
     @Test
     public void testBallVelocityAfterStart() {
         press(myScene, KeyCode.S);
 
-        assertEquals(150, myBall.getBALL_SPEED());
+        assertEquals(150, myBall.getSpeed());
     }
 
     @Test
     public void testBallBounceOffCorner() {
         myBall.setCenterX(0);
         myBall.setCenterY(0);
-        myBall.setX_DIRECTION(-1);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(-1);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
-        assertEquals(1, myBall.getX_DIRECTION());
-        assertEquals(1, myBall.getY_DIRECTION());
+        assertEquals(1, myBall.getXDirection());
+        assertEquals(1, myBall.getYDirection());
 
     }
 
@@ -73,14 +72,14 @@ class BallTest extends DukeApplicationTest {
     public void testBallBounceOffPaddle() {
         myBall.setCenterX(BreakoutGame.SIZE / 2);
         myBall.setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius() - 1);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(1);
+        myBall.startBall();
         myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
         myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
 
-        assertEquals(0, myBall.getX_DIRECTION());
-        assertEquals(-1, myBall.getY_DIRECTION());
+        assertEquals(0, myBall.getXDirection());
+        assertEquals(-1, myBall.getYDirection());
 
     }
 
@@ -88,9 +87,9 @@ class BallTest extends DukeApplicationTest {
     public void testBallReset() {
         myBall.setCenterX(0);
         myBall.setCenterY(BreakoutGame.SIZE);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
         assertEquals(400 / 2, myBall.getCenterX());
         assertEquals(400 - 60, myBall.getCenterY());
@@ -101,11 +100,11 @@ class BallTest extends DukeApplicationTest {
     public void testBallBounceOffBrickY(){
         myBall.setCenterX(0);
         myBall.setCenterY(160 + myBall.getRadius() / 2);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals(1, myBall.getY_DIRECTION());
+        assertEquals(1, myBall.getYDirection());
     }
 
     @Test
@@ -113,11 +112,11 @@ class BallTest extends DukeApplicationTest {
         //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myBall.setCenterX(300 + myBall.getRadius() / 2);
         myBall.setCenterY(150);
-        myBall.setX_DIRECTION(-1);
-        myBall.setY_DIRECTION(0);
-        myBall.startBall(150);
+        myBall.setXDirection(-1);
+        myBall.setYDirection(0);
+        myBall.startBall();
         myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
-        assertEquals(1, myBall.getX_DIRECTION());
+        assertEquals(1, myBall.getXDirection());
     }
 
 

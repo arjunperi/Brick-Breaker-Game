@@ -38,7 +38,7 @@ public class BreakoutGame extends Application {
   private int scoreMax;
   private int powerUpIndex;
 
-  public void start(Stage stage) throws FileNotFoundException {
+  public void start(Stage stage) {
     myScene = setupScene(SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
     stage.setTitle(TITLE);
@@ -109,7 +109,19 @@ public class BreakoutGame extends Application {
   }
 
   private void dropPowerUp(Brick powerBrick){
-    PowerUp droppedPowerUp = new PowerUp(powerBrick);
+    PowerUp droppedPowerUp = null;
+    if(powerBrick.getPowerUpType().equals("L")){
+      droppedPowerUp = new ExtraLifePowerUp(powerBrick);
+    }
+    else if(powerBrick.getPowerUpType().equals("S")){
+      droppedPowerUp = new BallSpeedReductionPowerUp(powerBrick);
+    }
+    else if(powerBrick.getPowerUpType().equals("P")){
+      droppedPowerUp = new PaddleLengthPowerUp(powerBrick);
+    }
+
+
+
     addPowerUpToGame(droppedPowerUp);
   }
 
@@ -168,13 +180,21 @@ public class BreakoutGame extends Application {
         paused = true;
       }
     } else if (code == KeyCode.S) {
-      myBall.startBall(150);
+      myBall.startBall();
 
     } else if (code == KeyCode.L) {
       myBall.addGameLives();
     }
+    else if (code == KeyCode.Y){
+      PowerUp extraLife = new ExtraLifePowerUp();
+      addPowerUpToGame(extraLife);
+    }
+    else if (code == KeyCode.B){
+      PowerUp extraLife = new BallSpeedReductionPowerUp();
+      addPowerUpToGame(extraLife);
+    }
     else if (code == KeyCode.P){
-      PowerUp extraLife = new PowerUp();
+      PowerUp extraLife = new PaddleLengthPowerUp();
       addPowerUpToGame(extraLife);
     }
     else if (code == KeyCode.O){

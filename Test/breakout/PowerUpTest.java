@@ -6,6 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -48,9 +49,9 @@ class PowerUpTest extends DukeApplicationTest {
     public void testPowerUpCreation(){
         myBall.setCenterX(0);
         myBall.setCenterY(160 + myBall.getRadius() / 2);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myPowerUp0 = lookup("#PowerUp0").query();
         assertEquals( Brick.BRICK_WIDTH/4, myPowerUp0.getX());
@@ -60,24 +61,53 @@ class PowerUpTest extends DukeApplicationTest {
 
     @Test
     public void testExtraLifePowerUpActivation(){
-        myBall.setCenterX(0);
-        myBall.setCenterY(160 + myBall.getRadius() / 2);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
-        //Ball starts on the block, step destroys and releases power up
+        press(myScene, KeyCode.Y);
+        myPowerUp0 = lookup("#PowerUp0").query();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
         myPowerUp0 = lookup("#PowerUp0").query();
-        myBall.resetBall();
-        myPaddle.setX(0);
+        myPowerUp0.setY(BreakoutGame.SIZE - PowerUp.POWERUP_HEIGHT - Paddle.PADDLE_HEIGHT);
+        //Power up moved to paddle, next step is collision
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        //After collision, next step registers that it was activated
+        sleep(1, TimeUnit.SECONDS);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals("Lives: 4 Score: 0" , myDisplay.getText());
+      //  assertEquals("Lives: 4 Score: 0 Level: 0 High Score: 1" , myDisplay.getText());
+    }
+
+    @Test
+    public void testBallSpeedReductionPowerUpActivation(){
+        press(myScene, KeyCode.B);
+        myPowerUp0 = lookup("#PowerUp0").query();
+        myBall.startBall();
+        sleep(1, TimeUnit.SECONDS);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+
+        myPowerUp0 = lookup("#PowerUp0").query();
+        myPowerUp0.setY(BreakoutGame.SIZE - PowerUp.POWERUP_HEIGHT - Paddle.PADDLE_HEIGHT);
+        //Power up moved to paddle, next step is collision
+        sleep(1, TimeUnit.SECONDS);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        //After collision, next step registers that it was activated
+        sleep(1, TimeUnit.SECONDS);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals(Ball.START_SPEED - BallSpeedReductionPowerUp.SPEED_DECREASE, myBall.getSpeed());
+    }
+
+    @Test
+    public void testPaddleLengthPowerUpActivation(){
+        press(myScene, KeyCode.P);
+        myPowerUp0 = lookup("#PowerUp0").query();
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+
+        myPowerUp0 = lookup("#PowerUp0").query();
         myPowerUp0.setY(BreakoutGame.SIZE - PowerUp.POWERUP_HEIGHT - Paddle.PADDLE_HEIGHT);
         //Power up moved to paddle, next step is collision
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         //After collision, next step registers that it was activated
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals("Lives: 4 Score: 1" , myDisplay.getText());
-      //  assertEquals("Lives: 4 Score: 1 Level: 0 High Score: 1" , myDisplay.getText());
+        assertEquals(Paddle.PADDLE_WIDTH + PaddleLengthPowerUp.EXTEND_LENGTH, myPaddle.getWidth());
     }
 
     @Test

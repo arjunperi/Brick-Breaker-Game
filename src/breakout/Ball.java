@@ -9,45 +9,51 @@ import java.util.List;
 public class Ball extends Circle {
 
   private static final Paint BALL_COLOR = Color.BISQUE;
+  private static final int BALL_RADIUS = 7;
+  public static final int START_SPEED = 150;
 
-  private int BALL_SPEED;
-  private double X_DIRECTION;
-  private double Y_DIRECTION;
+  private int speed;
+  private double xDirection;
+  private double yDirection;
   private int gameLives = 3;
 
   public Ball() {
-    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - 7, 7, BALL_COLOR);
+    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
     this.setId("ball");
-    Y_DIRECTION = -1;
-    X_DIRECTION = 1;
+    yDirection = -1;
+    xDirection = 1;
   }
 
-  public int getBALL_SPEED() {
-    return BALL_SPEED;
+  public int getSpeed() {
+    return speed;
   }
 
-  public double getX_DIRECTION() {
-    return X_DIRECTION;
+  public void setSpeed(int speed) {
+    this.speed = speed;
   }
 
-  public double getY_DIRECTION() {
-    return Y_DIRECTION;
+  public double getXDirection() {
+    return xDirection;
   }
 
-  public void setX_DIRECTION(double x_direction) {
-    X_DIRECTION = x_direction;
+  public double getYDirection() {
+    return yDirection;
   }
 
-  public void setY_DIRECTION(double y_direction) {
-    Y_DIRECTION = y_direction;
+  public void setXDirection(double x_direction) {
+    xDirection = x_direction;
   }
 
-  public void startBall(int speed) {
-    BALL_SPEED = speed;
+  public void setYDirection(double y_direction) {
+    yDirection = y_direction;
+  }
+
+  public void startBall() {
+    this.speed = START_SPEED;
   }
 
   public void endBall() {
-    BALL_SPEED = 0;
+    speed = 0;
   }
 
   public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks) {
@@ -60,21 +66,21 @@ public class Ball extends Circle {
 
 
   public void setPosition(double elapsedTime) {
-    setCenterY(getCenterY() + Y_DIRECTION * BALL_SPEED * elapsedTime);
-    setCenterX(getCenterX() + X_DIRECTION * BALL_SPEED * elapsedTime);
+    setCenterY(getCenterY() + yDirection * speed * elapsedTime);
+    setCenterX(getCenterX() + xDirection * speed * elapsedTime);
   }
 
   private void checkBorderCollision() {
 
     if (getBoundsInParent().getMaxX() >= BreakoutGame.SIZE || getCenterX() <= 0) {
-      X_DIRECTION = X_DIRECTION * -1;
+      xDirection = xDirection * -1;
     }
     if (getCenterY() + getRadius() / 2 >= BreakoutGame.SIZE) {
       resetBall();
       gameLives--;
     }
     if (this.getCenterY() <= 0) {
-      Y_DIRECTION *= -1;
+      yDirection *= -1;
     }
   }
 
@@ -91,17 +97,17 @@ public class Ball extends Circle {
         if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
           myBrick.subtractLives();
           myBrick.getBrickLives();
-          Y_DIRECTION = 1;
+          yDirection = 1;
         }
         else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
           myBrick.subtractLives();
           myBrick.getBrickLives();
-          Y_DIRECTION = -1;
+          yDirection = -1;
         }
         else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
           myBrick.subtractLives();
           myBrick.getBrickLives();
-          X_DIRECTION *=-1;
+          xDirection *=-1;
         }
       }
     }
@@ -116,15 +122,15 @@ public class Ball extends Circle {
 
     if (paddle.getBoundsInParent().intersects(getBoundsInParent())) {
       if (ballCenter <= paddle.getX() + paddleSection) {
-        X_DIRECTION = -1;
+        xDirection = -1;
       } else if (ballCenter >= paddle.getX() + 5 * paddleSection) {
-        X_DIRECTION = 1;
+        xDirection = 1;
       } else if (ballCenter <= paddle.getX() + 2 * paddleSection) {
-        X_DIRECTION = -0.5;
+        xDirection = -0.5;
       } else if (ballCenter >= paddle.getX() + 4 * paddleSection) {
-        X_DIRECTION = 0.5;
+        xDirection = 0.5;
       }
-      Y_DIRECTION = -1;
+      yDirection = -1;
     }
   }
 
@@ -132,8 +138,8 @@ public class Ball extends Circle {
   public void resetBall() {
     setCenterX(BreakoutGame.SIZE / 2);
     setCenterY(BreakoutGame.SIZE - 60);
-    X_DIRECTION = 0;
-    Y_DIRECTION = 1;
+    xDirection = 0;
+    yDirection = 1;
     endBall();
   }
 
