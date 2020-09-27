@@ -32,7 +32,8 @@ class PowerUpTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        //myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
 
@@ -61,7 +62,7 @@ class PowerUpTest extends DukeApplicationTest {
 
     @Test
     public void testExtraLifePowerUpActivation(){
-        press(myScene, KeyCode.Y);
+        press(myScene, KeyCode.N);
         myPowerUp0 = lookup("#PowerUp0").query();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
@@ -71,8 +72,10 @@ class PowerUpTest extends DukeApplicationTest {
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         //After collision, next step registers that it was activated
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        assertEquals("Lives: 4 Score: 0" , myDisplay.getText());
-      //  assertEquals("Lives: 4 Score: 0 Level: 0 High Score: 1" , myDisplay.getText());
+
+        myDisplay.stats();
+        assertEquals("Lives: 4" + " Score: " + myDisplay.getScore() + " Level: " +
+            myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package breakout;
 
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
@@ -19,18 +20,20 @@ class BallTest extends DukeApplicationTest {
 
     private final BreakoutGame myBreakoutGame = new BreakoutGame();
     private Scene myScene;
-
     private Ball myBall;
+    private Display myDisplay;
+    private Stage myStage;
+
 
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
-        stage.setScene(myScene);
-        stage.show();
-        //press(myScene, KeyCode.DIGIT1);
-        //javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+    public void start(Stage stage) {
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myStage = stage;
+        myStage.setScene(myScene);
+        myStage.show();
         myBall = lookup("#ball").query();
+        myDisplay = lookup("#display").query();
     }
 
     @Test
@@ -63,7 +66,7 @@ class BallTest extends DukeApplicationTest {
         myBall.setXDirection(-1);
         myBall.setYDirection(-1);
         myBall.startBall();
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(1, myBall.getXDirection());
         assertEquals(1, myBall.getYDirection());
 
@@ -76,8 +79,8 @@ class BallTest extends DukeApplicationTest {
         myBall.setXDirection(0);
         myBall.setYDirection(1);
         myBall.startBall();
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
         assertEquals(0, myBall.getXDirection());
         assertEquals(-1, myBall.getYDirection());
@@ -91,9 +94,11 @@ class BallTest extends DukeApplicationTest {
         myBall.setXDirection(0);
         myBall.setYDirection(-1);
         myBall.startBall();
-        myBreakoutGame.step(BreakoutGame.SECOND_DELAY);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        myDisplay.stats();
         assertEquals(400 / 2, myBall.getCenterX());
         assertEquals(400 - 60, myBall.getCenterY());
+        assertEquals(2,myBall.getGameLives());
 
     }
 
@@ -115,7 +120,6 @@ class BallTest extends DukeApplicationTest {
         myBall.setXDirection(1);
         myBall.setYDirection(0);
         myBall.startBall();
-        sleep(1, TimeUnit.SECONDS);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(-1, myBall.getXDirection());
     }
