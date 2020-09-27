@@ -12,12 +12,13 @@ public class Ball extends Circle {
   private static final int BALL_RADIUS = 7;
   public static final int START_SPEED = 150;
 
+
   private int speed;
   private double xDirection;
   private double yDirection;
-  private int gameLives = 3;
+  private int gameLives;
 
-  public Ball() {
+  public Ball(int lives) {
     super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
     this.setId("ball");
     yDirection = -1;

@@ -1,15 +1,12 @@
 package breakout;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -38,123 +35,50 @@ public class BreakoutGame extends Application {
   private int scoreMax;
   private int powerUpIndex;
 
-  public void start(Stage stage) {
-    myScene = setupScene(SIZE, SIZE, BACKGROUND);
+  private int lives;
+  private int score;
+  private int currentLevel = 0;
+  private int levelMax = 3;
+
+  private Group root = new Group();
+  private Level myLevel;
+
+  public void start(Stage stage){
+    myScene = setupScene(0, SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
     stage.setTitle(TITLE);
     stage.show();
-
     KeyFrame frame = new KeyFrame(Duration.seconds(SECOND_DELAY), e -> step(SECOND_DELAY));
     animation = new Timeline();
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
-
     animation.play();
     paused = false;
   }
 
-  Scene setupScene(int width, int height, Paint background) {
-    root = new Group();
-
-    myLevelsBricks = BrickList.setUpLevel("level1");
-    int brickIndex = 0;
-    scoreMax = myLevelsBricks.size();
-
-    for (Brick currentBrick : myLevelsBricks) {
-      currentBrick.setId("brick" + brickIndex);
-      root.getChildren().add(currentBrick);
-      brickIndex++;
-    }
-
-    myPaddle = new Paddle();
-
-    myBall = new Ball();
-    myLevelsPowerUps = new ArrayList<>();
-    powerUpIndex = 0;
-
-    root.getChildren().add(myPaddle);
-    root.getChildren().add(myBall);
-
-    myDisplay = new Display();
-    root.getChildren().add(myDisplay);
-
+  Scene setupScene(int level, int width, int height, Paint background) {
+    currentLevel = level;
+    myLevel = new Level (currentLevel, score, 3, root);
     Scene scene = new Scene(root, width, height, background);
 
     scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
     return scene;
   }
 
-
-  void step(double elapsedTime) {
-    updateShapes(elapsedTime);
-  }
-
-  private void updateShapes(double elapsedTime) {
-    myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
-    deleteBricksAndCreatePowerUp();
-    myDisplay.setStats(myBall.getGameLives(), score);
-    checkPowerUps(elapsedTime);
-    clearLevelIfOver();
-  }
-
-  private void deleteBricksAndCreatePowerUp(){
-    List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
-    for(Brick currentBrick: deletedBricks){
-      if(currentBrick.checkPowerUp()) {
-        dropPowerUp(currentBrick);
-      }
-      root.getChildren().remove(currentBrick);
-      score++;
+  void step(double elapsedTime){
+    score = myLevel.getScore();
+    if (currentLevel == 0){
+      lives = 3;
     }
-  }
-
-  private void dropPowerUp(Brick powerBrick){
-    PowerUp droppedPowerUp = null;
-    if(powerBrick.getPowerUpType().equals("L")){
-      droppedPowerUp = new ExtraLifePowerUp(powerBrick);
+    else{
+      lives = myLevel.getLives();
     }
-    else if(powerBrick.getPowerUpType().equals("S")){
-      droppedPowerUp = new BallSpeedReductionPowerUp(powerBrick);
+    if (myLevel.checkEnd() && currentLevel < levelMax){
+      currentLevel++;
+      myLevel = new Level(currentLevel, score, lives, root);
     }
-    else if(powerBrick.getPowerUpType().equals("P")){
-      droppedPowerUp = new PaddleLengthPowerUp(powerBrick);
-    }
-
-
-
-    addPowerUpToGame(droppedPowerUp);
-  }
-
-  private void addPowerUpToGame(PowerUp droppedPowerUp) {
-    root.getChildren().add(droppedPowerUp);
-    droppedPowerUp.setId("PowerUp" + powerUpIndex);
-    powerUpIndex++;
-    myLevelsPowerUps.add(droppedPowerUp);
-  }
-
-  private void checkPowerUps(double elapsedTime){
-    Iterator<PowerUp> powerUps = myLevelsPowerUps.iterator();
-    while (powerUps.hasNext()) {
-      PowerUp currentPowerUp = powerUps.next();
-      currentPowerUp.update(elapsedTime);
-      if(currentPowerUp.checkActivation(myPaddle, myBall) || currentPowerUp.outOfBounds()){
-        root.getChildren().remove(currentPowerUp);
-        powerUps.remove();
-      }
-    }
-
-  }
-
-  private void clearLevelIfOver(){
-    if (myBall.getGameLives() == 0){
-      root.getChildren().clear();
-      root.getChildren().add(myDisplay);
-      myDisplay.displayGameOver();
-    }
-    if (myLevelsBricks.size() == 0){
-      root.getChildren().clear();
-      root.getChildren().add(myDisplay);
-      myDisplay.displayLevelClear();
+    if (myLevel.changeLevel() >= 0){
+      myLevel = new Level(myLevel.changeLevel(), score, lives, root);
     }
   }
 

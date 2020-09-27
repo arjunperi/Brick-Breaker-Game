@@ -32,7 +32,8 @@ class PowerUpTest extends DukeApplicationTest {
 
     @Override
     public void start(Stage stage) throws FileNotFoundException {
-        myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        //myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+        myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
         stage.show();
 
