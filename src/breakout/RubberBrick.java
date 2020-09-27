@@ -9,6 +9,7 @@ public class RubberBrick extends Brick{
     RubberBrick(int lives){
         super(lives);
         setFill(Color.BLACK);
+        setStroke(Color.BLACK);
     }
 
     @Override

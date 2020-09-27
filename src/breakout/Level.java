@@ -22,8 +22,10 @@ public class Level {
 
     private final Group myRoot;
     private final List<Brick> myLevelsBricks;
+    private final List<Wall> myLevelsWalls;
     private Paddle myPaddle;
     private List<PowerUp> myLevelsPowerUps;
+    private BrickList myBrickList;
 
     private boolean paused;
     private int myScore;
@@ -45,7 +47,10 @@ public class Level {
         addDisplay();
         addPaddle();
         addBall();
-        myLevelsBricks = BrickList.setUpLevel(levelNum);
+        myBrickList = new BrickList(levelNum);
+        myLevelsBricks = myBrickList.getMyBricks();
+        myLevelsWalls = myBrickList.getMyWalls();
+        addWalls();
         addBricks();
         initializePowerUps();
     }
@@ -68,6 +73,14 @@ public class Level {
             brickIndex++;
         }
     }
+    private void addWalls(){
+        int wallIndex = 0;
+        for (Wall currentWall : myLevelsWalls) {
+            currentWall.setId("wall" + wallIndex);
+            myRoot.getChildren().add(currentWall);
+            wallIndex++;
+        }
+    }
 
     private void addDisplay(){
         myDisplay = new Display();
@@ -81,7 +94,7 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
-        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
+        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks, myLevelsWalls);
         deleteBricksAndCreatePowerUp();
         checkPowerUps(elapsedTime);
         setHighScore();
@@ -148,7 +161,7 @@ public class Level {
 
 
     private void deleteBricksAndCreatePowerUp(){
-        List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
+        List<Brick> deletedBricks = myBrickList.checkIfBrickIsDestroyed(myLevelsBricks);
         for(Brick currentBrick: deletedBricks) {
             if (currentBrick.checkPowerUp()) {
                 dropPowerUp(currentBrick);
