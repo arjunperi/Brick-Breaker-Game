@@ -23,6 +23,7 @@ public class Ball extends Circle {
     this.setId("ball");
     yDirection = -1;
     xDirection = 1;
+    gameLives = lives;
   }
 
   public int getSpeed() {

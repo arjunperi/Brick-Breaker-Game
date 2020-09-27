@@ -156,12 +156,20 @@ public class Level {
         }
     }
 
-    private void dropPowerUp(Brick powerBrick){
-        PowerUp droppedPowerUp = new PowerUp(powerBrick);
+    private void dropPowerUp(Brick powerBrick) {
+        PowerUp droppedPowerUp = null;
+        if (powerBrick.getPowerUpType().equals("L")) {
+            droppedPowerUp = new ExtraLifePowerUp(powerBrick);
+        } else if (powerBrick.getPowerUpType().equals("S")) {
+            droppedPowerUp = new BallSpeedReductionPowerUp(powerBrick);
+        } else if (powerBrick.getPowerUpType().equals("P")) {
+            droppedPowerUp = new PaddleLengthPowerUp(powerBrick);
+        }
         addPowerUpToGame(droppedPowerUp);
     }
 
-    public void addPowerUpToGame(PowerUp droppedPowerUp) {
+
+        public void addPowerUpToGame(PowerUp droppedPowerUp) {
         myRoot.getChildren().add(droppedPowerUp);
         droppedPowerUp.setId("PowerUp" + powerUpIndex);
         powerUpIndex++;
@@ -231,13 +239,21 @@ public class Level {
                 paused = true;
             }
         } else if (code == KeyCode.S) {
-            myBall.startBall(150);
+            myBall.startBall();
 
         } else if (code == KeyCode.L) {
             myBall.addGameLives();
         }
+        else if (code == KeyCode.N){
+            PowerUp extraLife = new ExtraLifePowerUp();
+            addPowerUpToGame(extraLife);
+        }
+        else if (code == KeyCode.B){
+            PowerUp extraLife = new BallSpeedReductionPowerUp();
+            addPowerUpToGame(extraLife);
+        }
         else if (code == KeyCode.P){
-            PowerUp extraLife = new PowerUp();
+            PowerUp extraLife = new PaddleLengthPowerUp();
             addPowerUpToGame(extraLife);
         }
         else if (code == KeyCode.O){

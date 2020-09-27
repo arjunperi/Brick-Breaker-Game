@@ -12,9 +12,9 @@ import java.util.Scanner;
 public class BrickList {
 
 
-  public static List<Brick> setUpLevel(String levelName) {
+  public static List<Brick> setUpLevel(int levelNum) {
     try {
-      File myFile = new File("data/" + levelName + ".txt");
+      File myFile = new File("data/level" + levelNum + ".txt");
       List<Brick> myBricks = new ArrayList<>();
       Scanner myReader = new Scanner(myFile);
       int yOffset = 0;

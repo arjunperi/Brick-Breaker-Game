@@ -23,17 +23,7 @@ public class BreakoutGame extends Application {
 
 
   private Scene myScene;
-  private Paddle myPaddle;
-  private Ball myBall;
-  private List<Brick> myLevelsBricks;
-  private List<PowerUp> myLevelsPowerUps;
-  private Display myDisplay;
   private Timeline animation;
-  private boolean paused;
-  private Group root;
-  private int score;
-  private int scoreMax;
-  private int powerUpIndex;
 
   private int lives;
   private int score;
@@ -53,15 +43,13 @@ public class BreakoutGame extends Application {
     animation.setCycleCount(Timeline.INDEFINITE);
     animation.getKeyFrames().add(frame);
     animation.play();
-    paused = false;
   }
 
   Scene setupScene(int level, int width, int height, Paint background) {
     currentLevel = level;
     myLevel = new Level (currentLevel, score, 3, root);
     Scene scene = new Scene(root, width, height, background);
-
-    scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+    scene.setOnKeyPressed(e -> myLevel.handleKeyInput(e.getCode(), animation));
     return scene;
   }
 
@@ -80,62 +68,12 @@ public class BreakoutGame extends Application {
     if (myLevel.changeLevel() >= 0){
       myLevel = new Level(myLevel.changeLevel(), score, lives, root);
     }
+    myLevel.updateShapes(elapsedTime);
   }
-
-
-  private void handleKeyInput(KeyCode code) {
-    if (code == KeyCode.LEFT) {
-      if(!paused && myPaddle.getX() > 0) {
-        myPaddle.setX(myPaddle.getX() - Paddle.PADDLE_SPEED);
-      }
-    } else if (code == KeyCode.RIGHT) {
-      if(!paused && myPaddle.getX() + Paddle.PADDLE_WIDTH <SIZE) {
-        myPaddle.setX(myPaddle.getX() + Paddle.PADDLE_SPEED);
-      }
-    } else if (code == KeyCode.R) {
-      myPaddle.resetPaddle();
-      myBall.resetBall();
-    } else if (code == KeyCode.SPACE) {
-      if (paused) {
-        animation.play();
-        paused = false;
-      } else {
-        animation.pause();
-        paused = true;
-      }
-    } else if (code == KeyCode.S) {
-      myBall.startBall();
-
-    } else if (code == KeyCode.L) {
-      myBall.addGameLives();
-    }
-    else if (code == KeyCode.Y){
-      PowerUp extraLife = new ExtraLifePowerUp();
-      addPowerUpToGame(extraLife);
-    }
-    else if (code == KeyCode.B){
-      PowerUp extraLife = new BallSpeedReductionPowerUp();
-      addPowerUpToGame(extraLife);
-    }
-    else if (code == KeyCode.P){
-      PowerUp extraLife = new PaddleLengthPowerUp();
-      addPowerUpToGame(extraLife);
-    }
-    else if (code == KeyCode.O){
-      for(Brick currentBrick: myLevelsBricks){
-        currentBrick.setLives(1);
-      }
-    }
-    else if(code == KeyCode.C){
-      myLevelsBricks.clear();
-    }
-  }
-
 
   public static void main(String[] args) {
     launch(args);
   }
-
 }
 
 

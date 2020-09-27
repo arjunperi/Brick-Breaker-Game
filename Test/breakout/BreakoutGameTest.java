@@ -83,7 +83,7 @@ class BreakoutGameTest extends DukeApplicationTest {
     press(myScene, KeyCode.L);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay.stats();
-    assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+    assertEquals("Lives: 4" + " Score: " + myDisplay.getScore() + " Level: " +
             myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
   }
 
@@ -93,7 +93,7 @@ class BreakoutGameTest extends DukeApplicationTest {
     press(myScene, KeyCode.O);
     assertEquals(1, myBrick0.getBrickLives());
   }
-/*
+
   @Test
   public void testDestroyBrickCheatKey(){
     assertEquals(2, myBrick0.getBrickLives());
@@ -122,7 +122,6 @@ class BreakoutGameTest extends DukeApplicationTest {
     javafxRun(() -> myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT1);
     javafxRun(() -> myStage.setScene(myScene));
-    sleep(1000);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay = lookup("#display").query();
     myDisplay.stats();
@@ -138,7 +137,6 @@ class BreakoutGameTest extends DukeApplicationTest {
     javafxRun(() -> myScene = myBreakoutGame.setupScene(2, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT2);
     javafxRun(() -> myStage.setScene(myScene));
-    sleep(1000);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay = lookup("#display").query();
     myDisplay.stats();
@@ -154,7 +152,6 @@ class BreakoutGameTest extends DukeApplicationTest {
     javafxRun(() -> myScene = myBreakoutGame.setupScene(3, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT3);
     javafxRun(() -> myStage.setScene(myScene));
-    sleep(1000);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay = lookup("#display").query();
     myDisplay.stats();

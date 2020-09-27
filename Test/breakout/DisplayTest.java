@@ -48,7 +48,7 @@ class DisplayTest extends DukeApplicationTest {
         myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay.stats();
-        assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+        assertEquals("Lives: " +  myDisplay.getLives() + " Score: 1" + " Level: " +
                 myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
     }
 
@@ -56,9 +56,9 @@ class DisplayTest extends DukeApplicationTest {
     public void testLifeDisplay(){
         myBall.setCenterX(0);
         myBall.setCenterY(BreakoutGame.SIZE);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay.stats();
         assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
@@ -84,7 +84,7 @@ class DisplayTest extends DukeApplicationTest {
         //After collision, next step registers that it was activated
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay.stats();
-        assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+        assertEquals("Lives: 4" + " Score: " + myDisplay.getScore() + " Level: " +
                 myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
     }
 
@@ -136,7 +136,6 @@ class DisplayTest extends DukeApplicationTest {
         javafxRun(() -> myScene = myBreakoutGame.setupScene(3, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
         press(myScene, KeyCode.DIGIT3);
         javafxRun(() -> myStage.setScene(myScene));
-        sleep(1000);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         press(myScene, KeyCode.C);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
@@ -158,7 +157,6 @@ class DisplayTest extends DukeApplicationTest {
         javafxRun(() -> myScene = myBreakoutGame.setupScene(0, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
         press(myScene, KeyCode.DIGIT0);
         javafxRun(() -> myStage.setScene(myScene));
-        sleep(1000);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay = lookup("#display").query();
         assertEquals("Welcome to Breakout! Here are the rules of the game:\n" +
