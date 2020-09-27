@@ -136,12 +136,14 @@ public class Level {
 
     public int changeLevel(){
         if (changeKeyPressed){
+            System.out.println(currentLevel);
             return currentLevel;
         }
         else {
             return -1;
         }
     }
+
 
     private void deleteBricksAndCreatePowerUp(){
         List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
@@ -305,5 +307,5 @@ public class Level {
             currentLevel = 3;
         }
     }
-
+    
 }
