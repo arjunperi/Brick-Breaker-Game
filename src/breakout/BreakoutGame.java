@@ -61,12 +61,13 @@ public class BreakoutGame extends Application {
     else{
       lives = myLevel.getLives();
     }
-    if (myLevel.checkEnd() && currentLevel < levelMax){
+    if (myLevel.checkEnd() && currentLevel < levelMax ){
       currentLevel++;
       myLevel = new Level(currentLevel, score, lives, root);
     }
-    if (myLevel.changeLevel() >= 0){
-      myLevel = new Level(myLevel.changeLevel(), score, lives, root);
+    else if (myLevel.changeLevel() >= 0){
+      currentLevel = myLevel.changeLevel();
+      myLevel = new Level(currentLevel, score, lives, root);
     }
     myLevel.updateShapes(elapsedTime);
   }

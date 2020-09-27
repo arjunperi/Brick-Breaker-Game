@@ -14,6 +14,9 @@ import javafx.scene.input.KeyCode;
 
 public class Level {
 
+    public static final int MIN_BALL_SPEED = 10;
+    public static final int BALL_SPEED_INCREASE = 10;
+
     private Ball myBall;
     private Display myDisplay;
 
@@ -142,6 +145,7 @@ public class Level {
             return -1;
         }
     }
+
 
     private void deleteBricksAndCreatePowerUp(){
         List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
@@ -303,6 +307,15 @@ public class Level {
             }
             changeKeyPressed = true;
             currentLevel = 3;
+        }
+        else if(code == KeyCode.DOWN){
+            if (myBall.getSpeed() > MIN_BALL_SPEED){
+                PowerUp speedPowerUp = new BallSpeedReductionPowerUp();
+                speedPowerUp.activatePowerUp(myPaddle, myBall);
+            }
+        }
+        else if(code == KeyCode.UP){
+            myBall.setSpeed(myBall.getSpeed() + BALL_SPEED_INCREASE);
         }
     }
 

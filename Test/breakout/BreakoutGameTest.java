@@ -159,4 +159,20 @@ class BreakoutGameTest extends DukeApplicationTest {
     assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
             myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
   }
+
+  @Test
+  public void testIncreaseBallSpeedCheatKey(){
+    press(myScene, KeyCode.S);
+    press(myScene, KeyCode.UP);
+    javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+    assertEquals(myBall.getSpeed(), 160);
+  }
+
+  @Test
+  public void testDecreaseBallSpeedCheatKey(){
+    press(myScene, KeyCode.S);
+    press(myScene, KeyCode.DOWN);
+    javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+    assertEquals(myBall.getSpeed(), 140);
+  }
 }
