@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -44,9 +43,9 @@ class DisplayTest extends DukeApplicationTest {
     public void testScoreIncrease(){
         myBall.setCenterX(0);
         myBall.setCenterY(160 + myBall.getRadius() / 2);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay.stats();
         assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
@@ -70,9 +69,9 @@ class DisplayTest extends DukeApplicationTest {
     public void testLifeDisplayExtraLife(){
         myBall.setCenterX(0);
         myBall.setCenterY(160 + myBall.getRadius() / 2);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         //Ball starts on the block, step destroys and releases power up
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
@@ -94,23 +93,23 @@ class DisplayTest extends DukeApplicationTest {
         //Each of these makes the ball go out out bounds and we lose a life
         myBall.setCenterX(0);
         myBall.setCenterY(BreakoutGame.SIZE);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
         myBall.setCenterX(0);
         myBall.setCenterY(BreakoutGame.SIZE);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
 
         myBall.setCenterX(0);
         myBall.setCenterY(BreakoutGame.SIZE);
-        myBall.setX_DIRECTION(0);
-        myBall.setY_DIRECTION(-1);
-        myBall.startBall(150);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay.lose();
         assertEquals("GAME OVER\nPress 1 to restart game from level 1\nPress 0 to restart game from rules screen" +

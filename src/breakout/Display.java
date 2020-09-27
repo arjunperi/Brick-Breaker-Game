@@ -2,9 +2,6 @@ package breakout;
 
 import javafx.scene.text.Text;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
 
 public class Display extends Text {
 
@@ -14,17 +11,12 @@ public class Display extends Text {
     private int myHighScore;
 
     public Display(){
-        super(50,350,"");
+        super(50,350, "Lives: 3 Score = 0");
         setId("display");
     }
 
-    private void setLocation(int x, int y){
-        setX(x);
-        setY(y);
-    }
-
-    public void startup(){
-        setText(readText("startupScreen"));
+    public void displayGameOver(){
+        setText("GAME OVER");
     }
 
     public void clear(){

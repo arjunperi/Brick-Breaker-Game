@@ -8,7 +8,6 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -60,9 +59,10 @@ class BreakoutGameTest extends DukeApplicationTest {
 
   @Test
   public void testStartKey() {
-    assertEquals(0, myBall.getBALL_SPEED());
+    assertEquals(0, myBall.getSpeed());
     press(myScene, KeyCode.S);
-    assertEquals(150, myBall.getBALL_SPEED());
+
+    assertEquals(150, myBall.getSpeed());
   }
 
   @Test
@@ -93,7 +93,7 @@ class BreakoutGameTest extends DukeApplicationTest {
     press(myScene, KeyCode.O);
     assertEquals(1, myBrick0.getBrickLives());
   }
-
+/*
   @Test
   public void testDestroyBrickCheatKey(){
     assertEquals(2, myBrick0.getBrickLives());

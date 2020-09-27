@@ -13,7 +13,7 @@ public class Brick extends Rectangle {
   public static final int BRICK_HEIGHT = BreakoutGame.SIZE / 10;
   private int myLives;
   private boolean containsPowerUp = false;
-  private String powerUpType = "ExtraLife";
+  private String powerUpType;
   private List<Color> brickColors = new ArrayList<>(Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
 
   public Brick(int lives) {
@@ -47,7 +47,7 @@ public class Brick extends Rectangle {
       setFill(brickColors.get(myLives - 1));
     }
     else{
-      setFill(Color.BLACK);
+      setFill(Color.BEIGE);
     }
     setStroke(Color.BLACK);
   }
@@ -72,6 +72,18 @@ public class Brick extends Rectangle {
 
   public String getPowerUpType(){
     return powerUpType;
+  }
+
+  public void topBallCollision(Ball myBall){
+    myBall.setYDirection(-1);
+  }
+
+  public void bottomBallCollision(Ball myBall){
+    myBall.setYDirection(1);
+  }
+
+  public void sideBallCollision(Ball myBall){
+    myBall.setXDirection(myBall.getXDirection() * -1);
   }
 
 

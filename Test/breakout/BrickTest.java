@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
@@ -56,5 +55,31 @@ class BrickTest extends DukeApplicationTest {
         myDisplay.stats();
         assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
                 myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
+
+
+    @Test
+    public void testBrokenBrickDestructionAndNoCollision() {
+        myBall.setCenterX(350);
+        myBall.setCenterY(160 + myBall.getRadius() / 2);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals("Lives: 3 Score: 1", myDisplay.getText());
+        assertEquals(-1, myBall.getYDirection());
+        // assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
+    }
+
+    @Test
+    public void testRubberBrick() {
+        myBall.setCenterX(250);
+        myBall.setCenterY(160 + myBall.getRadius() / 2);
+        myBall.setXDirection(0);
+        myBall.setYDirection(-1);
+        myBall.startBall();
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
+        assertEquals(160, myBall.getSpeed());
+        // assertEquals("Lives: 3 Score: 1 Level: 0 High Score: 0", myDisplay.getText());
+
     }
 }
