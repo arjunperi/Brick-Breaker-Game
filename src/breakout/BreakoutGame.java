@@ -32,7 +32,7 @@ public class BreakoutGame extends Application {
   private Level myLevel;
 
   public void start(Stage stage) {
-    myScene = setupScene(4, SIZE, SIZE, BACKGROUND);
+    myScene = setupScene(0, SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
     stage.setTitle(TITLE);
     stage.show();
