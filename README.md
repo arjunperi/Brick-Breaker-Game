@@ -87,5 +87,13 @@ To create a level:
 - All bricks can contain powerups, and powerups are marked in the file as a letter corresponding to the powerup type immediately before the brick type. "L" is extra life, "P" is paddle length increase, and "S" is ball speed decrease"
 - Examples of properly formatted levels can be found in the data directory.
 
+The highScore.txt file is responsible for holding the highScore of the game. To reset the highScore back to 0 (or another specified number),
+all the information on the file should be deleted. Line 1 of the file should be blank to set the highScore to 0, or should contain the specified starting high score, and there should be no additional lines. 
+
 ### Impressions
+- Arjun: Overall, I thought this assignment was an interesting coding experience as it introduced me to JavaFX and game development 
+for the first time. Though I have been coding for a few years, I still felt like some aspects of programming were very nebulous and
+far removed from what I would typically be coding, and this included game development. This project enabled me to get a better understanding
+of how games and their interfaces are made, making me realize that it isn't much different than what I'm used to doing. The only thing I would
+suggest is giving students more background on how to navigate TestFX and the various problems one might encounter while testing. 
 
