@@ -1,10 +1,5 @@
 package breakout;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import javafx.scene.Group;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class PowerUp extends Rectangle {
@@ -12,17 +7,14 @@ public abstract class PowerUp extends Rectangle {
   public static final int POWERUP_HEIGHT = Brick.BRICK_HEIGHT/2;
   private static final int POWER_UP_X_OFFSET = Brick.BRICK_WIDTH/4;
   private static final int POWER_UP_Y_OFFSET = Brick.BRICK_HEIGHT/4;
-  private boolean activated;
 
   public PowerUp(){
-    super(BreakoutGame.SIZE / 2 - POWERUP_WIDTH / 2,BreakoutGame.SIZE - 200, POWERUP_WIDTH, POWERUP_HEIGHT);
-    activated = false;
+    super(BreakoutGame.SIZE / 2.0 - POWERUP_WIDTH / 2.0,BreakoutGame.SIZE - 200, POWERUP_WIDTH, POWERUP_HEIGHT);
   }
 
   public PowerUp (Brick poweredBrick){
     super(poweredBrick.getX() + POWER_UP_X_OFFSET, poweredBrick.getY() + POWER_UP_Y_OFFSET, POWERUP_WIDTH,
         POWERUP_HEIGHT);
-    activated = false;
   }
 
 
@@ -40,7 +32,7 @@ public abstract class PowerUp extends Rectangle {
   }
 
   public boolean checkActivation(Paddle myPaddle, Ball myBall) {
-    if (checkHitPaddle(myPaddle) && !activated) {
+    if (checkHitPaddle(myPaddle)) {
       activatePowerUp(myPaddle, myBall);
       return true;
     }

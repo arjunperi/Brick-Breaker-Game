@@ -14,7 +14,6 @@ public class RubberBrick extends Brick{
 
     @Override
     public void setColor(){
-        return;
     }
     @Override
     public void topBallCollision(Ball myBall){

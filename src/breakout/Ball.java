@@ -9,7 +9,7 @@ import java.util.List;
 public class Ball extends Circle {
 
   private static final Paint BALL_COLOR = Color.BISQUE;
-  private static final int BALL_RADIUS = 7;
+  public static final int BALL_RADIUS = 5;
   public static final int START_SPEED = 150;
 
 
@@ -19,10 +19,10 @@ public class Ball extends Circle {
   private int gameLives;
 
   public Ball(int lives) {
-    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
+    super(BreakoutGame.SIZE / 2.0, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
     this.setId("ball");
-    yDirection = -1;
-    xDirection = 1;
+    yDirection = 1;
+    xDirection = 0;
     gameLives = lives;
   }
 
@@ -125,19 +125,15 @@ public class Ball extends Circle {
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
         if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
           myBrick.bottomBallCollision(this);
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
+
         }
         else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
           myBrick.topBallCollision(this);
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
         }
         else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
           myBrick.sideBallCollision(this);
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
         }
+        myBrick.subtractLives();
       }
     }
   }
@@ -165,7 +161,7 @@ public class Ball extends Circle {
 
 
   public void resetBall() {
-    setCenterX(BreakoutGame.SIZE / 2);
+    setCenterX(BreakoutGame.SIZE / 2.0);
     setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS);
     xDirection = 0;
     yDirection = 1;

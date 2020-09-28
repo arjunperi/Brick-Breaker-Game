@@ -4,14 +4,10 @@ package breakout;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class PaddleTest extends DukeApplicationTest {
@@ -21,12 +17,9 @@ class PaddleTest extends DukeApplicationTest {
     private Scene myScene;
     private Paddle myPaddle;
 
-    PaddleTest() throws FileNotFoundException {
-    }
-
 
     @Override
-    public void start(Stage stage) throws FileNotFoundException {
+    public void start(Stage stage) {
         //myScene = myBreakoutGame.setupScene(BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
         stage.setScene(myScene);
@@ -38,14 +31,14 @@ class PaddleTest extends DukeApplicationTest {
 
     @Test
     public void testPaddleInitSize() {
-        assertEquals(75, myPaddle.getWidth());
+        assertEquals(55, myPaddle.getWidth());
         assertEquals(10, myPaddle.getHeight());
     }
 
     @Test
     public void testPaddleInitPosition() {
-        assertEquals(400 / 2 - 75 / 2, myPaddle.getX());
-        assertEquals(400 - 10, myPaddle.getY());
+        assertEquals(BreakoutGame.SIZE / 2.0 - Paddle.PADDLE_WIDTH / 2.0, myPaddle.getX());
+        assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT, myPaddle.getY());
     }
 
     @Test
@@ -64,7 +57,7 @@ class PaddleTest extends DukeApplicationTest {
     public void testPaddleReset() {
         myPaddle.setX(0);
         press(myScene, KeyCode.R);
-        assertEquals(BreakoutGame.SIZE / 2 - Paddle.PADDLE_WIDTH / 2, myPaddle.getX());
+        assertEquals(BreakoutGame.SIZE / 2.0 - Paddle.PADDLE_WIDTH / 2.0, myPaddle.getX());
         assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT, myPaddle.getY());
     }
 }

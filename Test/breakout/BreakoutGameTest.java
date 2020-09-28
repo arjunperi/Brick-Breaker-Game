@@ -5,14 +5,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class BreakoutGameTest extends DukeApplicationTest {
@@ -21,15 +17,10 @@ class BreakoutGameTest extends DukeApplicationTest {
   private final BreakoutGame myBreakoutGame = new BreakoutGame();
   private Scene myScene;
 
-  private Brick myBrick0;
-  private Brick myBrick1;
-  private Brick myBrick8;
   private Paddle myPaddle;
   private Ball myBall;
   private Display myDisplay;
   private Stage myStage;
-
-  private PowerUp myPowerUp0;
 
 
   @Override
@@ -38,9 +29,6 @@ class BreakoutGameTest extends DukeApplicationTest {
     myStage = stage;
     myStage.setScene(myScene);
     myStage.show();
-    myBrick0 = lookup("#brick0").query();
-    myBrick1 = lookup("#brick1").query();
-    myBrick8 = lookup("#brick8").query();
     myPaddle = lookup("#paddle").query();
     myBall = lookup("#ball").query();
     myDisplay = lookup("#display").query();
@@ -52,9 +40,9 @@ class BreakoutGameTest extends DukeApplicationTest {
     myPaddle.setX(0);
     press(myScene, KeyCode.LEFT);
     assertEquals(0, myPaddle.getX());
-    myPaddle.setX(myBreakoutGame.SIZE - myPaddle.PADDLE_WIDTH);
+    myPaddle.setX(BreakoutGame.SIZE - Paddle.PADDLE_WIDTH);
     press(myScene, KeyCode.RIGHT);
-    assertEquals(myBreakoutGame.SIZE - myPaddle.PADDLE_WIDTH, myPaddle.getX());
+    assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_WIDTH, myPaddle.getX());
   }
 
   @Test
@@ -72,10 +60,10 @@ class BreakoutGameTest extends DukeApplicationTest {
     myPaddle.setX(0);
     myPaddle.setY(390);
     press(myScene, KeyCode.R);
-    assertEquals(BreakoutGame.SIZE / 2 - Paddle.PADDLE_WIDTH / 2, myPaddle.getX());
+    assertEquals(BreakoutGame.SIZE / 2.0 - Paddle.PADDLE_WIDTH / 2.0, myPaddle.getX());
     assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT, myPaddle.getY());
-    assertEquals(BreakoutGame.SIZE / 2, myBall.getCenterX());
-    assertEquals(BreakoutGame.SIZE - 60, myBall.getCenterY());
+    assertEquals(BreakoutGame.SIZE / 2.0, myBall.getCenterX());
+    assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - Ball.BALL_RADIUS, myBall.getCenterY());
   }
 
   @Test
@@ -85,20 +73,6 @@ class BreakoutGameTest extends DukeApplicationTest {
     myDisplay.stats();
     assertEquals("Lives: 4" + " Score: " + myDisplay.getScore() + " Level: " +
             myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
-  }
-
-  @Test
-  public void testBrickLivesCheatKey() {
-    assertEquals(2, myBrick0.getBrickLives());
-    press(myScene, KeyCode.O);
-    assertEquals(1, myBrick0.getBrickLives());
-  }
-
-  @Test
-  public void testDestroyBrickCheatKey(){
-    assertEquals(2, myBrick0.getBrickLives());
-    press(myScene, KeyCode.D);
-    assertEquals(0, myBrick0.getBrickLives());
   }
 
   @Test

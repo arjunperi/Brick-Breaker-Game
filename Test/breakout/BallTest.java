@@ -1,13 +1,9 @@
 package breakout;
 
 
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
@@ -38,13 +34,13 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallInitPosition() {
-        assertEquals(myBreakoutGame.SIZE / 2, myBall.getCenterX());
-        assertEquals(myBreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius(), myBall.getCenterY());
+        assertEquals(BreakoutGame.SIZE / 2.0, myBall.getCenterX());
+        assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius(), myBall.getCenterY());
     }
 
     @Test
     public void testBallInitSize() {
-        assertEquals(7, myBall.getRadius());
+        assertEquals(5, myBall.getRadius());
     }
 
     @Test
@@ -62,7 +58,7 @@ class BallTest extends DukeApplicationTest {
     @Test
     public void testBallBounceOffCorner() {
         myBall.setCenterX(0);
-        myBall.setCenterY(0);
+        myBall.setCenterY(Brick.BRICK_HEIGHT*8);
         myBall.setXDirection(-1);
         myBall.setYDirection(-1);
         myBall.startBall();
@@ -74,7 +70,7 @@ class BallTest extends DukeApplicationTest {
 
     @Test
     public void testBallBounceOffPaddle() {
-        myBall.setCenterX(BreakoutGame.SIZE / 2);
+        myBall.setCenterX(BreakoutGame.SIZE / 2.0);
         myBall.setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - myBall.getRadius() - 1);
         myBall.setXDirection(0);
         myBall.setYDirection(1);
@@ -96,8 +92,8 @@ class BallTest extends DukeApplicationTest {
         myBall.startBall();
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay.stats();
-        assertEquals(400 / 2, myBall.getCenterX());
-        assertEquals(400 - 60, myBall.getCenterY());
+        assertEquals(BreakoutGame.SIZE / 2.0, myBall.getCenterX());
+        assertEquals(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - Ball.BALL_RADIUS, myBall.getCenterY());
         assertEquals(2,myBall.getGameLives());
 
     }
@@ -123,6 +119,7 @@ class BallTest extends DukeApplicationTest {
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         assertEquals(-1, myBall.getXDirection());
     }
+
 
 
 }

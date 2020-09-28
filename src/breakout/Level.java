@@ -25,7 +25,7 @@ public class Level {
     private final List<Wall> myLevelsWalls;
     private Paddle myPaddle;
     private List<PowerUp> myLevelsPowerUps;
-    private BrickList myBrickList;
+    private final BrickList myBrickList;
 
     private boolean paused;
     private int myScore;
@@ -174,14 +174,12 @@ public class Level {
     }
 
     private void dropPowerUp(Brick powerBrick) {
-        PowerUp droppedPowerUp = null;
-        if (powerBrick.getPowerUpType().equals("L")) {
-            droppedPowerUp = new ExtraLifePowerUp(powerBrick);
-        } else if (powerBrick.getPowerUpType().equals("S")) {
-            droppedPowerUp = new BallSpeedReductionPowerUp(powerBrick);
-        } else if (powerBrick.getPowerUpType().equals("P")) {
-            droppedPowerUp = new PaddleLengthPowerUp(powerBrick);
-        }
+        PowerUp droppedPowerUp = switch (powerBrick.getPowerUpType()) {
+            case "L" -> new ExtraLifePowerUp(powerBrick);
+            case "S" -> new BallSpeedReductionPowerUp(powerBrick);
+            case "P" -> new PaddleLengthPowerUp(powerBrick);
+            default -> null;
+        };
         addPowerUpToGame(droppedPowerUp);
     }
 

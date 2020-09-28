@@ -10,14 +10,12 @@ public class BrokenBrick extends Brick{
     }
     @Override
     public void topBallCollision(Ball myBall){
-        return;
     }
     @Override
     public void bottomBallCollision(Ball myBall){
-        return;
+
     }
     @Override
     public void sideBallCollision(Ball myBall){
-        return;
     }
 }

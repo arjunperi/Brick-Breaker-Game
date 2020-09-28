@@ -18,11 +18,6 @@ public class Display extends Text {
         setId("display");
     }
 
-    private void setLocation(int x, int y){
-        setX(x);
-        setY(y);
-    }
-
     public void startup(){
         setText(readText("startupScreen"));
     }
@@ -70,20 +65,21 @@ public class Display extends Text {
 
 
     public String readText(String fileName){
-        setLocation(5,20);
-        String displayText = "";
+        setX(5);
+        setY(20);
+        StringBuilder displayText = new StringBuilder();
         try {
             File myFile = new File("data/" + fileName + ".txt");
             Scanner myReader = new Scanner(myFile);
             while (myReader.hasNextLine()) {
-                displayText += myReader.nextLine();
-                displayText += "\n";
+                displayText.append(myReader.nextLine());
+                displayText.append("\n");
             }
         }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return displayText;
+        return displayText.toString();
     }
 
 
