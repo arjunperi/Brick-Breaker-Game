@@ -14,7 +14,7 @@ public class BrickList {
   private List<Brick> myBricks = new ArrayList<>();
   private List<Wall> myWalls = new ArrayList<>();
 
-  public BrickList(int levelNum){
+  public BrickList(int levelNum) {
     setUpLevel(levelNum);
   }
 
@@ -22,7 +22,7 @@ public class BrickList {
     return myBricks;
   }
 
-  public List<Wall> getMyWalls(){
+  public List<Wall> getMyWalls() {
     return myWalls;
   }
 
@@ -33,32 +33,27 @@ public class BrickList {
       Scanner myReader = new Scanner(myFile);
       int yOffset = 0;
       int maxRow = 15;
-      while (myReader.hasNextLine() && yOffset < maxRow * Brick.BRICK_HEIGHT)  {
+      while (myReader.hasNextLine() && yOffset < maxRow * Brick.BRICK_HEIGHT) {
         String[] myRow = myReader.nextLine().split(" ");
         int boardRightEdgeIndex = BreakoutGame.SIZE / Brick.BRICK_WIDTH;
         int maxRowIndex = Math.min(myRow.length, boardRightEdgeIndex);
         for (int col = 0; col < maxRowIndex; col++) {
-          if(myRow[col].contains("-")) {
+          if (myRow[col].contains("-")) {
             Wall currentWall = new Wall();
-            currentWall.setX(col*Brick.BRICK_WIDTH);
+            currentWall.setX(col * Brick.BRICK_WIDTH);
             currentWall.setY(yOffset);
             myWalls.add(currentWall);
-          }
-
-          else if(myRow[col].contains("*")) {
+          } else if (myRow[col].contains("*")) {
             constructBrokenBrick(myBricks, yOffset, myRow, col);
-          }
-          else if (myRow[col].contains("+")){
-            constructRubberBrick(myBricks,yOffset,myRow,col);
-          }
-          else {
+          } else if (myRow[col].contains("+")) {
+            constructRubberBrick(myBricks, yOffset, myRow, col);
+          } else {
             constructNormalBrick(myBricks, yOffset, myRow, col);
           }
         }
         yOffset += Brick.BRICK_HEIGHT;
       }
-    }
-    catch(FileNotFoundException | NumberFormatException e){
+    } catch (FileNotFoundException | NumberFormatException e) {
       throw new IllegalStateException();
     }
   }
@@ -80,7 +75,7 @@ public class BrickList {
     Brick currentBrick;
 
     int currentBrickLives = Integer.parseInt(myRow[col].replaceAll("\\D", ""));
-    if(currentBrickLives != 0) {
+    if (currentBrickLives != 0) {
 
       currentBrick = new Brick(currentBrickLives);
 
@@ -96,7 +91,8 @@ public class BrickList {
     addBrickToList(myBricks, yOffset, col, currentBrick);
   }
 
-  private static void addBrickToList(List<Brick> myBricks, int yOffset, int col, Brick currentBrick) {
+  private static void addBrickToList(List<Brick> myBricks, int yOffset, int col,
+      Brick currentBrick) {
     currentBrick.setPosition(col * Brick.BRICK_WIDTH, yOffset);
     myBricks.add(currentBrick);
   }

@@ -14,7 +14,8 @@ public class Brick extends Rectangle {
   private int myLives;
   private boolean containsPowerUp = false;
   private String powerUpType;
-  private final List<Color> brickColors = new ArrayList<>(Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
+  private final List<Color> brickColors = new ArrayList<>(
+      Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
 
   public Brick(int lives) {
     super(BRICK_WIDTH, BRICK_HEIGHT);
@@ -43,10 +44,9 @@ public class Brick extends Rectangle {
 
   public void setColor() {
     //Sets corresponding color. If lives > 3, set color to black.
-    if(1 <= myLives && myLives <= brickColors.size()){
+    if (1 <= myLives && myLives <= brickColors.size()) {
       setFill(brickColors.get(myLives - 1));
-    }
-    else{
+    } else {
       setFill(Color.BEIGE);
     }
     setStroke(Color.BLACK);
@@ -61,28 +61,28 @@ public class Brick extends Rectangle {
     return isDestroyed;
   }
 
-  public void addPowerUp(String powerUpType){
+  public void addPowerUp(String powerUpType) {
     containsPowerUp = true;
     this.powerUpType = powerUpType;
   }
 
-  public boolean checkPowerUp(){
+  public boolean checkPowerUp() {
     return containsPowerUp;
   }
 
-  public String getPowerUpType(){
+  public String getPowerUpType() {
     return powerUpType;
   }
 
-  public void topBallCollision(Ball myBall){
+  public void topBallCollision(Ball myBall) {
     myBall.setYDirection(-1);
   }
 
-  public void bottomBallCollision(Ball myBall){
+  public void bottomBallCollision(Ball myBall) {
     myBall.setYDirection(1);
   }
 
-  public void sideBallCollision(Ball myBall){
+  public void sideBallCollision(Ball myBall) {
     myBall.setXDirection(myBall.getXDirection() * -1);
   }
 

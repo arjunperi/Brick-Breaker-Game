@@ -31,7 +31,7 @@ public class BreakoutGame extends Application {
   private final Group root = new Group();
   private Level myLevel;
 
-  public void start(Stage stage){
+  public void start(Stage stage) {
     myScene = setupScene(4, SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
     stage.setTitle(TITLE);
@@ -45,25 +45,23 @@ public class BreakoutGame extends Application {
 
   Scene setupScene(int level, int width, int height, Paint background) {
     currentLevel = level;
-    myLevel = new Level (currentLevel, score, 3, root);
+    myLevel = new Level(currentLevel, score, 3, root);
     Scene scene = new Scene(root, width, height, background);
     scene.setOnKeyPressed(e -> myLevel.handleKeyInput(e.getCode(), animation));
     return scene;
   }
 
-  void step(double elapsedTime){
+  void step(double elapsedTime) {
     score = myLevel.getScore();
-    if (currentLevel == 0){
+    if (currentLevel == 0) {
       lives = 3;
-    }
-    else{
+    } else {
       lives = myLevel.getLives();
     }
-    if (myLevel.checkEnd() && currentLevel < levelMax ){
+    if (myLevel.checkEnd() && currentLevel < levelMax) {
       currentLevel++;
       myLevel = new Level(currentLevel, score, lives, root);
-    }
-    else if (myLevel.changeLevel() >= 0){
+    } else if (myLevel.changeLevel() >= 0) {
       currentLevel = myLevel.changeLevel();
       myLevel = new Level(currentLevel, score, lives, root);
     }

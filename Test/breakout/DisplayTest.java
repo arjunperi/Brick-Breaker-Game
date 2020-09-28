@@ -144,7 +144,7 @@ class DisplayTest extends DukeApplicationTest {
 
                 Lives remaining: 3
                 Score reached: 0
-                High score to beat: """ +" "+ myDisplay.getHighScore(), myDisplay.getText());
+            High score to beat: """ + " " + myDisplay.getHighScore(), myDisplay.getText());
     }
 
     @Test
