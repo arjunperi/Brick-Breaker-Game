@@ -4,7 +4,7 @@ game
 This project implements the game of Breakout. There are 3 level variants. The first contains rows of bricks all with one life, with some containing one of three powerups (extra life, paddle extension, and ball speed decrease). The Second contains various brick variants: multiple lives brick (the life change is demarked by a change in color in order from least to greatest HOTPINK, GREEN, BLUE, and BEIGE if life > 3), broken brick (ball does not collide, marked as brown), and rubber brick (ball speed increases when hit, marked as black). The last level variant contains new structures known as Walls, which act to block the path of the ball, but do not contribute to score and cannot be destroyed (without use of a cheat key).
 
 Name: 
-- Arjun Peri
+- Arjun  (ap458)
 - Jerry Fang (jdf58)
 
 ### Timeline
