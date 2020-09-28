@@ -4,8 +4,8 @@ game
 This project implements the game of Breakout.
 
 Name: 
-Arjun Peri
-Jerry Fang
+- Arjun Peri
+- Jerry Fang
 
 ### Timeline
 
