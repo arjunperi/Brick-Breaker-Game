@@ -1,11 +1,11 @@
 game
 ====
 
-This project implements the game of Breakout. There are 3 level variants. The first contains rows of bricks all with one life, with some containing one of three powerups (extra life, paddle extension, and ball speed decrease). The Second contains various brick variants: multiple lives (life change demarked by a change in color in order of HOTPINK, GREEN, BLUE, and BEIGE if life > 3), broken (ball does not collide, marked as brown), and rubber (ball speed increases when hit, marked as black). The last level variant contains new structures known as Walls, which act to block the path of the ball, but do not contribute to score and cannot be destroyed (without use of a cheat key).
+This project implements the game of Breakout. There are 3 level variants. The first contains rows of bricks all with one life, with some containing one of three powerups (extra life, paddle extension, and ball speed decrease). The Second contains various brick variants: multiple lives brick (the life change is demarked by a change in color in order from least to greatest HOTPINK, GREEN, BLUE, and BEIGE if life > 3), broken brick (ball does not collide, marked as brown), and rubber brick (ball speed increases when hit, marked as black). The last level variant contains new structures known as Walls, which act to block the path of the ball, but do not contribute to score and cannot be destroyed (without use of a cheat key).
 
 Name: 
 - Arjun Peri
-- Jerry Fang
+- Jerry Fang (jdf58)
 
 ### Timeline
 
@@ -17,10 +17,10 @@ Hours Spent: ~5 hrs / week per person * 3 weeks * 2 people = 30 hrs
 
 ### Resources Used
 - Course website - Some starter code with setting up JavaFX was taken and modified from works of Dr. Robert Duvall.
-- Stack overflow
+- Stack overflow - Used [this](https://stackoverflow.com/questions/29930784/how-do-i-get-only-integers-from-a-string) for help in the file parsing method.
 - Youtube
 - Class Piazza board
-- Office hours
+- Office hour TA's - Ryan Weeratung, Christina Chen
 
 ### Running the Program
 
@@ -77,7 +77,15 @@ to continue to next level.
 ### Notes/Assumptions
 We operate under the assumption that each file that contains the data for level configuration has the name level#.txt, starting from level1, as level0 is the rules screen. To add more levels, a new level file must be added, and the maxLevel int in BreakoutGame.java must be increased.
 
------ ADD THE LEVEL FILE CONFIGURATION HERE -----
+To create a level:
+
+- Each line in in the text file represets a row of bricks, which can be up to 15 rows. 
+- Within each row, each column of bricks must be separated by a space.
+- Each brick is represented as either a number (indicative of the number of lives) for normal or multiple live bricks, a "*" for broken bricks, or a "+" for a rubber brick.
+- To represent no brick, use 0. To represent an entire row of no bricks, there must be at least one 0 in that row (leaving it empty will result in an IllegalStateException being thrown).
+- A wall is represented by a "-"
+- All bricks can contain powerups, and powerups are marked in the file as a letter corresponding to the powerup type immediately before the brick type. "L" is extra life, "P" is paddle length increase, and "S" is ball speed decrease"
+- Examples of properly formatted levels can be found in the data directory.
 
 ### Impressions
 
