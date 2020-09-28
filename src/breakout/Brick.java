@@ -9,12 +9,12 @@ import java.util.List;
 
 public class Brick extends Rectangle {
 
-  public static final int BRICK_WIDTH = BreakoutGame.SIZE / 4;
-  public static final int BRICK_HEIGHT = BreakoutGame.SIZE / 10;
+  public static final int BRICK_WIDTH = BreakoutGame.SIZE / 10;
+  public static final int BRICK_HEIGHT = BreakoutGame.SIZE / 20;
   private int myLives;
   private boolean containsPowerUp = false;
   private String powerUpType;
-  private List<Color> brickColors = new ArrayList<>(Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
+  private final List<Color> brickColors = new ArrayList<>(Arrays.asList(Color.HOTPINK, Color.GREEN, Color.BLUE));
 
   public Brick(int lives) {
     super(BRICK_WIDTH, BRICK_HEIGHT);

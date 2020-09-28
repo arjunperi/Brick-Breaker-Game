@@ -11,58 +11,84 @@ import java.util.Scanner;
 
 public class BrickList {
 
+  private List<Brick> myBricks = new ArrayList<>();
+  private List<Wall> myWalls = new ArrayList<>();
 
-  public static List<Brick> setUpLevel(int levelNum) {
+  public BrickList(int levelNum){
+    setUpLevel(levelNum);
+  }
+
+  public List<Brick> getMyBricks() {
+    return myBricks;
+  }
+
+  public List<Wall> getMyWalls(){
+    return myWalls;
+  }
+
+
+  public void setUpLevel(int levelNum) {
     try {
       File myFile = new File("data/level" + levelNum + ".txt");
-      List<Brick> myBricks = new ArrayList<>();
       Scanner myReader = new Scanner(myFile);
       int yOffset = 0;
       while (myReader.hasNextLine()) {
         String[] myRow = myReader.nextLine().split(" ");
         for (int col = 0; col < myRow.length; col++) {
+          if(myRow[col].contains("-")) {
+            Wall currentWall = new Wall();
+            currentWall.setX(col*Brick.BRICK_WIDTH);
+            currentWall.setY(yOffset);
+            myWalls.add(currentWall);
+          }
 
-          if(myRow[col].contains("*")) {
+          else if(myRow[col].contains("*")) {
             constructBrokenBrick(myBricks, yOffset, myRow, col);
           }
+          else if (myRow[col].contains("+")){
+            constructRubberBrick(myBricks,yOffset,myRow,col);
+          }
           else {
-            constructNormalOrRubberBrick(myBricks, yOffset, myRow, col);
+            constructNormalBrick(myBricks, yOffset, myRow, col);
           }
         }
         yOffset += Brick.BRICK_HEIGHT;
       }
-      return myBricks;
     }
     catch(FileNotFoundException e){
       throw new IllegalArgumentException();
     }
   }
 
-  private static void constructNormalOrRubberBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+  private void constructRubberBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+    Brick currentBrick = new RubberBrick(1);
+    addPowerUp(myRow, col, currentBrick);
+    addBrickToList(myBricks, yOffset, col, currentBrick);
+  }
+
+  private void addPowerUp(String[] myRow, int col, Brick currentBrick) {
+    if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")) {
+      String powerUpType = myRow[col].substring(0, 1);
+      currentBrick.addPowerUp(powerUpType);
+    }
+  }
+
+  private void constructNormalBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
     Brick currentBrick;
-    String powerUpType = "";
+
     int currentBrickLives = Integer.parseInt(myRow[col].replaceAll("\\D", ""));
     if(currentBrickLives != 0) {
-      if(myRow[col].contains("+")){
-        currentBrick = new RubberBrick(currentBrickLives);
-      }
-      else {
-        currentBrick = new Brick(currentBrickLives);
-      }
-      if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")) {
-        powerUpType = myRow[col].substring(0, 1);
-        currentBrick.addPowerUp(powerUpType);
-      }
+
+      currentBrick = new Brick(currentBrickLives);
+
+      addPowerUp(myRow, col, currentBrick);
       addBrickToList(myBricks, yOffset, col, currentBrick);
     }
   }
 
-  private static void constructBrokenBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+  private void constructBrokenBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
     Brick currentBrick = new BrokenBrick(1);
-    if (myRow[col].contains("L") || myRow[col].contains("S") || myRow[col].contains("P")){
-      String powerUpType = myRow[col].substring(0, 1);
-      currentBrick.addPowerUp(powerUpType);
-    }
+    addPowerUp(myRow, col, currentBrick);
 
     addBrickToList(myBricks, yOffset, col, currentBrick);
   }
@@ -72,7 +98,7 @@ public class BrickList {
     myBricks.add(currentBrick);
   }
 
-  public static List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
+  public List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
     //used an iterator here so that I don't get a concurrent modification exception
     List<Brick> deletedBricks = new ArrayList<>();
     Iterator<Brick> bricks = myLevelsBricks.iterator();

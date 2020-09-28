@@ -1,7 +1,5 @@
 package breakout;
 
-import java.io.FileNotFoundException;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -28,9 +26,9 @@ public class BreakoutGame extends Application {
   private int lives;
   private int score;
   private int currentLevel = 0;
-  private int levelMax = 3;
+  private final int levelMax = 3;
 
-  private Group root = new Group();
+  private final Group root = new Group();
   private Level myLevel;
 
   public void start(Stage stage){

@@ -9,11 +9,11 @@ public class RubberBrick extends Brick{
     RubberBrick(int lives){
         super(lives);
         setFill(Color.BLACK);
+        setStroke(Color.BLACK);
     }
 
     @Override
     public void setColor(){
-        return;
     }
     @Override
     public void topBallCollision(Ball myBall){

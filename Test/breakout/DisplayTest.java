@@ -5,14 +5,10 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-
-import java.io.FileNotFoundException;
-
 import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class DisplayTest extends DukeApplicationTest {
@@ -140,14 +136,15 @@ class DisplayTest extends DukeApplicationTest {
         press(myScene, KeyCode.C);
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay = lookup("#display").query();
-        assertEquals("GAME WON!\n" +
-                "Press 1 to restart game from level 1\n" +
-                "Press 0 to restart game from rules screen\n" +
-                "Nice job!\n" +
-                "\n" +
-                "Lives remaining: 3\n" +
-                "Score reached: 0\n" +
-                "High score to beat: 22", myDisplay.getText());
+        assertEquals("""
+                GAME WON!
+                Press 1 to restart game from level 1
+                Press 0 to restart game from rules screen
+                Nice job!
+
+                Lives remaining: 3
+                Score reached: 0
+                High score to beat: """ +" "+ myDisplay.getHighScore(), myDisplay.getText());
     }
 
     @Test
@@ -159,14 +156,16 @@ class DisplayTest extends DukeApplicationTest {
         javafxRun(() -> myStage.setScene(myScene));
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay = lookup("#display").query();
-        assertEquals("Welcome to Breakout! Here are the rules of the game:\n" +
-                "Move the paddle across the screen using the left and right keys\n" +
-                "Press S to start the ball\n" +
-                "The ball will bounce around the screen and off bricks\n" +
-                "But don't let it fall to the bottom, or you lose a life!\n" +
-                "Clear all the bricks to complete a level\n" +
-                "But lose all three of your lives, and it's game over!\n" +
-                "Press Y to begin level 1\n", myDisplay.getText());
+        assertEquals("""
+                Welcome to Breakout! Here are the rules of the game:
+                Move the paddle across the screen using the left and right keys
+                Press S to start the ball
+                The ball will bounce around the screen and off bricks
+                But don't let it fall to the bottom, or you lose a life!
+                Clear all the bricks to complete a level
+                But lose all three of your lives, and it's game over!
+                Press Y to begin level 1
+                """, myDisplay.getText());
     }
 
 }

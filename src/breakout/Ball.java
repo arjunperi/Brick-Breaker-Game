@@ -9,7 +9,7 @@ import java.util.List;
 public class Ball extends Circle {
 
   private static final Paint BALL_COLOR = Color.BISQUE;
-  private static final int BALL_RADIUS = 7;
+  public static final int BALL_RADIUS = 5;
   public static final int START_SPEED = 150;
 
 
@@ -19,10 +19,10 @@ public class Ball extends Circle {
   private int gameLives;
 
   public Ball(int lives) {
-    super(BreakoutGame.SIZE / 2, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
+    super(BreakoutGame.SIZE / 2.0, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
     this.setId("ball");
-    yDirection = -1;
-    xDirection = 1;
+    yDirection = 1;
+    xDirection = 0;
     gameLives = lives;
   }
 
@@ -58,11 +58,12 @@ public class Ball extends Circle {
     speed = 0;
   }
 
-  public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks) {
+  public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks, List<Wall> myLevelsWalls) {
     checkBorderCollision();
     checkPaddleCollision(myPaddle);
     checkBrickCollision(myLevelsBricks);
     setPosition(elapsedTime);
+    checkWallCollision(myLevelsWalls);
     return this;
   }
 
@@ -86,31 +87,53 @@ public class Ball extends Circle {
     }
   }
 
+  private void checkWallCollision(List<Wall> myLevelsWalls) {
+
+    double leftEdgeBall = getCenterX() - getRadius() / 2;
+    double rightEdgeBall = getCenterX() + getRadius() / 2;
+    double bottomEdgeBall  = getCenterY() + getRadius() / 2;
+    double topEdgeBall  = getCenterY() - getRadius() / 2;
+
+    for (Wall currentWall: myLevelsWalls){
+      double brickEndX = currentWall.getX() + currentWall.getWidth();
+
+      if (currentWall.getBoundsInParent().intersects(getBoundsInParent())) {
+        if ((rightEdgeBall > currentWall.getX() && leftEdgeBall < brickEndX && topEdgeBall > currentWall.getY())) {
+          yDirection = 1;
+        }
+        else if ((rightEdgeBall > currentWall.getX() && leftEdgeBall < brickEndX && topEdgeBall < currentWall.getY())) {
+          yDirection = -1;
+        }
+        else if (bottomEdgeBall > currentWall.getY() && topEdgeBall < currentWall.getY() + currentWall.getHeight()){
+          xDirection *= -1;
+        }
+      }
+    }
+  }
+
   private void checkBrickCollision(List<Brick> myLevelsBricks) {
+
+    double leftEdgeBall = getCenterX() - getRadius() / 2;
+    double rightEdgeBall = getCenterX() + getRadius() / 2;
+    double bottomEdgeBall  = getCenterY() + getRadius() / 2;
+    double topEdgeBall  = getCenterY() - getRadius() / 2;
 
     for (Brick myBrick: myLevelsBricks){
       double brickEndX = myBrick.getX() + myBrick.getWidth();
-      double leftEdgeBall = getCenterX() - getRadius() / 2;
-      double rightEdgeBall = getCenterX() + getRadius() / 2;
-      double bottomEdgeBall  = getCenterY() + getRadius() / 2;
-      double topEdgeBall  = getCenterY() - getRadius() / 2;
+
 
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
         if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
           myBrick.bottomBallCollision(this);
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
+
         }
         else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
           myBrick.topBallCollision(this);
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
         }
         else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
           myBrick.sideBallCollision(this);
-          myBrick.subtractLives();
-          myBrick.getBrickLives();
         }
+        myBrick.subtractLives();
       }
     }
   }
@@ -138,8 +161,8 @@ public class Ball extends Circle {
 
 
   public void resetBall() {
-    setCenterX(BreakoutGame.SIZE / 2);
-    setCenterY(BreakoutGame.SIZE - 60);
+    setCenterX(BreakoutGame.SIZE / 2.0);
+    setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS);
     xDirection = 0;
     yDirection = 1;
     endBall();

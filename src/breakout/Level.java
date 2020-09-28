@@ -22,8 +22,10 @@ public class Level {
 
     private final Group myRoot;
     private final List<Brick> myLevelsBricks;
+    private final List<Wall> myLevelsWalls;
     private Paddle myPaddle;
     private List<PowerUp> myLevelsPowerUps;
+    private final BrickList myBrickList;
 
     private boolean paused;
     private int myScore;
@@ -45,7 +47,10 @@ public class Level {
         addDisplay();
         addPaddle();
         addBall();
-        myLevelsBricks = BrickList.setUpLevel(levelNum);
+        myBrickList = new BrickList(levelNum);
+        myLevelsBricks = myBrickList.getMyBricks();
+        myLevelsWalls = myBrickList.getMyWalls();
+        addWalls();
         addBricks();
         initializePowerUps();
     }
@@ -68,6 +73,14 @@ public class Level {
             brickIndex++;
         }
     }
+    private void addWalls(){
+        int wallIndex = 0;
+        for (Wall currentWall : myLevelsWalls) {
+            currentWall.setId("wall" + wallIndex);
+            myRoot.getChildren().add(currentWall);
+            wallIndex++;
+        }
+    }
 
     private void addDisplay(){
         myDisplay = new Display();
@@ -81,7 +94,7 @@ public class Level {
     }
 
     public void updateShapes(double elapsedTime) {
-        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks);
+        myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks, myLevelsWalls);
         deleteBricksAndCreatePowerUp();
         checkPowerUps(elapsedTime);
         setHighScore();
@@ -148,7 +161,7 @@ public class Level {
 
 
     private void deleteBricksAndCreatePowerUp(){
-        List<Brick> deletedBricks = BrickList.checkIfBrickIsDestroyed(myLevelsBricks);
+        List<Brick> deletedBricks = myBrickList.checkIfBrickIsDestroyed(myLevelsBricks);
         for(Brick currentBrick: deletedBricks) {
             if (currentBrick.checkPowerUp()) {
                 dropPowerUp(currentBrick);
@@ -161,14 +174,12 @@ public class Level {
     }
 
     private void dropPowerUp(Brick powerBrick) {
-        PowerUp droppedPowerUp = null;
-        if (powerBrick.getPowerUpType().equals("L")) {
-            droppedPowerUp = new ExtraLifePowerUp(powerBrick);
-        } else if (powerBrick.getPowerUpType().equals("S")) {
-            droppedPowerUp = new BallSpeedReductionPowerUp(powerBrick);
-        } else if (powerBrick.getPowerUpType().equals("P")) {
-            droppedPowerUp = new PaddleLengthPowerUp(powerBrick);
-        }
+        PowerUp droppedPowerUp = switch (powerBrick.getPowerUpType()) {
+            case "L" -> new ExtraLifePowerUp(powerBrick);
+            case "S" -> new BallSpeedReductionPowerUp(powerBrick);
+            case "P" -> new PaddleLengthPowerUp(powerBrick);
+            default -> null;
+        };
         addPowerUpToGame(droppedPowerUp);
     }
 
@@ -276,6 +287,12 @@ public class Level {
                 Brick targetBrick = myLevelsBricks.get(0);
                 targetBrick.setLives(0);
             }
+        }
+        else if(code == KeyCode.M){
+            for(Wall currentWall: myLevelsWalls){
+                myRoot.getChildren().remove(currentWall);
+            }
+            myLevelsWalls.clear();
         }
         else if(code == KeyCode.Y && levelOver){
             continueGame = true;
