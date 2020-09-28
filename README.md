@@ -17,8 +17,11 @@ Hours Spent: ~5 hrs / week per person * 3 weeks * 2 people = 30 hrs
 
 ### Resources Used
 - Course website - Some starter code with setting up JavaFX was taken and modified from works of Dr. Robert Duvall.
-- Stack overflow - Used [this](https://stackoverflow.com/questions/29930784/how-do-i-get-only-integers-from-a-string) for help in the file parsing method.
-- Youtube
+- Stack overflow 
+	- Used [this](https://stackoverflow.com/questions/29930784/how-do-i-get-only-integers-from-a-string) for help in the file parsing method.
+	- Used [this](https://stackoverflow.com/questions/18549704/create-a-new-line-in-javas-filewriter) for writing to the highScore.txt file. 
+	- Used [this](https://stackoverflow.com/questions/49216396/clearing-the-scene-in-javafx) for help with scene maintenance / clearing. 
+	- Used [this](https://stackoverflow.com/questions/2472690/in-java-is-there-any-disadvantage-to-static-methods-on-a-class) for help with design principles
 - Class Piazza board
 - Office hour TA's - Ryan Weeratung, Christina Chen
 
