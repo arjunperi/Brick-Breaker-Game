@@ -32,9 +32,12 @@ public class BrickList {
       File myFile = new File("data/level" + levelNum + ".txt");
       Scanner myReader = new Scanner(myFile);
       int yOffset = 0;
-      while (myReader.hasNextLine()) {
+      int maxRow = 15;
+      while (myReader.hasNextLine() && yOffset < maxRow * Brick.BRICK_HEIGHT)  {
         String[] myRow = myReader.nextLine().split(" ");
-        for (int col = 0; col < myRow.length; col++) {
+        int boardRightEdgeIndex = BreakoutGame.SIZE / Brick.BRICK_WIDTH;
+        int maxRowIndex = Math.min(myRow.length, boardRightEdgeIndex);
+        for (int col = 0; col < maxRowIndex; col++) {
           if(myRow[col].contains("-")) {
             Wall currentWall = new Wall();
             currentWall.setX(col*Brick.BRICK_WIDTH);
@@ -99,7 +102,6 @@ public class BrickList {
   }
 
   public List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
-    //used an iterator here so that I don't get a concurrent modification exception
     List<Brick> deletedBricks = new ArrayList<>();
     Iterator<Brick> bricks = myLevelsBricks.iterator();
     while (bricks.hasNext()) {
