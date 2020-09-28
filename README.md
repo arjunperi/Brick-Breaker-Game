@@ -49,9 +49,10 @@ Cheat keys:
 - P: drops paddle length extension power up
 - O: makes all the bricks at the current level have only one life
 - C: clears all the bricks at the current level
+- M: clears all the walls at the current level
 - D: destroys the "first" remaining block on the screen, which is defined as the top left most brick 
 - Y: allows user to continue to next level when prompted
-- 0: switches game to level 0 
+- 0: switches game to level 0 (rules screen) 
 - 1: switches game to level 1
 - 2: switches game to level 2
 - 3: switches game to level 3
