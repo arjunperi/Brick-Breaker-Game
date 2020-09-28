@@ -25,7 +25,8 @@ Hours Spent: ~5 hrs / week per person * 3 weeks * 2 people = 30 hrs
 ### Running the Program
 
 Main class:
-BreakoutGame.java
+
+To run the program, simply run main in the BreakoutGame.java class.
 
 Data files needed: 
 - level0.txt, level1.txt, level2.txt, level3.txt
