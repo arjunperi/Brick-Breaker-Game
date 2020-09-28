@@ -28,7 +28,8 @@ class BreakoutGameTest extends DukeApplicationTest {
 
   @Override
   public void start(Stage stage) {
-    myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
+    myScene = myBreakoutGame
+        .setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND);
     myStage = stage;
     myStage.setScene(myScene);
     myStage.show();
@@ -39,7 +40,7 @@ class BreakoutGameTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testPaddleOnEdgeOfScreen(){
+  public void testPaddleOnEdgeOfScreen() {
     myPaddle.setX(0);
     press(myScene, KeyCode.LEFT);
     assertEquals(0, myPaddle.getX());
@@ -75,14 +76,15 @@ class BreakoutGameTest extends DukeApplicationTest {
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay.stats();
     assertEquals("Lives: 4" + " Score: " + myDisplay.getScore() + " Level: " +
-            myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
+        myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
   }
 
   @Test
-  public void testChangeLevel0(){
+  public void testChangeLevel0() {
     Group temp = new Group();
     myScene.setRoot(temp);
-    javafxRun(() -> myScene = myBreakoutGame.setupScene(0, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
+    javafxRun(() -> myScene = myBreakoutGame
+        .setupScene(0, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT0);
     javafxRun(() -> myStage.setScene(myScene));
     sleep(1000);
@@ -93,52 +95,55 @@ class BreakoutGameTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testTransitionToLevelOne(){
+  public void testTransitionToLevelOne() {
     Group temp = new Group();
     myScene.setRoot(temp);
-    javafxRun(() -> myScene = myBreakoutGame.setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
+    javafxRun(() -> myScene = myBreakoutGame
+        .setupScene(1, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT1);
     javafxRun(() -> myStage.setScene(myScene));
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay = lookup("#display").query();
     myDisplay.stats();
     assertEquals(myDisplay.getLevel(), 1);
-    assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
-            myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
+    assertEquals("Lives: " + myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+        myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
   }
 
   @Test
-  public void testTransitionToLevelTwo(){
+  public void testTransitionToLevelTwo() {
     Group temp = new Group();
     myScene.setRoot(temp);
-    javafxRun(() -> myScene = myBreakoutGame.setupScene(2, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
+    javafxRun(() -> myScene = myBreakoutGame
+        .setupScene(2, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT2);
     javafxRun(() -> myStage.setScene(myScene));
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay = lookup("#display").query();
     myDisplay.stats();
     assertEquals(myDisplay.getLevel(), 2);
-    assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
-            myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
+    assertEquals("Lives: " + myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+        myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
   }
 
   @Test
-  public void testTransitionToLevelThree(){
+  public void testTransitionToLevelThree() {
     Group temp = new Group();
     myScene.setRoot(temp);
-    javafxRun(() -> myScene = myBreakoutGame.setupScene(3, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
+    javafxRun(() -> myScene = myBreakoutGame
+        .setupScene(3, BreakoutGame.SIZE, BreakoutGame.SIZE, BreakoutGame.BACKGROUND));
     press(myScene, KeyCode.DIGIT3);
     javafxRun(() -> myStage.setScene(myScene));
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     myDisplay = lookup("#display").query();
     myDisplay.stats();
     assertEquals(myDisplay.getLevel(), 3);
-    assertEquals("Lives: " +  myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
-            myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
+    assertEquals("Lives: " + myDisplay.getLives() + " Score: " + myDisplay.getScore() + " Level: " +
+        myDisplay.getLevel() + " High Score: " + myDisplay.getHighScore(), myDisplay.getText());
   }
 
   @Test
-  public void testIncreaseBallSpeedCheatKey(){
+  public void testIncreaseBallSpeedCheatKey() {
     press(myScene, KeyCode.S);
     press(myScene, KeyCode.UP);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
@@ -146,17 +151,22 @@ class BreakoutGameTest extends DukeApplicationTest {
   }
 
   @Test
-  public void testDecreaseBallSpeedCheatKey(){
+  public void testDecreaseBallSpeedCheatKey() {
     press(myScene, KeyCode.S);
     press(myScene, KeyCode.DOWN);
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     assertEquals(myBall.getSpeed(), 140);
   }
 
-//  @Test
-//  public void levelFileTest(){
-//    myBrickList.setUpLevel(4);
-//    assertThrows(IllegalArgumentException, myBrickList);
-//  }
+  //Test for file error in creating the list
 
+  @Test
+  public void testReadListForFileNotFoundException() {
+    assertThrows(IllegalStateException.class, () -> new BrickList(4));
+  }
+
+  @Test
+  public void testImproperFormattedLevelFile() {
+    assertThrows(IllegalStateException.class, () -> new BrickList(5));
+  }
 }
