@@ -37,7 +37,8 @@ Data files needed:
 	- highScore file that updates everytime a new highscore is reached by appending the file and adding the new highscore to the next line.
 
 Key/Mouse inputs:
-
+There are no mouse inputs for this program.
+Key inputs are listed below under cheat keys.
 Cheat keys:
 - Left: moves paddle left (unless at left edge of screen)
 - Right: moves paddle right (unless at right edge of screen)
@@ -74,7 +75,9 @@ to continue to next level.
 
 
 ### Notes/Assumptions
+We operate under the assumption that each file that contains the data for level configuration has the name level#.txt, starting from level1, as level0 is the rules screen. To add more levels, a new level file must be added, and the maxLevel int in BreakoutGame.java must be increased.
 
+----- ADD THE LEVEL FILE CONFIGURATION HERE -----
 
 ### Impressions
 
