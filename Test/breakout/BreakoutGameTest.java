@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import util.DukeApplicationTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class BreakoutGameTest extends DukeApplicationTest {
@@ -20,7 +21,9 @@ class BreakoutGameTest extends DukeApplicationTest {
   private Paddle myPaddle;
   private Ball myBall;
   private Display myDisplay;
+  private BrickList myBrickList;
   private Stage myStage;
+  private Object IllegalArgumentException;
 
 
   @Override
@@ -149,4 +152,11 @@ class BreakoutGameTest extends DukeApplicationTest {
     javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
     assertEquals(myBall.getSpeed(), 140);
   }
+
+//  @Test
+//  public void levelFileTest(){
+//    myBrickList.setUpLevel(4);
+//    assertThrows(IllegalArgumentException, myBrickList);
+//  }
+
 }
