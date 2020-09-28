@@ -290,6 +290,12 @@ public class Level {
                 targetBrick.setLives(0);
             }
         }
+        else if(code == KeyCode.M){
+            for(Wall currentWall: myLevelsWalls){
+                myRoot.getChildren().remove(currentWall);
+            }
+            myLevelsWalls.clear();
+        }
         else if(code == KeyCode.Y && levelOver){
             continueGame = true;
         }
