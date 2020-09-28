@@ -153,10 +153,16 @@ class BreakoutGameTest extends DukeApplicationTest {
     assertEquals(myBall.getSpeed(), 140);
   }
 
-//  @Test
-//  public void levelFileTest(){
-//    myBrickList.setUpLevel(4);
-//    assertThrows(IllegalArgumentException, myBrickList);
-//  }
 
+  //Test for file error in creating the list
+
+  @Test
+  public void testReadListForFileNotFoundException(){
+    assertThrows(IllegalStateException.class, () -> new BrickList(4));
+  }
+
+  @Test
+  public void testImproperFormattedLevelFile(){
+    assertThrows(IllegalStateException.class, () -> new BrickList(5));
+  }
 }

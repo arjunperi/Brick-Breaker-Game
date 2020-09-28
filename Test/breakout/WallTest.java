@@ -55,10 +55,8 @@ class WallTest extends DukeApplicationTest {
 
     @Test
     public void testRemoveAllBricksButLeaveWalls(){
-        for(int i = 0; i < 74; i++) {
-            press(myScene, KeyCode.D);
-            javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
-        }
+        press(myScene, KeyCode.C);
+        javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay = lookup("#display").query();
         assertEquals("""
                 GAME WON!
@@ -67,7 +65,7 @@ class WallTest extends DukeApplicationTest {
                 Nice job!
 
                 Lives remaining: 3
-                Score reached: 62
+                Score reached: 0
                 High score to beat: """ +" "+ myDisplay.getHighScore(), myDisplay.getText());
     }
 

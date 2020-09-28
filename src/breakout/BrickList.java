@@ -58,8 +58,8 @@ public class BrickList {
         yOffset += Brick.BRICK_HEIGHT;
       }
     }
-    catch(FileNotFoundException e){
-      throw new IllegalArgumentException();
+    catch(FileNotFoundException | NumberFormatException e){
+      throw new IllegalStateException();
     }
   }
 
