@@ -19,7 +19,7 @@
 
  * Strong block - this block has multiple lives and thus must be hit by the ball multiple times before it is removed. 
 
- * Power up block - when this block is hit by the ball, the block is removed and a power-up is rewarded. 
+ * Rubber block - when this block is hit by the ball, the block is removed and the ball's speed is increased. 
 
 
 #### Power Up Ideas
@@ -47,18 +47,17 @@
  * Level 1
    * Rows of blocks arranged in the standard breakout layout (rectangle).
 
-   * Multiple life blocks exist 
+   * PowerUp blocks are present throughout the level. 
 
  * Level 2
    * There is a layer of outer blocks that all have multiple lives that enclose the inner blocks. Scattered on the inside are crumbly blocks.
 
-   * Crumbly blocks and multiple life blocks exist. 
+   * Crumbly blocks, rubber blocks and multiple life blocks exist. 
 
  * Level 3
-   * Two layers of outer blocks with mutiple lives, but scatter among these layers are various power up blocks and a few crumbly blocks. These blocks 
-   also exist on the inner layer as well. 
+   * Two layers of blocks, separated by walls that go through the middle with a small gap.
 
-   * Crumbly blocks, multiple life blocks, and power up blocks (thus power ups exist as well) exist. 
+   *  Walls exist that block the ball.
 
 
 ### Possible Classes
