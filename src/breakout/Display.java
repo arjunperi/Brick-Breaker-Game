@@ -24,8 +24,9 @@ public class Display extends Text {
 
   public void clear() {
     setText(
-        readText("levelCleared") + "\nLevel just completed: " + myLevel + "\nLives remaining: " +
-            myLives + "\nCurrent score: " + myScore + "\nHigh score to beat: " + myHighScore);
+        readText("levelCleared") + "\nLevel just completed: " + myLevel +
+            "\nLives remaining: " + myLives + "\nCurrent score: " + myScore +
+            "\nHigh score to beat: " + myHighScore);
   }
 
   public void win() {

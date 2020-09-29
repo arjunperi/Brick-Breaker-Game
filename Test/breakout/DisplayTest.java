@@ -137,13 +137,13 @@ class DisplayTest extends DukeApplicationTest {
         javafxRun(() -> myBreakoutGame.step(BreakoutGame.SECOND_DELAY));
         myDisplay = lookup("#display").query();
         assertEquals("""
-                GAME WON!
-                Press 1 to restart game from level 1
-                Press 0 to restart game from rules screen
-                Nice job!
+            GAME WON!
+            Press 1 to restart game from level 1
+            Press 0 to restart game from rules screen
+            Nice job!
 
-                Lives remaining: 3
-                Score reached: 0
+            Lives remaining: 3
+            Score reached: 0
             High score to beat: """ + " " + myDisplay.getHighScore(), myDisplay.getText());
     }
 

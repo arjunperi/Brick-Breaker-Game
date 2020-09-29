@@ -31,6 +31,7 @@ public class BreakoutGame extends Application {
   private final Group root = new Group();
   private Level myLevel;
 
+  //start, setupScene, and step methods modified from code written by Robert Duvall
   public void start(Stage stage) {
     myScene = setupScene(0, SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);

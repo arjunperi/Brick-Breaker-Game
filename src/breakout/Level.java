@@ -174,10 +174,10 @@ public class Level {
 
   private void dropPowerUp(Brick powerBrick) {
     PowerUp droppedPowerUp = switch (powerBrick.getPowerUpType()) {
-      case "L" -> new ExtraLifePowerUp(powerBrick);
-      case "S" -> new BallSpeedReductionPowerUp(powerBrick);
-      case "P" -> new PaddleLengthPowerUp(powerBrick);
-      default -> null;
+        case "L" -> new ExtraLifePowerUp(powerBrick);
+        case "S" -> new BallSpeedReductionPowerUp(powerBrick);
+        case "P" -> new PaddleLengthPowerUp(powerBrick);
+        default -> null;
     };
     addPowerUpToGame(droppedPowerUp);
   }

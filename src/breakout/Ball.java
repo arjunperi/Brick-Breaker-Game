@@ -3,7 +3,6 @@ package breakout;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-
 import java.util.List;
 
 public class Ball extends Circle {
@@ -14,15 +13,16 @@ public class Ball extends Circle {
 
 
   private int speed;
-  private double xDirection;
-  private double yDirection;
+  private double ballXDirection;
+  private double ballYDirection;
   private int gameLives;
 
   public Ball(int lives) {
-    super(BreakoutGame.SIZE / 2.0, BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
+    super(BreakoutGame.SIZE / 2.0,
+        BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS, BALL_RADIUS, BALL_COLOR);
     this.setId("ball");
-    yDirection = 1;
-    xDirection = 0;
+    ballYDirection = 1;
+    ballXDirection = 0;
     gameLives = lives;
   }
 
@@ -35,19 +35,19 @@ public class Ball extends Circle {
   }
 
   public double getXDirection() {
-    return xDirection;
+    return ballXDirection;
   }
 
   public double getYDirection() {
-    return yDirection;
+    return ballYDirection;
   }
 
-  public void setXDirection(double x_direction) {
-    xDirection = x_direction;
+  public void setXDirection(double changedX) {
+    ballXDirection = changedX;
   }
 
-  public void setYDirection(double y_direction) {
-    yDirection = y_direction;
+  public void setYDirection(double changedY) {
+    ballYDirection = changedY;
   }
 
   public void startBall() {
@@ -58,7 +58,8 @@ public class Ball extends Circle {
     speed = 0;
   }
 
-  public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks, List<Wall> myLevelsWalls) {
+  public Ball getBallPosition(double elapsedTime, Paddle myPaddle, List<Brick> myLevelsBricks,
+      List<Wall> myLevelsWalls) {
     checkBorderCollision();
     checkPaddleCollision(myPaddle);
     checkBrickCollision(myLevelsBricks);
@@ -69,21 +70,21 @@ public class Ball extends Circle {
 
 
   public void setPosition(double elapsedTime) {
-    setCenterY(getCenterY() + yDirection * speed * elapsedTime);
-    setCenterX(getCenterX() + xDirection * speed * elapsedTime);
+    setCenterY(getCenterY() + ballYDirection * speed * elapsedTime);
+    setCenterX(getCenterX() + ballXDirection * speed * elapsedTime);
   }
 
   private void checkBorderCollision() {
 
     if (getBoundsInParent().getMaxX() >= BreakoutGame.SIZE || getCenterX() <= 0) {
-      xDirection = xDirection * -1;
+      ballXDirection = ballXDirection * -1;
     }
     if (getCenterY() + getRadius() / 2 >= BreakoutGame.SIZE) {
       resetBall();
       gameLives--;
     }
     if (this.getCenterY() <= 0) {
-      yDirection *= -1;
+      ballYDirection *= -1;
     }
   }
 
@@ -91,21 +92,22 @@ public class Ball extends Circle {
 
     double leftEdgeBall = getCenterX() - getRadius() / 2;
     double rightEdgeBall = getCenterX() + getRadius() / 2;
-    double bottomEdgeBall  = getCenterY() + getRadius() / 2;
-    double topEdgeBall  = getCenterY() - getRadius() / 2;
+    double bottomEdgeBall = getCenterY() + getRadius() / 2;
+    double topEdgeBall = getCenterY() - getRadius() / 2;
 
-    for (Wall currentWall: myLevelsWalls){
+    for (Wall currentWall : myLevelsWalls) {
       double brickEndX = currentWall.getX() + currentWall.getWidth();
 
       if (currentWall.getBoundsInParent().intersects(getBoundsInParent())) {
-        if ((rightEdgeBall > currentWall.getX() && leftEdgeBall < brickEndX && topEdgeBall > currentWall.getY())) {
-          yDirection = 1;
-        }
-        else if ((rightEdgeBall > currentWall.getX() && leftEdgeBall < brickEndX && topEdgeBall < currentWall.getY())) {
-          yDirection = -1;
-        }
-        else if (bottomEdgeBall > currentWall.getY() && topEdgeBall < currentWall.getY() + currentWall.getHeight()){
-          xDirection *= -1;
+        if ((rightEdgeBall > currentWall.getX() && leftEdgeBall < brickEndX &&
+            topEdgeBall > currentWall.getY())) {
+          ballYDirection = 1;
+        } else if ((rightEdgeBall > currentWall.getX() && leftEdgeBall < brickEndX &&
+            topEdgeBall < currentWall.getY())) {
+          ballYDirection = -1;
+        } else if (bottomEdgeBall > currentWall.getY() &&
+            topEdgeBall < currentWall.getY() + currentWall.getHeight()) {
+          ballXDirection *= -1;
         }
       }
     }
@@ -115,22 +117,22 @@ public class Ball extends Circle {
 
     double leftEdgeBall = getCenterX() - getRadius() / 2;
     double rightEdgeBall = getCenterX() + getRadius() / 2;
-    double bottomEdgeBall  = getCenterY() + getRadius() / 2;
-    double topEdgeBall  = getCenterY() - getRadius() / 2;
+    double bottomEdgeBall = getCenterY() + getRadius() / 2;
+    double topEdgeBall = getCenterY() - getRadius() / 2;
 
-    for (Brick myBrick: myLevelsBricks){
+    for (Brick myBrick : myLevelsBricks) {
       double brickEndX = myBrick.getX() + myBrick.getWidth();
 
-
       if (myBrick.getBoundsInParent().intersects(getBoundsInParent())) {
-        if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick.getY())) {
+        if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall > myBrick
+            .getY())) {
           myBrick.bottomBallCollision(this);
 
-        }
-        else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX && topEdgeBall < myBrick.getY())) {
+        } else if ((rightEdgeBall > myBrick.getX() && leftEdgeBall < brickEndX
+            && topEdgeBall < myBrick.getY())) {
           myBrick.topBallCollision(this);
-        }
-        else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick.getHeight()){
+        } else if (bottomEdgeBall > myBrick.getY() && topEdgeBall < myBrick.getY() + myBrick
+            .getHeight()) {
           myBrick.sideBallCollision(this);
         }
         myBrick.subtractLives();
@@ -147,15 +149,15 @@ public class Ball extends Circle {
 
     if (paddle.getBoundsInParent().intersects(getBoundsInParent())) {
       if (ballCenter <= paddle.getX() + paddleSection) {
-        xDirection = -1;
+        ballXDirection = -1;
       } else if (ballCenter >= paddle.getX() + 5 * paddleSection) {
-        xDirection = 1;
+        ballXDirection = 1;
       } else if (ballCenter <= paddle.getX() + 2 * paddleSection) {
-        xDirection = -0.5;
+        ballXDirection = -0.5;
       } else if (ballCenter >= paddle.getX() + 4 * paddleSection) {
-        xDirection = 0.5;
+        ballXDirection = 0.5;
       }
-      yDirection = -1;
+      ballYDirection = -1;
     }
   }
 
@@ -163,8 +165,8 @@ public class Ball extends Circle {
   public void resetBall() {
     setCenterX(BreakoutGame.SIZE / 2.0);
     setCenterY(BreakoutGame.SIZE - Paddle.PADDLE_HEIGHT - BALL_RADIUS);
-    xDirection = 0;
-    yDirection = 1;
+    ballXDirection = 0;
+    ballYDirection = 1;
     endBall();
   }
 
