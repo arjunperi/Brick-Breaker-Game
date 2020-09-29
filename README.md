@@ -41,13 +41,14 @@ Data files needed:
 
 Key/Mouse inputs:
 There are no mouse inputs for this program.
-Key inputs are listed below under cheat keys.
-Cheat keys:
-- Left: moves paddle left (unless at left edge of screen)
-- Right: moves paddle right (unless at right edge of screen)
+- Left arrow: moves paddle left (unless at left edge of screen)
+- Right arrow: moves paddle right (unless at right edge of screen)
+- S: starts the ball 
 - R: resets ball to starting position
 - Space: pauses/unpauses game
-- S: starts the ball 
+- Y: allows user to continue to next level when prompted
+
+Cheat keys:
 - L: adds a life 
 - N: drops an extra life power up
 - B: drops ball speed reduction power up
@@ -56,13 +57,12 @@ Cheat keys:
 - C: clears all the bricks at the current level
 - M: clears all the walls at the current level
 - D: destroys the "first" remaining block on the screen, which is defined as the top left most brick 
-- Y: allows user to continue to next level when prompted
 - 0: switches game to level 0 (rules screen) 
 - 1: switches game to level 1
 - 2: switches game to level 2
 - 3: switches game to level 3
-- Down: reduces ball speed by 10 (lowest possible speed is 10)
-- Up: increases ball speed by 10 
+- Down arrow: reduces ball speed by 10 (lowest possible speed is 10)
+- Up arrow: increases ball speed by 10 
 
 Known Bugs:
 
