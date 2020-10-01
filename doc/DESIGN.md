@@ -5,39 +5,53 @@
 ## Team Roles and Responsibilities
 
  * Team Member #1
+
 Arjun: Designed game logic (collisions, directionality, etc), implemented Level class and level transitions, implemented display 
 and cut screens, implemented file reading methods (brick reading, high score, etc), along with other shared responsibilities. 
 
  * Team Member #2
 
- * Team Member #3
+Jerry: Focused on implementing the various game objects (bricks, powerups, ball, paddle) and their interactions with each other along with other shared responsibilities.
 
 
 ## Design goals
 
+The core objective of this project was to practice abstraction and inheritance, in order to make subclasses of various game elements easy to implement within a game of Breakout.
 #### What Features are Easy to Add
-
+Features that are easily implemented are brick variants, specifically how they interact with the ball when a collision occurs, and powerups, granting different effects when caught with the paddle. In particular, the subclasses of bricks and powerups are implemented by overriding the three BallCollision methods and the activatePowerUp method respectively. Furthermore, different level designs (in terms of brick placement) was intended to be easily added as well, with a level's layout being given by a formatted text file.
 
 ## High-level Design
-The BreakoutGame class sets up the stage and sets up the scene. Within the setupScene method, a new level is created by 
-creating a new Level object. When a new Level objected is created, the Level class constructor takes in the root instance variable
-from BreakoutGame as an argument, clears it, then calls the appropriate methods that repopulate it with the required objects (ball,
-paddle, bricks, powerups, etc.). Within the Level class, there are methods that control the game logic. The step method in BreakoutGame calls 
-updateShapes which is in the Level class, and this updateShapes method is able to consistently check for things like whether or not
-the game is over. Also in the step method are conditional statements that dictate when to change levels and thus create a new Level object.
-
+The BreakoutGame class sets up the stage and sets up the scene, and contained the JavaFX Group that allowed for visualization of the game. Within the setupScene method, a new level is created by creating a new Level object. When a new Level objected is created, the Level class constructor takes in the root instance variable from BreakoutGame as an argument, clears it, then calls the appropriate methods that repopulate it with the required objects (ball, paddle, bricks, powerups, etc.). Within the Level class, the various objects of the game are created (Ball, Bricks, Paddle, etc.). and there are methods that control the game logic. The step method in BreakoutGame calls updateShapes which is in the Level class, and this updateShapes method is able to consistently check for things like whether or not the game is over as well as methods such as getBallPosition which updates the moving objects' position to simulate movement while also checking for object interactions (e.g. Ball and Paddle collision). Also in the step method are conditional statements that dictate when to change levels and thus create a new Level object.
 
 #### Core Classes
-
+The core classes are BreakoutGame (main), Level (which handles Level creation and game object updating), Paddle, Ball, Brick (superclass of different brick implementations), PowerUp (superclass of different powerup implementations), Display (handles the tracking of stats and text for different situations such as rules), and BrickList (handles level file reading and the list of Bricks and Walls created from reading the level files).
 
 ## Assumptions that Affect the Design
+One assumption that is made is that the various kinds of Bricks that may be implemented only vary in terms of their actions after collision with the ball (i.e. something occurs when the brick hits it, it cannot occur passively), and this effect may only occur on the Ball or the Brick. This was done to simplify the subclasses in terms of inheriting methods from the Brick superclass and which methods needed to be overriden. Furthermore, it was decided that any Bricks other than the multiple lives bricks that were created were only to have one life, to simplify file reading and the construction of the Brick List. Similarly, as written, the powerups can only have some effect on the Paddle, the Ball, or both, but cannot effect the overall Level in terms of Bricks, Walls, score, etc. This was done to simplify the hierarchy of inheritance in the PowerUp class, but could be extended to operate across other game elements if one should choose to do so (explained below). Lastly, a major design decision made was that the Levels themselves cannot be massively different than one another (i.e. the major difference between the levels is limited to powerups, brick variations, brick layouts, and wall layouts). This was done to simplify the creation of the level, and which objects needed to be created within the Level class. Furthermore, due to a relative similarity between levels, it allowed us to contain Level to a single class, with a new Level object being created within BreakoutGame for each level, and also allowed us to use a continous Group contained in BreakoutGame (clearing and readding elements to it) throughout the entire game. 
 
-#### Features Affected by Assumptions
 
+## New Features
 
-## New Features HowTo
+#### How To Add Features
+As noted above, since this project's goal was to practice abstraction and inheritance, there are Brick and PowerUp variations that can be added. To add a Brick variation, one must create a subclass that extends Brick, the constructor should read similar to this: 
+` BrokenBrick(int lives) {
+    super(lives);
+    setFill(fillColor);
+    setStroke(strokeColor);
+  }
+` 
+with the desired fill and stroke of the brick declared. Then, one should Override topBallCollision, bottomBallCollision, and sideBallCollision, all methods that are called when the ball collides with the Brick. Currently, only the Ball is passed as an argument, such that the effect of the collision can only effect the ball (e.g. direction) or some effect on the Brick (not implemented in this game). This could be changed by modifying the signature of these methods, but we chose not to do so as it would also require us to change the signature of methods in the Ball class as well to match these (mentioned in the assumptions). Once the subclass is implemented, one must then modify the BrickList class's setUpLevel method, and within the for loop, add another else if conditional in the format 
+`if (myRow[col].contains("*"))`
+ where * is the single, non-integer character that designates the brick type in the level text files. Furthermore, within this if statement, one must create this new type of Brick, and call addPowerUp (if one wishes for this brick to be able to contain power ups) and addBrickToList as shown:
+ ` private void constructRubberBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+    Brick currentBrick = new RubberBrick(1);
+    addPowerUp(myRow, col, currentBrick);
+    addBrickToList(myBricks, yOffset, col, currentBrick);
+  }
+`
 
-#### Easy to Add Features
+Creating and adding a PowerUp functions similarly, such that one must create a subclass extending PowerUp, create a constructor calling super() (this is optional only if one wants to be able to add a cheat key creating this powerup), another constructor calling super(Brick), setFill, and setStroke. Then, Override activatePowerUp(Paddle, Ball) to set the desired effect. Within BrickList once again, for file parsing purposes, within the addPowerUp method, one must add an addition "or" to the if conditional, checking for if the String contains a whatever value one desires to denote the PowerUp type. Lastly, in the Level class, within the dropPowerUp method, one must add an additional case to the switch, checking for the denoted character and creating a new PowerUp with the powerBrick as the argument, for example:
+`case "P" -> new PaddleLengthPowerUp(powerBrick);`
 
 #### Other Features not yet Done
 
