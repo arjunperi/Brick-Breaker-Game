@@ -34,21 +34,23 @@ One assumption that is made is that the various kinds of Bricks that may be impl
 
 #### How To Add Features
 As noted above, since this project's goal was to practice abstraction and inheritance, there are Brick and PowerUp variations that can be added. To add a Brick variation, one must create a subclass that extends Brick, the constructor should read similar to this: 
-` BrokenBrick(int lives) {
+```java
+ BrokenBrick(int lives) {
     super(lives);
     setFill(fillColor);
     setStroke(strokeColor);
   }
-` 
+``` 
 with the desired fill and stroke of the brick declared. Then, one should Override topBallCollision, bottomBallCollision, and sideBallCollision, all methods that are called when the ball collides with the Brick. Currently, only the Ball is passed as an argument, such that the effect of the collision can only effect the ball (e.g. direction) or some effect on the Brick (not implemented in this game). This could be changed by modifying the signature of these methods, but we chose not to do so as it would also require us to change the signature of methods in the Ball class as well to match these (mentioned in the assumptions). Once the subclass is implemented, one must then modify the BrickList class's setUpLevel method, and within the for loop, add another else if conditional in the format 
 `if (myRow[col].contains("*"))`
  where * is the single, non-integer character that designates the brick type in the level text files. Furthermore, within this if statement, one must create this new type of Brick, and call addPowerUp (if one wishes for this brick to be able to contain power ups) and addBrickToList as shown:
- ` private void constructRubberBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
+ ```java 
+ private void constructRubberBrick(List<Brick> myBricks, int yOffset, String[] myRow, int col) {
     Brick currentBrick = new RubberBrick(1);
     addPowerUp(myRow, col, currentBrick);
     addBrickToList(myBricks, yOffset, col, currentBrick);
   }
-`
+```
 
 Creating and adding a PowerUp functions similarly, such that one must create a subclass extending PowerUp, create a constructor calling super() (this is optional only if one wants to be able to add a cheat key creating this powerup), another constructor calling super(Brick), setFill, and setStroke. Then, Override activatePowerUp(Paddle, Ball) to set the desired effect. Within BrickList once again, for file parsing purposes, within the addPowerUp method, one must add an addition "or" to the if conditional, checking for if the String contains a whatever value one desires to denote the PowerUp type. Lastly, in the Level class, within the dropPowerUp method, one must add an additional case to the switch, checking for the denoted character and creating a new PowerUp with the powerBrick as the argument, for example:
 `case "P" -> new PaddleLengthPowerUp(powerBrick);`
