@@ -58,5 +58,17 @@ Creating and adding a PowerUp functions similarly, such that one must create a s
 Similar to Bricks, the PowerUps are passed the Paddle and Ball as arguments, and so currently can only modify those. Similar to the Brick class, one can add more objects to modify (e.g. Bricks) by changing the signature of activatePowerUp and checkActivation in the PowerUp class (and of course passing the required arguments in within the Level class calling the CheckActivation method).
 
 #### Other Features not yet Done
+One feature that was never implemented was having some sort of action occur during the cutscreens between levels, like an animation. Currently, the way cutscreens work is that the root of the Level is cleared, then repopulated with only a Diplay object, which can be seen in the clearLevelIfOver() method. This clearing/repopulating within the method is done differently based on conditional statements, as the type of Display that needs to appears differs based on the situation (level won, game won, game lost). This could have been designed better by extracting the commonalities within these conditionals, but here is an example of clearing the level once won:
+```java 
+ private void clearLevelIfOver(){
+        if (myBall.getGameLives() == 0 && currentLevel > 0) {
+            myRoot.getChildren().clear();
+            myRoot.getChildren().add(myDisplay);
+            myDisplay.lose();
+            gameEnd = true;
+            myBall.endBall();
+        }
+```
+To implement an animation, we could create an Animation class that has subclasses based on the type of animation that the situation calls for. One possible implementation of this would be having some sort of quest that the ball undergoes (e.g searching for his lost friend who is also a ball), and each situation calls the corresponding Animation sublass which causes the ball to move in someway on the screen (e.g climbing stairs to get to the next level). Possible methods that these Animation classes would include/ovverride are animateBall() to move the ball a certain way, or setUpBackground() to set the background of the animation (e.g bricks that act as steps - maybe by adding a new Brick subclass called something like AnimationBrick to specify the movement with the ball). 
 
 
