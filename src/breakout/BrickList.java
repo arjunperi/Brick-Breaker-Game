@@ -9,24 +9,49 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * @author Jerry Fang and Arjun Peri
+ * <p>
+ * Used to read the level layout from the level#.txt files and construct the associated Brick list
+ * and Wall list for the game level.
+ */
 public class BrickList {
 
   private List<Brick> myBricks = new ArrayList<>();
   private List<Wall> myWalls = new ArrayList<>();
 
+  /**
+   * Constructor.
+   * @param levelNum current level number.
+   */
   public BrickList(int levelNum) {
     setUpLevel(levelNum);
   }
 
+  /**
+   * Default getter for the list of Bricks.
+   *
+   * @return level's list of Bricks.
+   */
   public List<Brick> getMyBricks() {
     return myBricks;
   }
 
+  /**
+   * Default getter for the list of Walls.
+   *
+   * @return level's list of Walls
+   */
   public List<Wall> getMyWalls() {
     return myWalls;
   }
 
-
+  /**
+   * File reading method that constructs myBricks and myWalls based on the level layout contained in
+   * the level files.
+   *
+   * @param levelNum is the level.
+   */
   public void setUpLevel(int levelNum) {
     try {
       File myFile = new File("data/level" + levelNum + ".txt");
@@ -97,6 +122,13 @@ public class BrickList {
     myBricks.add(currentBrick);
   }
 
+  /**
+   * Called by Level to iterate through the list of Bricks and check if any lives = 0. If so, remove
+   * them from the list
+   *
+   * @param myLevelsBricks the level's bricks.
+   * @return updated level's bricks.
+   */
   public List<Brick> checkIfBrickIsDestroyed(List<Brick> myLevelsBricks) {
     List<Brick> deletedBricks = new ArrayList<>();
     Iterator<Brick> bricks = myLevelsBricks.iterator();

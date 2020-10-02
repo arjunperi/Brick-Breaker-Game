@@ -12,6 +12,14 @@ import javafx.animation.Timeline;
 import javafx.scene.Group;
 import javafx.scene.input.KeyCode;
 
+/**
+ * @author Arjun Peri and Jerry Fang
+ * <p>
+ * Used to create the current level of the game. Holds the information of the level's game objects
+ * including the Ball, Paddle, Bricks, and Walls.
+ * <p>
+ * Created by BreakoutGame and updated with each step of the program.
+ */
 public class Level {
 
   public static final int MIN_BALL_SPEED = 10;
@@ -37,7 +45,15 @@ public class Level {
   private boolean changeKeyPressed;
   private boolean gameEnd;
 
-
+  /**
+   * Constructor. Sets the Group, calls for the initialization of the game objects and adds them to
+   * the Group.
+   *
+   * @param levelNum current level number.
+   * @param score    current score.
+   * @param lives    current amount of lives (based on previous level).
+   * @param root     Group.
+   */
   public Level(int levelNum, int score, int lives, Group root) {
     myRoot = root;
     myRoot.getChildren().clear();
@@ -94,6 +110,14 @@ public class Level {
     powerUpIndex = 0;
   }
 
+  /**
+   * Called by BreakoutGame to update the objects of the level.
+   * <p>
+   * Updates the ball position, Brick deletion, PowerUp creation, Life tracking, Display, and calls
+   * clearLevelIfOver upon level completion.
+   *
+   * @param elapsedTime "time" of the game.
+   */
   public void updateShapes(double elapsedTime) {
     myBall = myBall.getBallPosition(elapsedTime, myPaddle, myLevelsBricks, myLevelsWalls);
     deleteBricksAndCreatePowerUp();
@@ -110,10 +134,20 @@ public class Level {
     }
   }
 
+  /**
+   * Default getter for score.
+   *
+   * @return score.
+   */
   public int getScore() {
     return myScore;
   }
 
+  /**
+   * Default getter for lives.
+   *
+   * @return lives.
+   */
   public int getLives() {
     return myLives;
   }
@@ -146,10 +180,16 @@ public class Level {
     }
   }
 
+  /**
+   * @return true if level is complete and user wants to move to the next level.
+   */
   public boolean checkEnd() {
     return (levelOver && continueGame);
   }
 
+  /**
+   * @return current level, which may be updated by cheat key press.
+   */
   public int changeLevel() {
     if (changeKeyPressed) {
       return currentLevel;
@@ -174,16 +214,16 @@ public class Level {
 
   private void dropPowerUp(Brick powerBrick) {
     PowerUp droppedPowerUp = switch (powerBrick.getPowerUpType()) {
-        case "L" -> new ExtraLifePowerUp(powerBrick);
-        case "S" -> new BallSpeedReductionPowerUp(powerBrick);
-        case "P" -> new PaddleLengthPowerUp(powerBrick);
-        default -> null;
+      case "L" -> new ExtraLifePowerUp(powerBrick);
+      case "S" -> new BallSpeedReductionPowerUp(powerBrick);
+      case "P" -> new PaddleLengthPowerUp(powerBrick);
+      default -> null;
     };
     addPowerUpToGame(droppedPowerUp);
   }
 
 
-  public void addPowerUpToGame(PowerUp droppedPowerUp) {
+  private void addPowerUpToGame(PowerUp droppedPowerUp) {
     myRoot.getChildren().add(droppedPowerUp);
     droppedPowerUp.setId("PowerUp" + powerUpIndex);
     powerUpIndex++;
@@ -202,6 +242,11 @@ public class Level {
     }
   }
 
+  /**
+   * Reads through highScore file to parse the high score.
+   *
+   * @return high score.
+   */
   public int getHighScore() {
     int highScore = 0;
     try {
@@ -230,7 +275,14 @@ public class Level {
     }
   }
 
-
+  /**
+   * Contains the cheat keys of the game and their actions.
+   * <p>
+   * Modified code written by Robert Duvall.
+   *
+   * @param code      The key pressed on the keyboard.
+   * @param animation the games current Timeline.
+   */
   public void handleKeyInput(KeyCode code, Timeline animation) {
     if (code == KeyCode.LEFT) {
       if (!paused && myPaddle.getX() > 0) {

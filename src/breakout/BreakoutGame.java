@@ -10,7 +10,13 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
+/**
+ * @author Arjun Peri Main class of the program, used to set up the Scene, Timeline, and Group of
+ * the JavaFX program. Creates a Scene and Level, and calls the Level step method to update the next
+ * frame of the game.
+ * <p>
+ * start, setupScene, and step methods modified from code written by Robert Duvall.
+ */
 public class BreakoutGame extends Application {
 
   public static final String TITLE = "Breakout JavaFX";
@@ -31,7 +37,12 @@ public class BreakoutGame extends Application {
   private final Group root = new Group();
   private Level myLevel;
 
-  //start, setupScene, and step methods modified from code written by Robert Duvall
+  /**
+   * Called when running main, sets up the Scene and Timeline of the game as well as creates a
+   * Keyframe to allow for movement within the game.
+   *
+   * @param stage of the game.
+   */
   public void start(Stage stage) {
     myScene = setupScene(0, SIZE, SIZE, BACKGROUND);
     stage.setScene(myScene);
@@ -44,6 +55,15 @@ public class BreakoutGame extends Application {
     animation.play();
   }
 
+  /**
+   * Sets up the scene of the game.
+   *
+   * @param level      is the Level of the game.
+   * @param width      of the viewer.
+   * @param height     of the viewer.
+   * @param background color.
+   * @return scene of the game.
+   */
   Scene setupScene(int level, int width, int height, Paint background) {
     currentLevel = level;
     myLevel = new Level(currentLevel, score, 3, root);
@@ -52,6 +72,12 @@ public class BreakoutGame extends Application {
     return scene;
   }
 
+  /**
+   * Used to update the game's object in relation to the time. Also checks for if a level is
+   * completed, and if it is creates a new Level object of the next level and updates the game.
+   *
+   * @param elapsedTime is the "time" of the game.
+   */
   void step(double elapsedTime) {
     score = myLevel.getScore();
     if (currentLevel == 0) {
@@ -69,6 +95,10 @@ public class BreakoutGame extends Application {
     myLevel.updateShapes(elapsedTime);
   }
 
+  /**
+   * Run main to start the game.
+   * @param args arguments.
+   */
   public static void main(String[] args) {
     launch(args);
   }
