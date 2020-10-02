@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Jerry Fang
- *
+ * <p>
  * Subclass of PowerUp. This PowerUp increases the length of the Paddle.
  */
 public class PaddleLengthPowerUp extends PowerUp {
@@ -22,6 +22,7 @@ public class PaddleLengthPowerUp extends PowerUp {
 
   /**
    * Constructor used on Brick Destruction. Sets the color to Purple.
+   *
    * @param myBrick is the Brick destroyed.
    */
   public PaddleLengthPowerUp(Brick myBrick) {
@@ -31,7 +32,8 @@ public class PaddleLengthPowerUp extends PowerUp {
   }
 
   /**
-   * Increases the length of the Paddle.
+   * Increases the length of the Paddle
+   *
    * @param myPaddle is the game's Paddle.
    * @param myBall   is the game's Ball.
    */

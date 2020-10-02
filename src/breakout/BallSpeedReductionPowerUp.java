@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Jerry Fang
- *
+ * <p>
  * Subclass of PowerUp. This PowerUp decreases the speed of the Ball, making it easier to hit.
  */
 public class BallSpeedReductionPowerUp extends PowerUp {
@@ -22,6 +22,7 @@ public class BallSpeedReductionPowerUp extends PowerUp {
 
   /**
    * Constructor used with Brick destruction. Sets the color to Blue.
+   *
    * @param myBrick is the Brick destroyed.
    */
   public BallSpeedReductionPowerUp(Brick myBrick) {
@@ -32,6 +33,7 @@ public class BallSpeedReductionPowerUp extends PowerUp {
 
   /**
    * Decreases the Ball's speed.
+   *
    * @param myPaddle is the game's Paddle.
    * @param myBall   is the game's Ball.
    */

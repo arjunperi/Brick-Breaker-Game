@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Jerry Fang
- *
+ * <p>
  * Subclass of PowerUp. This PowerUp increases player life by one.
  */
 public class ExtraLifePowerUp extends PowerUp {
@@ -20,6 +20,7 @@ public class ExtraLifePowerUp extends PowerUp {
 
   /**
    * Constructor used on Brick destruction. Sets color to Yellow.
+   *
    * @param myBrick is the Brick destroyed.
    */
   public ExtraLifePowerUp(Brick myBrick) {
@@ -30,6 +31,7 @@ public class ExtraLifePowerUp extends PowerUp {
 
   /**
    * Adds one life to the player.
+   *
    * @param myPaddle is the game's Paddle.
    * @param myBall   is the game's Ball.
    */
