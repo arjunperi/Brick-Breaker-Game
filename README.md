@@ -1,11 +1,11 @@
-game
+Brick Breaker Game
 ====
 
-This project implements the game of Breakout. There are 3 level variants. The first contains rows of bricks all with one life, with some containing one of three powerups (extra life, paddle extension, and ball speed decrease). The Second contains various brick variants: multiple lives brick (the life change is demarked by a change in color in order from least to greatest HOTPINK, GREEN, BLUE, and BEIGE if life > 3), broken brick (ball does not collide, marked as brown), and rubber brick (ball speed increases when hit, marked as black). The last level variant contains new structures known as Walls (marked as grey with no border), which act to block the path of the ball, but do not contribute to score and cannot be destroyed (without use of a cheat key).
+This project implements the game of Brick Breaker / Breakout. There are 3 level variants. The first contains rows of bricks all with one life, with some containing one of three powerups (extra life, paddle extension, and ball speed decrease). The Second contains various brick variants: multiple lives brick (the life change is denoted by a change in color in order from least to greatest: HOTPINK, GREEN, BLUE, and BEIGE if life > 3), broken brick (ball does not collide, marked as brown), and rubber brick (ball speed increases when hit, marked as black). The last level variant contains new structures known as Walls (marked as grey with no border), which act to block the path of the ball, but do not contribute to score and cannot be destroyed (without use of a cheat key).
 
 Name: 
-- Arjun  (ap458)
-- Jerry Fang (jdf58)
+- Arjun Peri
+- Jerry Fang
 
 ### Timeline
 
@@ -16,14 +16,11 @@ Finish Date: 9/28/2020
 Hours Spent: ~5 hrs / week per person * 3 weeks * 2 people = 30 hrs
 
 ### Resources Used
-- Course website - Some starter code with setting up JavaFX was taken and modified from works of Dr. Robert Duvall.
 - Stack overflow 
 	- Used [this](https://stackoverflow.com/questions/29930784/how-do-i-get-only-integers-from-a-string) for help in the file parsing method.
 	- Used [this](https://stackoverflow.com/questions/18549704/create-a-new-line-in-javas-filewriter) for writing to the highScore.txt file. 
 	- Used [this](https://stackoverflow.com/questions/49216396/clearing-the-scene-in-javafx) for help with scene maintenance / clearing. 
 	- Used [this](https://stackoverflow.com/questions/2472690/in-java-is-there-any-disadvantage-to-static-methods-on-a-class) for help with design principles
-- Class Piazza board
-- Office hour TA's - Ryan Weeratung, Christina Chen
 
 ### Running the Program
 
@@ -64,7 +61,6 @@ Cheat keys:
 - Down arrow: reduces ball speed by 10 (lowest possible speed is 10)
 - Up arrow: increases ball speed by 10 
 
-Known Bugs:
 
 Extra credit:
 - Splash screen: level0 displays the rules of the game, and also has two bricks, a paddle, and a ball so that the user can test out
@@ -92,11 +88,3 @@ To create a level:
 
 The highScore.txt file is responsible for holding the highScore of the game. To reset the highScore back to 0 (or another specified number),
 all the information on the file should be deleted. Line 1 of the file should be blank to set the highScore to 0, or should contain the specified starting high score, and there should be no additional lines. 
-
-### Impressions
-- Arjun: Overall, I thought this assignment was an interesting coding experience as it introduced me to JavaFX and game development 
-for the first time. Though I have been coding for a few years, I still felt like some aspects of programming were very nebulous and
-far removed from what I would typically be coding, and this included game development. This project enabled me to get a better understanding
-of how games and their interfaces are made, making me realize that it isn't much different than what I'm used to doing. The only thing I would
-suggest is giving students more background on how to navigate TestFX and the various problems one might encounter while testing. 
-- Jerry: I thought this assignment was a good foundational project for getting our bearing with JavaFX. However, I thought that this project allowed us to really focus in on the concepts of inheritance and polymorphisms, as so much of a simple game like breakout can be broken down into groups of objects (e.g. different KINDS of power ups are still power ups). If anything were to be changed in the future to improve this project, I think the largest problems our group had were trying to learn to use TestFX (especially with the weird code needed for step) as well as perhaps more clarity from the beginning as what constitutes a level variant, brick, etc. as it was a bit difficult to plan at the beginning of the project without knowing these things.
